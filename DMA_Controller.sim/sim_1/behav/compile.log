@@ -1,0 +1,11 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Data_RAM
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tag_RAM
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Instruction_Cache
+WARNING: [VRFC 10-986] literal value truncated to fit in 4 bits [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:67]
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/Instruction_cache_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Instruction_cache_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.sim/sim_1/behav/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
