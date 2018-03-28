@@ -19,10 +19,16 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//cache line length of 32 bytes
 module DMA_Controller(
 
     );
+    //parameters
+    
+    parameter ID_MSB=3;
+    parameter DATA_MSB=31;
+    parameter STRB_MSB=3;
+    parameter n=3; 
     
     /*
     AXI interface signals for the transfer
@@ -35,6 +41,7 @@ module DMA_Controller(
     //Write Address channel
     input awready;
     output[ID_MSB:0] awid;
+    output[31:0] awaddr;
     output[3:0] awlen;
     output[2:0] awsize;
     output[1:0] awburst;
@@ -103,7 +110,16 @@ module DMA_Controller(
     input[n:0] boot_irq_ns;
     input[n:0] boot_peripheral_ns;
     
-    
+    /*
+        APB interface signals
+    */
+    input[31:0] paddr;
+    input penable;
+    input psel;
+    input[31:0] pwdata;
+    input pwrite;
+    output[31:0] prdata;
+    output pready;
     
     /*
         state values of the threads
@@ -121,6 +137,25 @@ module DMA_Controller(
     parameter KILLING=4'b1001;
     parameter COMPLETING=4'b1010;
     
+    
+    parameter HIGH=1'b1;
+    parameter LOW=1'b0;
+    
+    /*
+        AXI parameters
+    */
+    
+    parameter AXI_IDLE=4'b0000;
+    
+    
+    
+    
+    
+    
+    /*
+        AXI present state
+    */
+    reg[3:0] axi_state;
     
     /*
         Configuration Registers for DMA
@@ -184,10 +219,192 @@ module DMA_Controller(
     reg[3:0] Manager_ThreadState;
     reg[3:0] Channel_ThreadState[1:8];
     
+    /*
+        Temporary Register
+    */
+    reg[63:0] fetched_instruction;
+    reg instruction_cache_miss;
+    
+    
+    //cache signals
+    reg cache_clk;
+    reg[31:0] cache_addess;
+    reg cache_reset;
+    reg cache_read;
+    reg cache_enable_RW;
+    reg[31:0] cache_data_in;
+    wire[31:0] cache_data_out;
+    wire cache_hit;
+    
+    //inbetween signals
+    reg[3:0] axi_read_count;
+    reg[31:0] read_data;
+    /*
+        cache instance
+    */
+    Instruction_Cache I1(
+    
+        cache_clk,
+        cache_address,
+        cache_reset,
+        cache_read,
+        cache_enable_RW,
+        cache_data_in,
+        cache_data_out,
+        cache_hit 
+    
+        );
     
     
     
+    /*
+        DBGCMD write operation
+    */
     
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            
+        end
+        else
+        begin
+            
+            
+        end
+   end
+    
+   /*
+       AXI  Cache update code:- starts a transaction on cache miss
+   */ 
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            axi_state=IDLE;
+            axi_read_count=0;
+        end
+        else
+        begin
+            case(axi_state)
+                IDLE:
+                begin
+                    if(cache_miss)
+                    begin
+                        //all address signals
+                        araddr<=DPC;
+                        arlen<=4'b1000;//32 bytes so burst length is 8
+                        arsize<=3'b101;//5 i.e., 2^5=32
+                        arburst<=2'b01;//incremental burst for cache update
+                        axi_read_count<=arlen;
+                        axi_state<=READ_ADDRESS_ON_BUS;
+                    end
+                    else
+                    begin
+                        axi_state<=IDLE;
+                    end
+                end
+                READ_ADDRESS_ON_BUS:
+                begin
+                    if(arready==HIGH)
+                    begin
+                        axi_state<=READY_TO_RECEIVE_DATA;
+                    end
+                    else
+                    begin
+                        axi_state<=READ_ADDRESS_ON_BUS;
+                    end
+                end
+                READY_TO_RECEIVE_DATA:
+                begin 
+                    if(rvalid==HIGH)
+                    begin
+                        if(axi_read_count==4'b1000)
+                        begin
+                            cache_address<=DPC;
+                        end
+                        else
+                        begin
+                            cache_address<=cache_address+4;
+                        end
+                        cache_data<=rdata;
+                        axi_read_count<=axi_read_count-1;
+                        axi_state<=UPDATE_CACHE;
+                    end
+                    else
+                    begin
+                       axi_state<=READY_TO_RECEIVE_DATA; 
+                    end
+                end
+                UPDATE_CACHE:
+                begin
+                    if(axi_read_count!=0)
+                    begin
+                        axi_state<=READY_TO_RECEIVE_DATA;
+                    end
+                    else
+                    begin
+                        axi_state<=IDLE;
+                    end  
+                end
+            endcase
+        end
+   end
+   
+   //state decoder for axi master
+   always@(*)
+   begin
+        case(axi_state)
+            IDLE:
+            begin
+                arvalid=LOW;
+                awvalid=LOW;
+                rready=LOW;
+                wvalid=LOW;
+                bready=LOW;
+                
+                //cache signals
+                cache_read=LOW;
+                cache_enable_RW=LOW;
+            end
+            READ_ADDRESS_ON_BUS:
+            begin
+                arvalid=HIGH;
+                awvalid=LOW;
+                rready=LOW;
+                wvalid=LOW;
+                bready=LOW;
+                
+                //cache signals
+                cache_read=LOW;
+                cache_enable_RW=LOW;
+            end
+            READY_TO_RECEIVE_DATA:
+            begin
+                arvalid=LOW;
+                awvalid=LOW;
+                rready=HIGH;
+                wvalid=LOW;
+                bready=LOW;
+                
+                //cache signals
+                cache_read=LOW;
+                cache_enable_RW=LOW;
+            end
+            UPDATE_CACHE:
+            begin
+                arvalid=LOW;
+                awvalid=LOW;
+                rready=LOW;
+                wvalid=LOW;
+                bready=LOW;
+                
+                //cache signals
+                cache_read=LOW;
+                cache_enable_RW=HIGH;
+            end
+        endcase
+   end 
     
     /*
         state machine for each channel thread
@@ -202,42 +419,62 @@ module DMA_Controller(
                 begin
                     if(!reset)
                     begin
+                        Manager_ThreadState=STOPPED;
                     end
                     else
                     begin
                         case(Manager_ThreadState)
                             STOPPED:
                             begin
+                                if((boot_from_pc==HIGH) || (DBGCMD[0]==HIGH))
+                                begin
+                                    Manager_ThreadState=EXECUTING;
+                                end
+                                else
+                                begin
+                                    Manager_ThreadState=STOPPED;
+                                end
                             end
                             EXECUTING:
                             begin
+                                if(cache_miss==HIGH)
+                                begin
+                                    Manager_ThreadState=CACHE_MISS;
+                                end
+                                else
+                                begin
+                                    Manager_ThreadState=EXECUTING;
+                                end
                             end
                             CACHE_MISS:
                             begin
+                            `  
                             end
                             UPDATING_PC:
                             begin
+                            
                             end
                             WAITING_FOR_EVENT:
                             begin
-                            end
-                            AT_BARRIER:
-                            begin
-                            end
-                            WAITING_FOR_PERIPHERAL:
-                            begin
-                            end
-                            FAULTING_COMPLETING:
-                            begin
+                                if(fetched_instruction[10:0]==11'b00000110100)//DMASEV
+                                begin
+                                    Manager_ThreadState=EXECUTING;
+                                end
+                                else
+                                begin
+                                    Manager_ThreadState=WAITING_FOR_EVENT;
+                                end
                             end
                             FAULTING:
                             begin
-                            end
-                            KILLING:
-                            begin
-                            end
-                            COMPLETING:
-                            begin
+                                if(DMACMD[0]==HIGH && DMAINST0[23:16]==8'd1)//DMAKILL instruction
+                                begin
+                                    Manager_ThreadState=STOPPED;
+                                end
+                                else
+                                begin
+                                    Manager_ThreadState=FAULTING;
+                                end
                             end
                         endcase
                     end
