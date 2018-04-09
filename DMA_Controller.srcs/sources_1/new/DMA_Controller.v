@@ -147,9 +147,13 @@ module DMA_Controller(
     
     parameter AXI_IDLE=4'b0000;
     
-    
-    
-    
+    /*
+        cache parameters
+    */
+    parameter IDLE=3'b000;//all read write and invalidate signals are low
+    parameter INVALIDATE=3'b001;//invalidate signal high
+    parameter READ=3'b010;//cache read
+    parameter WRITE=3'b011;//cache write
     
     
     /*
@@ -228,7 +232,7 @@ module DMA_Controller(
     
     //cache signals
     reg cache_clk;
-    reg[31:0] cache_addess;
+    reg[31:0] cache_address;
     reg cache_reset;
     reg cache_read;
     reg cache_enable_RW;
@@ -239,6 +243,11 @@ module DMA_Controller(
     //inbetween signals
     reg[3:0] axi_read_count;
     reg[31:0] read_data;
+    
+    
+    //cache state
+    reg[2:0] cache_state;
+    
     /*
         cache instance
     */
@@ -254,9 +263,22 @@ module DMA_Controller(
         cache_hit 
     
         );
-    
-    
-    
+    /*
+        Determining which thread to execute next
+    */
+    reg[2:0] thread_to_execute;
+    always@(posedge aclk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            thread_to_execute<=0;//manager thread state
+        end
+        else
+        begin
+            
+        end
+    end
+        
     /*
         DBGCMD write operation
     */
@@ -289,7 +311,7 @@ module DMA_Controller(
             case(axi_state)
                 IDLE:
                 begin
-                    if(cache_miss)
+                    if(cache_miss==HIGH && cache_state==READ)
                     begin
                         //all address signals
                         araddr<=DPC;
@@ -350,7 +372,11 @@ module DMA_Controller(
             endcase
         end
    end
-   
+   /*
+        Seperate signals for the cache update
+   */
+   wire axi_cache_read;
+   wire axi_cache_enable_RW;
    //state decoder for axi master
    always@(*)
    begin
@@ -364,8 +390,8 @@ module DMA_Controller(
                 bready=LOW;
                 
                 //cache signals
-                cache_read=LOW;
-                cache_enable_RW=LOW;
+                axi_cache_read=LOW;
+                axi_cache_enable_RW=LOW;
             end
             READ_ADDRESS_ON_BUS:
             begin
@@ -376,8 +402,8 @@ module DMA_Controller(
                 bready=LOW;
                 
                 //cache signals
-                cache_read=LOW;
-                cache_enable_RW=LOW;
+                axi_cache_read=LOW;
+                axi_cache_enable_RW=LOW;
             end
             READY_TO_RECEIVE_DATA:
             begin
@@ -388,8 +414,8 @@ module DMA_Controller(
                 bready=LOW;
                 
                 //cache signals
-                cache_read=LOW;
-                cache_enable_RW=LOW;
+                axi_cache_read=LOW;
+                axi_cache_enable_RW=LOW;
             end
             UPDATE_CACHE:
             begin
@@ -400,14 +426,155 @@ module DMA_Controller(
                 bready=LOW;
                 
                 //cache signals
-                cache_read=LOW;
-                cache_enable_RW=HIGH;
+                axi_cache_read=LOW;
+                axi_cache_enable_RW=HIGH;
             end
         endcase
    end 
+   /*
+        Track the state in each clk cycle in EXECUTING state
+   */
+   
+   reg[1:0] inst_counter;
+   
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            inst_counter=0;
+        end
+        else
+        begin
+            if(Manager_ThreadState==EXECUTING && inst_counter==0 && cache_state==WAIT_FOR_CLK_CYCLE)
+            begin
+                inst_counter<=inst_counter+1;//first 32 bits accessed or a cache miss
+            end
+            else if(Manager_ThreadState==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
+            begin
+                inst_counter<=inst_counter<=inst_counter+1;//second 32 bits accessed
+            end
+            else if(Manager_ThreadState==UPDATING_PC)//when the PC is getting updated reset the instruction counter
+            begin
+                inst_counter<=0;
+            end
+            
+            
+        end
+   end
+   
+   
+   /*
+        cache control state machine
+   */
+   reg instruction_word_no;
+   reg[3:0] cache_fill_read_count;
+
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            //invalidate all entries
+            cache_state=IDLE;
+            cache_fill_read_count=0;
+            
+        end
+        else
+        begin
+            case(cache_state)
+                IDLE:
+                begin
+                    if(Manager_ThreadState==EXECUTING && inst_counter==0)
+                    begin
+                        cache_address<=DPC;
+                        cache_state<=READ;
+                    end
+                    else if(Manager_ThreadState==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
+                    begin
+                        cache_address<=cache_address+4;
+                        cache_state<=READ;
+                        
+                    end
+                    else
+                    begin
+                        cache_state<=IDLE;
+                        
+                    end
+                end
+                INVALIDATE:
+                begin
+                end
+                READ:
+                begin
+                    cache_state<=WAIT_FOR_CLK_CYCLE;
+                end
+                WAIT_FOR_CLK_CYCLE:
+                begin
+                    if(cache_miss==HIGH)
+                    begin
+                        cache_state<=WAIT_FOR_AXI_DATA;
+                    end
+                    else
+                    begin
+                        
+                        cache_state<=IDLE;
+                    end
+                end
+                WRITE:
+                begin
+                end
+                
+                WAIT_FOR_AXI_DATA:
+                begin
+                    if(axi_state==UPDATE_CACHE && axi_read_count==0)
+                    begin
+                        cache_state=IDLE;
+                    end
+                    else
+                    begin
+                        cache_state=WAIT_FOR_AXI_DATA;
+                    end
+                end
+            endcase
+        end
+   end
+   
+   /*
+        cache control state machine decoder 
+   */
+   always@(*)
+   begin
+        case(cache_state)
+            IDLE:
+            begin
+                cache_enable_RW=LOW;
+                cache_read=HIGH;
+            end
+            INVALIDATE:
+            begin
+            end
+            READ:
+            begin
+                cache_enable_RW=HIGH;
+                cache_read=HIGH;
+            end
+            WRITE:
+            begin
+                cache_enable_RW=HIGH;
+                cache_read=LOW;
+            end
+            WAIT_FOR_AXI_DATA:
+            begin
+            end
+            WAIT_FOR_CLK_CYCLE:
+            begin
+                cache_enable_RW=LOW;
+                cache_read=HIGH;
+            end
+        endcase
+   end
     
     /*
-        state machine for each channel thread
+        state machine for each channel thread....these states are used only for inclusion or exclusion of threads while arbitration
     */
     genvar thread_no;
     generate
@@ -428,6 +595,7 @@ module DMA_Controller(
                             begin
                                 if((boot_from_pc==HIGH) || (DBGCMD[0]==HIGH))
                                 begin
+                                    DPC<={DBGINST1,DBGINST0[31:16]};
                                     Manager_ThreadState=EXECUTING;
                                 end
                                 else
@@ -437,9 +605,14 @@ module DMA_Controller(
                             end
                             EXECUTING:
                             begin
-                                if(cache_miss==HIGH)
+                                if(cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)
                                 begin
                                     Manager_ThreadState=CACHE_MISS;
+                                end
+                                else if(((cache_state==WAIT_FOR_CLK_CYCLE) && (cache_miss==LOW) && (inst_counter==0) && (second_instruction_cache_access_needed==LOW)) 
+                                || ((cache_state==WAIT_FOR_CLK_CYCLE) && (cache_miss==LOW) && (inst_counter==1)))
+                                begin
+                                    Manager_ThreadState=UPDATING_PC;
                                 end
                                 else
                                 begin
@@ -448,11 +621,19 @@ module DMA_Controller(
                             end
                             CACHE_MISS:
                             begin
-                            `  
+                                if((axi_read_count==0) && (axi_state==UPDATE_CACHE))
+                                begin
+                                    Manager_ThreadState=EXECUTING;
+                                end
+                                else
+                                begin
+                                    Manager_ThreadState=CACHE_MISS;
+                                end
                             end
                             UPDATING_PC:
                             begin
-                            
+                                //if the instruction is a branch go to the branched instruction or else PC=PC+4 or 8
+                                
                             end
                             WAITING_FOR_EVENT:
                             begin
@@ -530,7 +711,244 @@ module DMA_Controller(
         end
     endgenerate
     
+    //write for source address registers
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            
+        end
+        else
+        begin
+        end
+    end
+    /*
+        Roundrobin scheme
+    */
+    reg[3:0] next_thread_to_execute;
+    reg[3:0] current_executing_thread;
+    reg execute_manager;
+    integer thread_number;
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            next_thread_to_execute=0;//manager thread but in stopped state
+            currrent_executing_thread=0;
+        end
+        else
+        begin
+        
+        end    
+    end
     
+   reg sr_write;
+   reg dr_write;
+   reg[2:0] sr_no;
+   reg[15:0] sr_imm;
+   reg[2:0] dr_no;
+   reg[15:0] dr_imm;
+   integer count;
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            for(count=0;count<7;count=count+1)
+            begin
+                SA[count]<=32'd0;
+            end
+        end
+        else
+        begin
+            if(sr_write)
+            begin
+                SA[sr_no]<=SA[sr_no]+sr_imm;
+            end
+        end
+   end
+   
+   
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            for(count=0;count<7;count=count+1)
+            begin
+                DA[count]<=32'd0;
+            end
+        end
+        else
+        begin
+            if(dr_write)
+            begin
+                DA[dr_no]<=DA[dr_no]+dr_imm;
+            end
+        end
+   end
+   
+   //whether the cache needs to access a second time
+   reg second_cache_access_needed;
+   always@(*)
+   begin
+        if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW)
+        begin
+            if(dataout[15:0]==16'b00000zzz10111100 || dataout[15:0]==16'b00000zzz101000z0)//i.e. if they are DMAGO or DMAMOV instructions
+            begin
+                second_cache_access_needed=1;
+            end
+            else
+            begin
+                second_cache_access_needed=0;
+            end
+        end
+        else
+        begin
+            second_cache_cache_access_needed=0;
+        end
+   end
+   
+    
+    /*
+        Execution module round robin scheme initially only manager thread no arbitration
+    */
+    reg[2:0] thread_count;
+    reg manager_switch;
+    
+    
+    
+    //control signals for execution engine
+    
+    reg invalid_instruction;
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            thread_count=0;
+            manager_switch=0;
+        end
+        else
+        begin
+           // if(fetched_instruction
+           if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0)
+           begin
+              casez(data_out)
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz010101z0: // the register to add an immediate is contained in [26:24], the current channel thread source and destination are to be set
+                begin
+                    if(data_out[1]==LOW)//add the immediate to the source register
+                    begin
+                        sr_no=current_executing_thread;
+                        sr_write=1'b1;
+                        sr_imm=data_out[23:8];
+                    end
+                    else
+                    begin
+                        dr_no=current_executing_thread;
+                        dr_write=1'b1;
+                        dr_imm=data_out[23:16];
+                    end
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz00000000://DMAEND
+                begin
+                    
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzz00000110101://DMAFLUSHP
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzz00000zzz101000z0://DMAGO
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz000001zz://DMALD[S/B]
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzz000001001z1://DMALDP[S/B]
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz0010000z0://DMALP
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz001z1zzz://DMALPEND
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz00000001://DMAKILL
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzz00000zzz10111100://DMAMOV
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz00011000://DMANOP
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz00010010://DMARMB
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzz00000110100://DMASEV
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz://DMAST[S/B]
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzz000001010z1://DMASTP[S/B]
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz00001100://DMASTZ
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzz0z000110110://DMAWFE
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzz000001100zz://DMAWFP[S/B/P]
+                begin
+                
+                end
+                32'bzzzzzzzzzzzzzzzzzzzzzzzz00010011://DMAWMB
+                begin
+                
+                end
+                default:
+                begin
+                    invalid_instruction=1;
+                end
+              endcase
+                      
+            end
+            else if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)
+            begin
+                casez(fetched_instruction[15:0])//64 bit instruction the first 32 bits are stored in fetched_instruction register
+                    16'b00000zzz10111100://DMAGO
+                    begin
+                    end
+                    16'b00000zzz101000z0://DMAMOV
+                    begin
+                    end
+                    default:
+                    begin
+                        invalid_instruction=1;
+                    end
+                endcase
+            end
+            else//execute a nop(no operation)
+            begin
+                sr_write=0;
+                dr_write=0;
+                
+            end
+        end
+    end
     
     
 endmodule
