@@ -725,20 +725,469 @@ module DMA_Controller(
     /*
         Roundrobin scheme
     */
-    reg[3:0] next_thread_to_execute;
-    reg[3:0] current_executing_thread;
+    reg[3:0] next_thread_to_execute;//this is taken by the next executing thread
+    reg[3:0] current_executing_thread;//this is used to determine the next thread to execute
     reg execute_manager;
     integer thread_number;
+    
     always@(posedge clk or negedge reset)
     begin
         if(!reset)
         begin
             next_thread_to_execute=0;//manager thread but in stopped state
-            currrent_executing_thread=0;
         end
         else
         begin
-        
+            /*
+                Only when any thread completes executing an instruction it should change the thread state
+            */
+            
+            case(next_thread_to_execute)
+                4'd0:
+                begin
+                    if((Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                ||(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                ||(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                //we need to include barriers,faulting,completing etc states for manager
+                                )
+                    begin
+                        if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd1:
+                begin
+                    if((Channel_ThreadState[1]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[1]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[1]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=2;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=3;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=4;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=5;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=6;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=7;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=8;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd2:
+                begin
+                    if((Channel_ThreadState[2]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[2]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[2]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=3;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=4;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=5;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=6;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=7;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=8;
+                        end
+                        else if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd3:
+                begin
+                    if((Channel_ThreadState[3]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[3]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[3]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=4;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=5;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=6;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=7;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=8;
+                        end
+                        else if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=2;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd4:
+                begin
+                    if((Channel_ThreadState[4]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[4]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[4]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=5;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=6;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=7;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=8;
+                        end
+                        else if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=2;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=3;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd5:
+                begin
+                    if((Channel_ThreadState[5]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[5]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[5]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=6;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=7;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=8;
+                        end
+                        else if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=2;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=3;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=4;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd6:
+                begin
+                    if((Channel_ThreadState[6]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[6]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[6]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=7;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=8;
+                        end
+                        else if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=2;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=3;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=4;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=5;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd7:
+                begin
+                    if((Channel_ThreadState[7]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[7]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[7]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[8]==EXECUTING)
+                        begin
+                            next_thread_to_execute=8;
+                        end
+                        else if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=2;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=3;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=4;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=5;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=6;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                4'd8:
+                begin
+                    if((Channel_ThreadState[8]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                                            ||(Channel_ThreadState[8]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                                            ||(Channel_ThreadState[8]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                                            //we need to include barriers,faulting,completing etc states for manager
+                                            )
+                    begin
+                        if(Manager_ThreadState==EXECUTING)
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                        else if(Channel_ThreadState[1]==EXECUTING)
+                        begin
+                            next_thread_to_execute=1;
+                        end
+                        else if(Channel_ThreadState[2]==EXECUTING)
+                        begin
+                            next_thread_to_execute=2;
+                        end
+                        else if(Channel_ThreadState[3]==EXECUTING)
+                        begin
+                            next_thread_to_execute=3;
+                        end
+                        else if(Channel_ThreadState[4]==EXECUTING)
+                        begin
+                            next_thread_to_execute=4;
+                        end
+                        else if(Channel_ThreadState[5]==EXECUTING)
+                        begin
+                            next_thread_to_execute=5;
+                        end
+                        else if(Channel_ThreadState[6]==EXECUTING)
+                        begin
+                            next_thread_to_execute=6;
+                        end
+                        else if(Channel_ThreadState[7]==EXECUTING)
+                        begin
+                            next_thread_to_execute=7;
+                        end
+                        else
+                        begin
+                            next_thread_to_execute=0;
+                        end
+                    end
+                end
+                default:
+                begin
+                    next_thread_to_execute=0;
+                end
+            endcase
+            
+            
+            
+            /*if((next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
+                ||(next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
+                ||(next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
+                //we need to include barriers,faulting,completing etc states for manager
+                )
+                begin
+                    
+                end
+                else
+                begin
+                    for(thread_number=0;thread_number<=8;thread_number=thread_number+1)
+                    begin
+                        if(next_thread_to_execute==thread_number)
+                        begin
+                            
+                        end
+                        else
+                        begin
+                        end
+                    end                
+                end*/
+                
         end    
     end
     
