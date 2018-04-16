@@ -263,21 +263,6 @@ module DMA_Controller(
         cache_hit 
     
         );
-    /*
-        Determining which thread to execute next
-    */
-    reg[2:0] thread_to_execute;
-    always@(posedge aclk or negedge reset)
-    begin
-        if(!reset)
-        begin
-            thread_to_execute<=0;//manager thread state
-        end
-        else
-        begin
-            
-        end
-    end
         
     /*
         DBGCMD write operation
@@ -1191,12 +1176,6 @@ module DMA_Controller(
         end    
     end
     
-   reg sr_write;
-   reg dr_write;
-   reg[2:0] sr_no;
-   reg[15:0] sr_imm;
-   reg[2:0] dr_no;
-   reg[15:0] dr_imm;
    integer count;
    always@(posedge clk or negedge reset)
    begin
@@ -1211,7 +1190,7 @@ module DMA_Controller(
         begin
             if(sr_write)
             begin
-                SA[sr_no]<=SA[sr_no]+sr_imm;
+                SA[next_thread_to_execute]<=SA[next_thread_to_execute]+sr_imm;
             end
         end
    end
@@ -1230,7 +1209,7 @@ module DMA_Controller(
         begin
             if(dr_write)
             begin
-                DA[dr_no]<=DA[dr_no]+dr_imm;
+                DA[next_thread_to_execute]<=DA[next_thread_to_execute]+dr_imm;
             end
         end
    end
@@ -1239,7 +1218,7 @@ module DMA_Controller(
    reg second_cache_access_needed;
    always@(*)
    begin
-        if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW)
+        if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0)
         begin
             if(dataout[15:0]==16'b00000zzz10111100 || dataout[15:0]==16'b00000zzz101000z0)//i.e. if they are DMAGO or DMAMOV instructions
             begin
@@ -1264,8 +1243,55 @@ module DMA_Controller(
     reg manager_switch;
     
     
+    /*
+        All the control signals for execution engine
+    */
+    reg sr_write;
+    reg dr_write;
+    reg[2:0] sr_no;
+    reg[15:0] sr_imm;
+    reg[2:0] dr_no;
+    reg[15:0] dr_imm;
+    reg end_current_thread;//move the current thread to a stopped state
     
-    //control signals for execution engine
+    /*
+        control signals for DMAGO
+    */
+    reg flush_peripheral;
+    reg[2:0] DMA_channel_no_to_go;
+    reg[31:0] PC_value_for_go;
+    /*
+        control signals for DMALD and DMALDP
+    */
+    reg request_flag;
+    reg load_data_S_B;//load data single or burst
+    reg notify_peripheral;
+    reg load_type;//single or burst
+    reg[4:0] peripheral_number;
+    /*
+        control signals for DMALP and DMALPEND
+    */
+    reg[7:0] loop_value;
+    reg reg_to_use;
+    reg write_to_loop;
+    reg dma_loop_end;
+    reg[7:0] backward_jump_number;
+    
+    //for DMAKILL
+    reg dma_kill;
+    
+    /*
+        Memory barriers executed
+    */
+    reg read_memory_barrier;
+    reg write_memory_barrier;
+    
+    
+    /*
+        DMASEV
+    */
+    reg[4:0] event_number;
+    reg signal_event;
     
     reg invalid_instruction;
     always@(posedge clk or negedge reset)
@@ -1277,8 +1303,8 @@ module DMA_Controller(
         end
         else
         begin
-           // if(fetched_instruction
-           if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0)
+           // iffetched_instruction
+           if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0)//I doubt that the first statement is needed like Manager_ThreadState is executing
            begin
               casez(data_out)
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz010101z0: // the register to add an immediate is contained in [26:24], the current channel thread source and destination are to be set
@@ -1298,7 +1324,7 @@ module DMA_Controller(
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz00000000://DMAEND
                 begin
-                    
+                    end_current_thread=1;//move the channel to a stoopped state
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzz00000110101://DMAFLUSHP
                 begin
@@ -1310,23 +1336,79 @@ module DMA_Controller(
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz000001zz://DMALD[S/B]
                 begin
-                
+                    notify_peripheral=1'b0;
+                    if(dataout[1]==0)//S is the option
+                    begin
+                        if(request_flag==0)//request flag set to single
+                        begin
+                            load_data_S_B=1'b1;
+                            load_type=1'b0;//single
+                        end
+                        else//request flag set to burst
+                        begin
+                            load_data_S_B=1'b0;//no operation
+                            load_type=1'b0;
+                        end
+                    end
+                    else
+                    begin
+                        if(request_flag==0)//request flag set to single
+                        begin
+                            load_data_S_B=1'b0;//no operation
+                            load_type=1'b0;
+                        end
+                        else//request flag set to burst
+                        begin
+                            load_data_S_B=1'b1;
+                            load_type=1'b1;
+                        end
+                    end
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzz000001001z1://DMALDP[S/B]
                 begin
-                
+                    notify_peripheral=1'b1;
+                    peripheral_number=dataout[15:11];
+                    if(dataout[1]==0)//S is the option
+                    begin
+                        if(request_flag==0)//request flag set to single
+                        begin
+                            load_data_S_B=1'b1;
+                            load_type=1'b0;//single
+                        end
+                        else//request flag set to burst
+                        begin
+                            load_data_S_B=1'b0;//no operation
+                            load_type=1'b0;
+                        end
+                    end
+                    else
+                    begin
+                        if(request_flag==0)//request flag set to single
+                        begin
+                            load_data_S_B=1'b0;//no operation
+                            load_type=1'b0;
+                        end
+                        else//request flag set to burst
+                        begin
+                            load_data_S_B=1'b1;
+                            load_type=1'b1;
+                        end
+                    end
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz0010000z0://DMALP
                 begin
-                
+                    loop_value=dataout[15:8];
+                    reg_to_use=lc;
+                    write_to_loop=1'b1;
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz001z1zzz://DMALPEND
                 begin
-                
+                    dma_loop_end=1'b1;
+                    backward_jump_number=dataout[15:8];
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz00000001://DMAKILL
                 begin
-                
+                    dma_kill=1'b1;
                 end
                 32'bzzzzzzzzzzzzzzzz00000zzz10111100://DMAMOV
                 begin
@@ -1334,15 +1416,16 @@ module DMA_Controller(
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz00011000://DMANOP
                 begin
-                
+                    
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz00010010://DMARMB
                 begin
-                
+                    read_memory_barrier=1;
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzz00000110100://DMASEV
                 begin
-                
+                    event_number=dataout[15:11];
+                    signal_event=1;
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz://DMAST[S/B]
                 begin
