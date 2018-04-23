@@ -248,10 +248,12 @@ module DMA_Controller(
     //cache state
     reg[2:0] cache_state;
     
+    
+        
     /*
         cache instance
     */
-    Instruction_Cache I1(
+    Instruction_Cache Instr_cache(
     
         cache_clk,
         cache_address,
@@ -263,6 +265,218 @@ module DMA_Controller(
         cache_hit 
     
         );
+        
+        
+    /*
+         cache control state machine
+    */
+    reg instruction_word_no;
+    reg[3:0] cache_fill_read_count;
+ 
+    always@(posedge clk or negedge reset)
+    begin
+         if(!reset)
+         begin
+             //invalidate all entries
+             cache_state=IDLE;
+             cache_fill_read_count=0;
+             
+         end
+         else
+         begin
+             case(cache_state)
+                 IDLE:
+                 begin
+                     if(next_thread_to_execute==0)
+                     begin
+                         if(Manager_ThreadState==EXECUTING && inst_counter==0)
+                          begin
+                              cache_address<=DPC;
+                              cache_state<=READ;
+                          end
+                          else if(Manager_ThreadState==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
+                          begin
+                              cache_address<=cache_address+4;
+                              cache_state<=READ;
+                              
+                          end
+                          else
+                          begin
+                              cache_state<=IDLE;
+                              
+                          end
+                     end
+                     else
+                     begin
+                           if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0)
+                           begin
+                               cache_address<=CPC[next_thread_to_execute];
+                               cache_state<=READ;
+                           end
+                           else if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
+                           begin
+                               cache_address<=cache_address+4;
+                               cache_state<=READ;
+                               
+                           end
+                           else
+                           begin
+                               cache_state<=IDLE;
+                               
+                           end
+                     end
+                     
+                 end
+                 INVALIDATE:
+                 begin
+                 end
+                 READ:
+                 begin
+                     cache_state<=WAIT_FOR_CLK_CYCLE;
+                 end
+                 WAIT_FOR_CLK_CYCLE:
+                 begin
+                     if(cache_miss==HIGH)
+                     begin
+                         cache_state<=WAIT_FOR_AXI_DATA;
+                     end
+                     else
+                     begin
+                         
+                         cache_state<=IDLE;
+                     end
+                 end
+                 WRITE:
+                 begin
+                 end
+                 
+                 WAIT_FOR_AXI_DATA:
+                 begin
+                     if(axi_state==UPDATE_CACHE && axi_read_count==0)
+                     begin
+                         cache_state=IDLE;
+                     end
+                     else
+                     begin
+                         cache_state=WAIT_FOR_AXI_DATA;
+                     end
+                 end
+             endcase
+         end
+    end
+    
+    /*
+         cache control state machine decoder 
+    */
+    always@(*)
+    begin
+         case(cache_state)
+             IDLE:
+             begin
+                 cache_enable_RW=LOW;
+                 cache_read=HIGH;
+             end
+             INVALIDATE:
+             begin
+             end
+             READ:
+             begin
+                 cache_enable_RW=HIGH;
+                 cache_read=HIGH;
+             end
+             WRITE:
+             begin
+                 cache_enable_RW=HIGH;
+                 cache_read=LOW;
+             end
+             WAIT_FOR_AXI_DATA:
+             begin
+             end
+             WAIT_FOR_CLK_CYCLE:
+             begin
+                 cache_enable_RW=LOW;
+                 cache_read=HIGH;
+             end
+         endcase
+    end   
+
+        
+   /*
+        Read Instruction Buffer instance
+   */     
+      reg read_inst_write;
+      reg[31:0] read_inst_data_in;
+      reg read_inst_read;
+      wire[31:0] read_inst_data_out;
+      wire read_inst_empty;
+      wire read_inst_full;
+      Instruction_Buffer Read_Instr_Buffer(
+       clk,
+       reset,
+       read_inst_write,
+       read_inst_data_in,
+       read_inst_read,
+       read_inst_data_out,
+       read_inst_empty,
+       read_inst_full
+   
+       );
+       
+    /*
+        Write Instruction Buffer
+    */   
+      reg write_inst_write;
+      reg[31:0] write_inst_data_in;
+      reg write_inst_read;
+      wire[31:0] write_inst_data_out;
+      wire write_inst_empty;
+      wire write_inst_full;
+      
+      Instruction_Buffer Write_Instr_Buffer(
+           clk,
+           reset,
+           write_inst_write,
+           write_inst_data_in,
+           write_inst_read,
+           write_inst_data_out,
+           write_inst_empty,
+           write_inst_full
+       
+           ); 
+         
+    
+    //data buffer
+    reg[2:0] read_pointer_width;
+    reg[2:0] read_pointer_depth;
+   
+    reg[2:0] write_pointer_width;
+    reg[2:0] write_pointer_depth;
+   
+    reg[7:0] data_mem[0:7][0:7];
+   
+    
+        
+    /*
+    
+        controller or driver for read pointers and write pointers and also the data buffer
+    
+    */
+        
+    
+     always@(posedge clk or negedge reset)
+     begin
+        if(!reset)
+        begin
+            read_pointer_width=0;
+            read_pointer_depth=0;
+            write_pointer_width=0;
+            write_pointer_depth=0;
+        end
+        else
+        begin
+            
+        end
+     end   
         
     /*
         DBGCMD write operation
@@ -306,10 +520,24 @@ module DMA_Controller(
                         axi_read_count<=arlen;
                         axi_state<=READ_ADDRESS_ON_BUS;
                     end
+                    else if(read_inst_empty!=HIGH)
+                    begin
+                        axi_state=READ_FROM_QUEUE_STATE;
+                    end
                     else
                     begin
+                        
                         axi_state<=IDLE;
                     end
+                end
+                READ_FROM_QUEUE_STATE:
+                begin
+                    //assuming reads and writes takes place only for channel 1, after this change to include multiple chaannel threads
+                    araddr<=SA[0];
+                    arlen<=CC[0][7:4];
+                    arsize<=CC[0][3:1];
+                    artype<=CC[0][0];// 0 is fixed type and 1 is incrementing type
+                    axi_state<=READ_ADDRESS_ON_BUS;
                 end
                 READ_ADDRESS_ON_BUS:
                 begin
@@ -326,17 +554,25 @@ module DMA_Controller(
                 begin 
                     if(rvalid==HIGH)
                     begin
-                        if(axi_read_count==4'b1000)
+                        if(Manager_ThreadState==CACHE_MISS)//cache access
                         begin
-                            cache_address<=DPC;
+                            if(axi_read_count==4'b1000)
+                            begin
+                                cache_address<=DPC;
+                            end
+                            else
+                            begin
+                                cache_address<=cache_address+4;
+                            end
+                            cache_data<=rdata;
+                            axi_read_count<=axi_read_count-1;
+                            axi_state<=UPDATE_CACHE;
                         end
                         else
                         begin
-                            cache_address<=cache_address+4;
+                            ///buffer access
+                            
                         end
-                        cache_data<=rdata;
-                        axi_read_count<=axi_read_count-1;
-                        axi_state<=UPDATE_CACHE;
                     end
                     else
                     begin
@@ -353,6 +589,17 @@ module DMA_Controller(
                     begin
                         axi_state<=IDLE;
                     end  
+                end
+                UPDATE_BUFFER:
+                begin
+                    if(axi_read_count!=0)
+                    begin
+                        axi_state<=READY_TO_RECEIVE_DATA;
+                    end
+                    else
+                    begin
+                        axi_state<=IDLE;
+                    end
                 end
             endcase
         end
@@ -447,116 +694,7 @@ module DMA_Controller(
         end
    end
    
-   
-   /*
-        cache control state machine
-   */
-   reg instruction_word_no;
-   reg[3:0] cache_fill_read_count;
 
-   always@(posedge clk or negedge reset)
-   begin
-        if(!reset)
-        begin
-            //invalidate all entries
-            cache_state=IDLE;
-            cache_fill_read_count=0;
-            
-        end
-        else
-        begin
-            case(cache_state)
-                IDLE:
-                begin
-                    if(Manager_ThreadState==EXECUTING && inst_counter==0)
-                    begin
-                        cache_address<=DPC;
-                        cache_state<=READ;
-                    end
-                    else if(Manager_ThreadState==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
-                    begin
-                        cache_address<=cache_address+4;
-                        cache_state<=READ;
-                        
-                    end
-                    else
-                    begin
-                        cache_state<=IDLE;
-                        
-                    end
-                end
-                INVALIDATE:
-                begin
-                end
-                READ:
-                begin
-                    cache_state<=WAIT_FOR_CLK_CYCLE;
-                end
-                WAIT_FOR_CLK_CYCLE:
-                begin
-                    if(cache_miss==HIGH)
-                    begin
-                        cache_state<=WAIT_FOR_AXI_DATA;
-                    end
-                    else
-                    begin
-                        
-                        cache_state<=IDLE;
-                    end
-                end
-                WRITE:
-                begin
-                end
-                
-                WAIT_FOR_AXI_DATA:
-                begin
-                    if(axi_state==UPDATE_CACHE && axi_read_count==0)
-                    begin
-                        cache_state=IDLE;
-                    end
-                    else
-                    begin
-                        cache_state=WAIT_FOR_AXI_DATA;
-                    end
-                end
-            endcase
-        end
-   end
-   
-   /*
-        cache control state machine decoder 
-   */
-   always@(*)
-   begin
-        case(cache_state)
-            IDLE:
-            begin
-                cache_enable_RW=LOW;
-                cache_read=HIGH;
-            end
-            INVALIDATE:
-            begin
-            end
-            READ:
-            begin
-                cache_enable_RW=HIGH;
-                cache_read=HIGH;
-            end
-            WRITE:
-            begin
-                cache_enable_RW=HIGH;
-                cache_read=LOW;
-            end
-            WAIT_FOR_AXI_DATA:
-            begin
-            end
-            WAIT_FOR_CLK_CYCLE:
-            begin
-                cache_enable_RW=LOW;
-                cache_read=HIGH;
-            end
-        endcase
-   end
     
     /*
         state machine for each channel thread....these states are used only for inclusion or exclusion of threads while arbitration
@@ -1102,7 +1240,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[8]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
                                             ||(Channel_ThreadState[8]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[8]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
-                                            //we need to include barriers,faulting,completing etc states for manager
+                                            //we need to include barriers,faulting,completing etc states for each channel thread
                                             )
                     begin
                         if(Manager_ThreadState==EXECUTING)
@@ -1148,30 +1286,6 @@ module DMA_Controller(
                     next_thread_to_execute=0;
                 end
             endcase
-            
-            
-            
-            /*if((next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0 && second_cache_access_needed==LOW)//next state is update PC state
-                ||(next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==HIGH)//next state is cache miss
-                ||(next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)//again an update PC state in case of 64 bit instructions
-                //we need to include barriers,faulting,completing etc states for manager
-                )
-                begin
-                    
-                end
-                else
-                begin
-                    for(thread_number=0;thread_number<=8;thread_number=thread_number+1)
-                    begin
-                        if(next_thread_to_execute==thread_number)
-                        begin
-                            
-                        end
-                        else
-                        begin
-                        end
-                    end                
-                end*/
                 
         end    
     end
@@ -1303,21 +1417,22 @@ module DMA_Controller(
         end
         else
         begin
-           // iffetched_instruction
-           if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0)//I doubt that the first statement is needed like Manager_ThreadState is executing
+           // if fetched_instruction
+           if((next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0)
+                || (next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==0))//I doubt that the first statement is needed like Manager_ThreadState is executing
            begin
               casez(data_out)
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz010101z0: // the register to add an immediate is contained in [26:24], the current channel thread source and destination are to be set
                 begin
                     if(data_out[1]==LOW)//add the immediate to the source register
                     begin
-                        sr_no=current_executing_thread;
+                        sr_no=next_thread_to_execute;
                         sr_write=1'b1;
                         sr_imm=data_out[23:8];
                     end
                     else
                     begin
-                        dr_no=current_executing_thread;
+                        dr_no=next_thread_to_execute;
                         dr_write=1'b1;
                         dr_imm=data_out[23:16];
                     end
@@ -1328,7 +1443,7 @@ module DMA_Controller(
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzz00000110101://DMAFLUSHP
                 begin
-                
+                    
                 end
                 32'bzzzzzzzzzzzzzzzz00000zzz101000z0://DMAGO
                 begin
@@ -1412,7 +1527,7 @@ module DMA_Controller(
                 end
                 32'bzzzzzzzzzzzzzzzz00000zzz10111100://DMAMOV
                 begin
-                
+                    
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz00011000://DMANOP
                 begin
@@ -1449,7 +1564,7 @@ module DMA_Controller(
                 end
                 32'bzzzzzzzzzzzzzzzzzzzzzzzz00010011://DMAWMB
                 begin
-                
+                    
                 end
                 default:
                 begin
@@ -1458,7 +1573,9 @@ module DMA_Controller(
               endcase
                       
             end
-            else if(Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1)
+            else if((next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1) 
+                    || (next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && cache_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && instr_counter==1))
+            
             begin
                 casez(fetched_instruction[15:0])//64 bit instruction the first 32 bits are stored in fetched_instruction register
                     16'b00000zzz10111100://DMAGO
@@ -1477,6 +1594,7 @@ module DMA_Controller(
             begin
                 sr_write=0;
                 dr_write=0;
+                end_current_thread=0;
                 
             end
         end
