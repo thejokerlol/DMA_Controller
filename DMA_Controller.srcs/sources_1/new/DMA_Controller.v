@@ -454,29 +454,6 @@ module DMA_Controller(
    
     reg[7:0] data_mem[0:7][0:7];
    
-    
-        
-    /*
-    
-        controller or driver for read pointers and write pointers and also the data buffer
-    
-    */
-        
-    
-     always@(posedge clk or negedge reset)
-     begin
-        if(!reset)
-        begin
-            read_pointer_width=0;
-            read_pointer_depth=0;
-            write_pointer_width=0;
-            write_pointer_depth=0;
-        end
-        else
-        begin
-            
-        end
-     end   
         
     /*
         DBGCMD write operation
@@ -494,175 +471,370 @@ module DMA_Controller(
             
         end
    end
+   /*
+        ADDRESS READ AXI STATES
+   */
+   reg[1:0] axi_read_address_state;
+   
+   /*
+        ADDDRESS AXI STATES PARAMETERS
+   */
+   parameter AXI_ADDRESS_IDLE=2'b00;
+   parameter AXI_WAITING_FOR_READY=2'b01;
+   
     
    /*
-       AXI  Cache update code:- starts a transaction on cache miss
+       AXI  Cache update code and also DMA load requests and store requests:- starts a transaction on cache miss
    */ 
+   reg dma_ld_req;
+   reg[3:0] dma_ld_channel_no;
+
    always@(posedge clk or negedge reset)
    begin
         if(!reset)
         begin
-            axi_state=IDLE;
-            axi_read_count=0;
+            axi_read_address_state<=AXI_ADDRESS_IDLE;
         end
         else
         begin
-            case(axi_state)
-                IDLE:
+            case(axi_read_address_state)
+            
+                AXI_ADDRESS_IDLE:
                 begin
-                    if(cache_miss==HIGH && cache_state==READ)
+                    if(cache_miss==HIGH)
                     begin
-                        //all address signals
-                        araddr<=DPC;
-                        arlen<=4'b1000;//32 bytes so burst length is 8
-                        arsize<=3'b101;//5 i.e., 2^5=32
-                        arburst<=2'b01;//incremental burst for cache update
-                        axi_read_count<=arlen;
-                        axi_state<=READ_ADDRESS_ON_BUS;
-                    end
-                    else if(read_inst_empty!=HIGH)
-                    begin
-                        axi_state=READ_FROM_QUEUE_STATE;
-                    end
-                    else
-                    begin
-                        
-                        axi_state<=IDLE;
-                    end
-                end
-                READ_FROM_QUEUE_STATE:
-                begin
-                    //assuming reads and writes takes place only for channel 1, after this change to include multiple chaannel threads
-                    araddr<=SA[0];
-                    arlen<=CC[0][7:4];
-                    arsize<=CC[0][3:1];
-                    artype<=CC[0][0];// 0 is fixed type and 1 is incrementing type
-                    axi_state<=READ_ADDRESS_ON_BUS;
-                end
-                READ_ADDRESS_ON_BUS:
-                begin
-                    if(arready==HIGH)
-                    begin
-                        axi_state<=READY_TO_RECEIVE_DATA;
-                    end
-                    else
-                    begin
-                        axi_state<=READ_ADDRESS_ON_BUS;
-                    end
-                end
-                READY_TO_RECEIVE_DATA:
-                begin 
-                    if(rvalid==HIGH)
-                    begin
-                        if(Manager_ThreadState==CACHE_MISS)//cache access
+                        if(next_thread_to_execute==0)
                         begin
-                            if(axi_read_count==4'b1000)
-                            begin
-                                cache_address<=DPC;
-                            end
-                            else
-                            begin
-                                cache_address<=cache_address+4;
-                            end
-                            cache_data<=rdata;
-                            axi_read_count<=axi_read_count-1;
-                            axi_state<=UPDATE_CACHE;
+                            araddr<=DPC;
+                            arlen<=4'b1000;
+                            arsize<=3'b101;
+                            arburst<=2'b10;//wrapping burst
+                            axi_read_address_state<=AXI_WAITING_FOR_READY;
                         end
                         else
                         begin
-                            ///buffer access
-                            
+                            araddr<=CPC[next_thread_to_execute];
+                            arlen<=4'b1000;
+                            arsize<=3'b101;
+                            arburst<=2'b10;//wrapping burst
+                            axi_read_address_state<=AXI_WAITING_FOR_READY;
                         end
+                    end
+                    else if(dma_ld_req==HIGH)
+                    begin
+                        arid<=dma_ld_channel_no;
+                        araddr<=SA[dma_ld_channel_no];
+                        arlen<=CC[dma_ld_channel_no][7:4];
+                        arsize<=CC[dma_ld_channel_no][3:1];
+                        arburst<=CC[dma_ld_channel_no][0];
+                        axi_read_address_state<=AXI_WAITING_FOR_READY;                       
                     end
                     else
                     begin
-                       axi_state<=READY_TO_RECEIVE_DATA; 
+                        axi_read_address_state<=AXI_ADDRESS_IDLE;
+                    end
+                end
+                AXI_WAITING_FOR_READY:
+                begin
+                    if(arready==0)
+                    begin
+                        axi_read_address_state<=AXI_WAITING_FOR_READY;
+                    end
+                    else
+                    begin
+                        if(cache_miss==HIGH && cache_state==READ)
+                        begin
+                            if(next_thread_to_execute==0)
+                            begin
+                                araddr<=DPC;
+                                arlen<=4'b1000;
+                                arsize<=3'b101;
+                                arburst<=2'b10;//wrapping burst
+                                axi_read_address_state<=AXI_WAITING_FOR_READY;
+                            end
+                            else
+                            begin
+                                araddr<=CPC[next_thread_to_execute];
+                                arlen<=4'b1000;
+                                arsize<=3'b101;
+                                arburst<=2'b10;//wrapping burst
+                                axi_read_address_state<=AXI_WAITING_FOR_READY;
+                            end
+                        end
+                        else if(dma_ld_req==HIGH)
+                        begin
+                            arid<=dma_ld_channel_no;
+                            araddr<=SA[dma_ld_channel_no];
+                            arlen<=CC[dma_ld_channel_no][7:4];
+                            arsize<=CC[dma_ld_channel_no][3:1];
+                            arburst<=CC[dma_ld_channel_no][0];
+                            axi_read_address_state<=AXI_WAITING_FOR_READY;
+                            
+                        end
+                        else
+                        begin
+                            axi_read_address_state<=AXI_ADDRESS_IDLE;
+                        end
+                    end
+                end       
+            endcase
+        end
+        
+   end
+   always@(*)
+   begin
+        case(axi_read_address_state)
+            AXI_ADDRESS_IDLE:
+            begin
+                arvalid=LOW;
+            end
+            AXI_WAITING_FOR_READY:
+            begin
+                arvalid=HIGH;
+            end
+        endcase
+   end
+   /*
+        ADDRESS WRITE AXI STATES
+   */
+   reg[1:0] axi_write_address_state;
+   /*
+        write_address control
+   */
+   reg dma_st_req;
+   reg[3:0] dma_st_channel_no;  
+   
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            axi_write_address_state<=AXI_ADDRESS_IDLE;
+        end
+        else
+        begin
+            case(axi_write_address_state)
+                AXI_ADDRESS_IDLE:
+                begin
+                    if(dma_st_req)
+                    begin
+                        awid<=dma_st_channel_no;
+                        awaddr<=DA[dma_st_channel_no];
+                        awlen<=CC[dma_st_channel_no][21:18];
+                        awsize<=CC[dma_st_channel_no][17:15];
+                        awburst<=CC[dma_st_channel_no][14];
+                        axi_write_address_state<=AXI_WAITING_FOR_READY;
+                    end
+                    else
+                    begin
+                        axi_write_address_state<=AXI_ADDRESS_IDLE;
+                    end
+                end
+                AXI_WAITING_FOR_READY:
+                begin
+                    if(awready==LOW)
+                    begin
+                        axi_write_address_state<=AXI_WAITING_FOR_READY;
+                    end
+                    else
+                    begin
+                        if(arready==HIGH)
+                        begin
+                           if(dma_st_req)
+                            begin
+                                awid<=dma_st_channel_no;
+                                awaddr<=DA[dma_st_channel_no];
+                                awlen<=CC[dma_st_channel_no][21:18];
+                                awsize<=CC[dma_st_channel_no][17:15];
+                                awburst<=CC[dma_st_channel_no][14];
+                                axi_write_address_state<=AXI_WAITING_FOR_READY;
+                            end
+                            else
+                            begin
+                                axi_write_address_state<=AXI_ADDRESS_IDLE;
+                            end
+                        end
+                        else
+                        begin
+                            axi_write_address_state<=AXI_WAITING_FOR_READY;
+                        end
+                    end
+                end
+            endcase
+            
+        end
+   end
+   always@(*)
+   begin
+        case(axi_write_address_state)
+            AXI_ADDRESS_IDLE:
+            begin
+                awvalid=LOW;
+            end
+            AXI_WAITING_FOR_READY:
+            begin
+                awvalid=HIGH;
+            end
+        endcase
+   end
+   
+   /*
+        cache controller for read data logic(since rready is to be generated here only)
+   */
+   reg[2:0] axi_read_state;
+   parameter IDLE=3'b000;
+   parameter WAIT_FOR_RVALID=3'b001;
+   parameter UPDATE_CACHE_OR_MEM=3'b010;
+   reg[3:0] no_reads;//counter to check how many read transfers have occured
+   reg[31:0] cache_address_register;
+   reg[1:0] req_type;
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            axi_read_state<=IDLE;
+            no_reads<=0;
+        end
+        else
+        begin
+            case(axi_read_state)
+                IDLE:
+                begin
+                    if(cache_miss==HIGH)
+                    begin
+                        axi_read_state<=WAIT_FOR_RVALID;
+                        if(next_thread_to_execute==0)
+                        begin
+                            cache_address_register<=DPC;
+                        end
+                        else
+                        begin
+                            cache_address_register<=CPC[next_thread_to_execute];
+                        end
+                    end
+                    else if(dma_ld_req)
+                    begin
+                        axi_read_state<=WAIT_FOR_RVALID;
+                    end
+                    else
+                    begin
+                        axi_read_state<=IDLE;
+                    end
+                end
+                WAIT_FOR_RVALID:
+                begin
+                    if(rvalid==HIGH)//cache access
+                    begin
+                        if(rid==0)
+                        begin
+                            if(no_reads==0)
+                            begin
+                                cache_address<=cache_address_register;
+                            end
+                            else
+                            begin
+                                cache_address<=cache_address_register+4;
+                            end
+                            cache_data_in<=rdata;
+                            axi_read_state<=UPDATE_CACHE;
+                        end
+                        else
+                        begin
+                            if(Channel_ThreadState[rid]==CACHE_MISS)
+                            begin
+                                if(no_reads==0)
+                                begin
+                                    cache_address<=cache_address_register;
+                                end
+                                else
+                                begin
+                                    cache_address<=cache_address_register+4;
+                                end
+                                cache_data_in<=rdata;
+                                axi_read_state<=UPDATE_CACHE;
+                            end
+                            else
+                            begin
+                                //memory update
+                                axi_read_state<=UPDATE_MEMORY;
+                            end
+                        end
+                        
+                    end
+                    else
+                    begin
+                        axi_read_state<=WAIT_FOR_RVALID;
                     end
                 end
                 UPDATE_CACHE:
                 begin
-                    if(axi_read_count!=0)
+                    if(no_reads!=8)
                     begin
-                        axi_state<=READY_TO_RECEIVE_DATA;
+                        axi_read_state<=WAIT_FOR_RVALID;
+                        no_reads<=no_reads+1;
                     end
                     else
                     begin
-                        axi_state<=IDLE;
-                    end  
+                        axi_read_state<=CACHE_IDLE;
+                    end
                 end
-                UPDATE_BUFFER:
+                UPDATE_MEMORY:
                 begin
-                    if(axi_read_count!=0)
-                    begin
-                        axi_state<=READY_TO_RECEIVE_DATA;
-                    end
-                    else
-                    begin
-                        axi_state<=IDLE;
-                    end
                 end
             endcase
         end
    end
-   /*
-        Seperate signals for the cache update
-   */
-   wire axi_cache_read;
-   wire axi_cache_enable_RW;
-   //state decoder for axi master
    always@(*)
    begin
-        case(axi_state)
-            IDLE:
+        case(cache_state)
+            CACHE_IDLE:
             begin
-                arvalid=LOW;
-                awvalid=LOW;
-                rready=LOW;
-                wvalid=LOW;
-                bready=LOW;
-                
-                //cache signals
-                axi_cache_read=LOW;
-                axi_cache_enable_RW=LOW;
+                cache_enable_RW=0;
+                cache_read=1;
             end
-            READ_ADDRESS_ON_BUS:
+            WAIT_FOR_RVALID:
             begin
-                arvalid=HIGH;
-                awvalid=LOW;
-                rready=LOW;
-                wvalid=LOW;
-                bready=LOW;
-                
-                //cache signals
-                axi_cache_read=LOW;
-                axi_cache_enable_RW=LOW;
-            end
-            READY_TO_RECEIVE_DATA:
-            begin
-                arvalid=LOW;
-                awvalid=LOW;
-                rready=HIGH;
-                wvalid=LOW;
-                bready=LOW;
-                
-                //cache signals
-                axi_cache_read=LOW;
-                axi_cache_enable_RW=LOW;
+                cache_enable_RW=0;
+                cache_read=1;
             end
             UPDATE_CACHE:
             begin
-                arvalid=LOW;
-                awvalid=LOW;
-                rready=LOW;
-                wvalid=LOW;
-                bready=LOW;
-                
-                //cache signals
-                axi_cache_read=LOW;
-                axi_cache_enable_RW=HIGH;
+                cache_enable_RW=1;
+                cache_read=1;
             end
         endcase
-   end 
+   end
+   /*
+        memory buffer controller vvv imp
+   */
+   reg[1:0] dma_req;//lets say for dmald the req type is 01 and dmast the req type is 10
+   reg[1:0] buffer_controller_state;
+   parameter IDLE_STATE=2'b00;
+   
+   always@(posedge clk or negedge reset)
+   begin
+        if(!reset)
+        begin
+            
+        end
+        else
+        begin
+            if(dma_req==2'b01)//dma load executed
+            begin
+                
+            end
+            else if(dma_req==2'b10)//dma store executed
+            begin
+                
+            end
+            else//nothing executed
+            begin
+                
+            end
+        end
+   end
+   
+   
+
    /*
         Track the state in each clk cycle in EXECUTING state
    */
