@@ -267,140 +267,6 @@ module DMA_Controller(
         );
         
         
-    /*
-         cache control state machine
-    */
-    reg instruction_word_no;
-    reg[3:0] cache_fill_read_count;
- 
-    always@(posedge clk or negedge reset)
-    begin
-         if(!reset)
-         begin
-             //invalidate all entries
-             cache_state=IDLE;
-             cache_fill_read_count=0;
-             
-         end
-         else
-         begin
-             case(cache_state)
-                 IDLE:
-                 begin
-                     if(next_thread_to_execute==0)
-                     begin
-                         if(Manager_ThreadState==EXECUTING && inst_counter==0)
-                          begin
-                              cache_address<=DPC;
-                              cache_state<=READ;
-                          end
-                          else if(Manager_ThreadState==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
-                          begin
-                              cache_address<=cache_address+4;
-                              cache_state<=READ;
-                              
-                          end
-                          else
-                          begin
-                              cache_state<=IDLE;
-                              
-                          end
-                     end
-                     else
-                     begin
-                           if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0)
-                           begin
-                               cache_address<=CPC[next_thread_to_execute];
-                               cache_state<=READ;
-                           end
-                           else if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
-                           begin
-                               cache_address<=cache_address+4;
-                               cache_state<=READ;
-                               
-                           end
-                           else
-                           begin
-                               cache_state<=IDLE;
-                               
-                           end
-                     end
-                     
-                 end
-                 INVALIDATE:
-                 begin
-                 end
-                 READ:
-                 begin
-                     cache_state<=WAIT_FOR_CLK_CYCLE;
-                 end
-                 WAIT_FOR_CLK_CYCLE:
-                 begin
-                     if(cache_miss==HIGH)
-                     begin
-                         cache_state<=WAIT_FOR_AXI_DATA;
-                     end
-                     else
-                     begin
-                         
-                         cache_state<=IDLE;
-                     end
-                 end
-                 WRITE:
-                 begin
-                 end
-                 
-                 WAIT_FOR_AXI_DATA:
-                 begin
-                     if(axi_state==UPDATE_CACHE && axi_read_count==0)
-                     begin
-                         cache_state=IDLE;
-                     end
-                     else
-                     begin
-                         cache_state=WAIT_FOR_AXI_DATA;
-                     end
-                 end
-             endcase
-         end
-    end
-    
-    /*
-         cache control state machine decoder 
-    */
-    always@(*)
-    begin
-         case(cache_state)
-             IDLE:
-             begin
-                 cache_enable_RW=LOW;
-                 cache_read=HIGH;
-             end
-             INVALIDATE:
-             begin
-             end
-             READ:
-             begin
-                 cache_enable_RW=HIGH;
-                 cache_read=HIGH;
-             end
-             WRITE:
-             begin
-                 cache_enable_RW=HIGH;
-                 cache_read=LOW;
-             end
-             WAIT_FOR_AXI_DATA:
-             begin
-             end
-             WAIT_FOR_CLK_CYCLE:
-             begin
-                 cache_enable_RW=LOW;
-                 cache_read=HIGH;
-             end
-         endcase
-    end   
-
-        
    /*
         Read Instruction Buffer instance
    */     
@@ -508,6 +374,7 @@ module DMA_Controller(
                             arsize<=3'b101;
                             arburst<=2'b10;//wrapping burst
                             axi_read_address_state<=AXI_WAITING_FOR_READY;
+                            arvalid<=HIGH;
                         end
                         else
                         begin
@@ -516,6 +383,7 @@ module DMA_Controller(
                             arsize<=3'b101;
                             arburst<=2'b10;//wrapping burst
                             axi_read_address_state<=AXI_WAITING_FOR_READY;
+                            arvalid<=HIGH;
                         end
                     end
                     else if(dma_ld_req==HIGH)
@@ -525,11 +393,13 @@ module DMA_Controller(
                         arlen<=CC[dma_ld_channel_no][7:4];
                         arsize<=CC[dma_ld_channel_no][3:1];
                         arburst<=CC[dma_ld_channel_no][0];
-                        axi_read_address_state<=AXI_WAITING_FOR_READY;                       
+                        axi_read_address_state<=AXI_WAITING_FOR_READY;     
+                        arvalid<=HIGH;                  
                     end
                     else
                     begin
                         axi_read_address_state<=AXI_ADDRESS_IDLE;
+                        arvalid<=LOW;
                     end
                 end
                 AXI_WAITING_FOR_READY:
@@ -537,6 +407,7 @@ module DMA_Controller(
                     if(arready==0)
                     begin
                         axi_read_address_state<=AXI_WAITING_FOR_READY;
+                        arvalid<=LOW;
                     end
                     else
                     begin
@@ -549,6 +420,7 @@ module DMA_Controller(
                                 arsize<=3'b101;
                                 arburst<=2'b10;//wrapping burst
                                 axi_read_address_state<=AXI_WAITING_FOR_READY;
+                                arvalid<=HIGH;
                             end
                             else
                             begin
@@ -557,6 +429,7 @@ module DMA_Controller(
                                 arsize<=3'b101;
                                 arburst<=2'b10;//wrapping burst
                                 axi_read_address_state<=AXI_WAITING_FOR_READY;
+                                arvalid<=HIGH;
                             end
                         end
                         else if(dma_ld_req==HIGH)
@@ -567,30 +440,19 @@ module DMA_Controller(
                             arsize<=CC[dma_ld_channel_no][3:1];
                             arburst<=CC[dma_ld_channel_no][0];
                             axi_read_address_state<=AXI_WAITING_FOR_READY;
+                            arvalid<=HIGH;
                             
                         end
                         else
                         begin
                             axi_read_address_state<=AXI_ADDRESS_IDLE;
+                            arvalid<=LOW;
                         end
                     end
                 end       
             endcase
         end
         
-   end
-   always@(*)
-   begin
-        case(axi_read_address_state)
-            AXI_ADDRESS_IDLE:
-            begin
-                arvalid=LOW;
-            end
-            AXI_WAITING_FOR_READY:
-            begin
-                arvalid=HIGH;
-            end
-        endcase
    end
    /*
         ADDRESS WRITE AXI STATES
@@ -621,10 +483,12 @@ module DMA_Controller(
                         awsize<=CC[dma_st_channel_no][17:15];
                         awburst<=CC[dma_st_channel_no][14];
                         axi_write_address_state<=AXI_WAITING_FOR_READY;
+                        awvalid<=HIGH;
                     end
                     else
                     begin
                         axi_write_address_state<=AXI_ADDRESS_IDLE;
+                        awvalid<=LOW;
                     end
                 end
                 AXI_WAITING_FOR_READY:
@@ -632,6 +496,7 @@ module DMA_Controller(
                     if(awready==LOW)
                     begin
                         axi_write_address_state<=AXI_WAITING_FOR_READY;
+                        awvalid=LOW;
                     end
                     else
                     begin
@@ -645,15 +510,18 @@ module DMA_Controller(
                                 awsize<=CC[dma_st_channel_no][17:15];
                                 awburst<=CC[dma_st_channel_no][14];
                                 axi_write_address_state<=AXI_WAITING_FOR_READY;
+                                awvalid<=HIGH;
                             end
                             else
                             begin
                                 axi_write_address_state<=AXI_ADDRESS_IDLE;
+                                awvalid<=LOW;
                             end
                         end
                         else
                         begin
                             axi_write_address_state<=AXI_WAITING_FOR_READY;
+                            awvalid<=LOW;
                         end
                     end
                 end
@@ -661,20 +529,6 @@ module DMA_Controller(
             
         end
    end
-   always@(*)
-   begin
-        case(axi_write_address_state)
-            AXI_ADDRESS_IDLE:
-            begin
-                awvalid=LOW;
-            end
-            AXI_WAITING_FOR_READY:
-            begin
-                awvalid=HIGH;
-            end
-        endcase
-   end
-   
    /*
         cache controller for read data logic(since rready is to be generated here only) I have to drive rready here too
    */
@@ -921,6 +775,21 @@ module DMA_Controller(
             endcase
         end
    end
+   
+   
+   
+   
+   /*
+        AXI write interface for dmasts
+   */
+
+   reg axi_write_nos;
+   
+   always@(posedge clk or negedge reset)
+   begin
+         
+   end 
+
 
    /*
         Track the state in each clk cycle in EXECUTING state
