@@ -43,10 +43,10 @@ module Instruction_Buffer(
     output reg empty;
     output reg full;
     
-    reg[31:0] mem[0:5];//an instruction buffer of length 6
+    reg[31:0] mem[0:3];//an instruction buffer of length 6
     
-    reg[2:0] read_pointer;
-    reg[2:0] write_pointer;
+    reg[1:0] read_pointer;
+    reg[1:0] write_pointer;
     reg flip;
     
     always@(posedge clk or negedge reset)
@@ -66,7 +66,7 @@ module Instruction_Buffer(
                 if(!empty)
                 begin
                     data_out<=mem[read_pointer];
-                    if(read_pointer==5)
+                    if(read_pointer==3)
                     begin
                         read_pointer<=0;
                     end
@@ -89,7 +89,7 @@ module Instruction_Buffer(
         end
         else
         begin
-           if((read==1 && read_pointer==5) || (write==1 && write_pointer==5))
+           if((read==1 && read_pointer==3) || (write==1 && write_pointer==3))
            begin
                 flip<=!flip;
            end
@@ -152,7 +152,7 @@ module Instruction_Buffer(
                 if(!full)
                 begin
                     mem[write_pointer]<=data_in;
-                    if(write_pointer==5)
+                    if(write_pointer==3)
                     begin
                         write_pointer<=0;
                     end
@@ -165,13 +165,4 @@ module Instruction_Buffer(
             end           
         end
     end
-    
-    
-    
-    
-    
-    
-    
-    
-    
 endmodule

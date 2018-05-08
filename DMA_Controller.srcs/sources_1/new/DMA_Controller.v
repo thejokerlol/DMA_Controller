@@ -21,6 +21,70 @@
 
 //cache line length of 32 bytes
 module DMA_Controller(
+    aclk,
+    areset,
+    awready,
+    awid,
+    awaddr,
+    awlen,
+    awsize,
+    awburst,
+    awvalid,
+    
+    wready,
+    wid,
+    wdata,
+    wstrb,
+    wlast,
+    wvalid,
+    
+    bid,
+    bresp,
+    bvalid,
+    bready,
+    
+    arready,
+    arid,
+    araddr,
+    arlen,
+    arsize,
+    arburst,
+    arvalid,
+    
+    rid,
+    rdata,
+    rresp,
+    rlast,
+    rvalid,
+    rready,
+    
+    daready,
+    drlast,
+    drtype,
+    datype,
+    davalid,
+    drready,
+    
+    
+    irq,
+    irq_abort,
+    
+    boot_addr,
+    boot_from_pc,
+    boot_manager_ns,
+    boot_irq_ns,
+    boot_peripheral_ns,
+    
+    /*
+        APB interface signals
+    */
+    paddr,
+    penable,
+    psel,
+    pwdata,
+    pwrite,
+    prdata,
+    pready
 
     );
     //parameters
@@ -40,35 +104,35 @@ module DMA_Controller(
     
     //Write Address channel
     input awready;
-    output[ID_MSB:0] awid;
-    output[31:0] awaddr;
-    output[3:0] awlen;
-    output[2:0] awsize;
-    output[1:0] awburst;
-    output awvalid;
+    output reg[ID_MSB:0] awid;
+    output reg[31:0] awaddr;
+    output reg[3:0] awlen;
+    output reg[2:0] awsize;
+    output reg[1:0] awburst;
+    output reg awvalid;
     
     //write channel
     input wready;
-    output[ID_MSB:0] wid;
-    output[DATA_MSB:0] wdata;
-    output[STRB_MSB:0] wstrb;
-    output wlast;
-    output wvalid;
+    output reg[ID_MSB:0] wid;
+    output reg[DATA_MSB:0] wdata;
+    output reg[STRB_MSB:0] wstrb;
+    output reg wlast;
+    output reg wvalid;
     
     //write response channel
     input[ID_MSB:0] bid;
     input[1:0] bresp;
     input bvalid;
-    output bready;
+    output reg bready;
     
     //Read address channel
     input arready;
-    output[ID_MSB:0] arid;
-    output[31:0] araddr;
-    output[3:0] arlen;
-    output[2:0] arsize;
-    output[1:0] arburst;
-    output arvalid;
+    output reg[ID_MSB:0] arid;
+    output reg[31:0] araddr;
+    output reg[3:0] arlen;
+    output reg[2:0] arsize;
+    output reg[1:0] arburst;
+    output reg arvalid;
     
     //Read channel
     input[ID_MSB:0] rid;
@@ -76,7 +140,7 @@ module DMA_Controller(
     input[1:0] rresp;
     input rlast;
     input rvalid;
-    output rready;
+    output reg rready;
     
     
     
@@ -248,7 +312,12 @@ module DMA_Controller(
     //cache state
     reg[2:0] cache_state;
     
-    
+    //data buffer memory
+    reg[7:0] channel_data_buffer[1:8][0:127]; //128 8-bit words for each channel
+    reg[6:0] channel_read_pointer[1:8];//7 bit read pointer for each channel
+    reg[6:0] channel_write_pointer[1:8];//7 bit write pointer for each channel
+    reg[1:8] channel_buffer_empty;
+    reg[1:8] channel_buffer_full;
         
     /*
         cache instance
@@ -327,13 +396,36 @@ module DMA_Controller(
       endgenerate
     
     
-    //data buffer
-    reg[7:0] read_pointer[1:8];//a read pointer for each memory buffer for each channel
-    reg[7:0] write_pointer[1:8];//a write pointer for each memory buffer for each channel
-   
-    reg[7:0] data_mem[1:8][0:127];//127 8 bit words for each channel 
+/*    //data buffer
+    reg[1:8] channel_buffer_write;
+    reg[31:0] channel_buffer_data_in[1:8];
+    reg[1:8] channel_buffer_read;
+    reg[31:0] channel_data_out[1:8];
+    wire[1:8] channel_buffer_empty;
+    wire[1:8] channel_buffer_full;
+    wire[8:0] channel_buffer_read_pointer[1:8];
+    wire[8:0] channel_buffer_write_pointer[1:8];
     
+    genvar data_buff_channel_number;
     
+    generate
+        for(data_buff_channel_number=1;data_buff_channel_number<8;data_buff_channel_number=data_buff_channel_number+1)
+        begin
+            Data_Buffer Data_Buffer_for_Channel(
+                clk,
+                reset,
+                channel_buffer_write[data_buff_channel_number],
+                channel_buffer_data_in[data_buff_channel_number],
+                channel_buffer_read[data_buff_channel_number],
+                channel_buffer_data_out[data_buff_channel_number],
+                channel_buffer_empty[data_buff_channel_number],
+                channel_buffer_full[data_buff_channel_number],
+                channel_buffer_read_pointer[data_buff_channel_number],
+                channel_buffer_write_pointer[data_buff_channel_number]
+            
+            );
+        end
+    endgenerate*/
    
    /*
         ADDRESS READ AXI STATES
@@ -353,7 +445,7 @@ module DMA_Controller(
    reg dma_ld_req;
    reg[3:0] dma_ld_channel_no;
 
-   always@(posedge clk or negedge reset)
+   always@(posedge aclk or negedge areset)
    begin
         if(!reset)
         begin
@@ -362,7 +454,6 @@ module DMA_Controller(
         else
         begin
             case(axi_read_address_state)
-            
                 AXI_ADDRESS_IDLE:
                 begin
                     if(cache_miss==HIGH)
@@ -462,7 +553,7 @@ module DMA_Controller(
         write_address control
    */
    reg dma_st_req;
-   reg[3:0] dma_st_channel_no;  
+   reg[3:0] dma_st_channel_no;  //mostly this is the next thread to execute
    
    always@(posedge clk or negedge reset)
    begin
@@ -529,6 +620,137 @@ module DMA_Controller(
             
         end
    end
+   
+      /*
+        AXI write interface for dmasts(assert wvalid when necessary), drive all the write signals
+   */
+
+   reg axi_write_nos;
+   parameter WRITE_IDLE=2'b00;
+   parameter SEND_DATA=2'b01;
+   parameter GET_RESPONSE=2'b01;
+   reg[1:0] write_state;
+   reg[2:0] completed_transfers;
+   reg[31:0] write_address;
+   always@(posedge clk or negedge reset)
+   begin
+         if(!reset)
+         begin
+            write_state<=WRITE_IDLE;
+            completed_transfers<=0;
+         end
+         else
+         begin
+            case(write_state)
+                WRITE_IDLE:
+                begin
+                    if(dma_st_req)
+                    begin
+                        wstrb<=0;
+                        wdata<=0;
+                        write_address<=DA;
+                        if(CC[17:15]>8-(write_address%8)) //tranfer overflow for first transfer in the case of unaligned transfer
+                        begin
+                            for(temp_reg=write_address%8;temp_reg<=(8-(write_address%8));temp_reg=temp_reg+1)
+                            begin
+                                wdata[7+(8*temp_reg):8*temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_reg];
+                                wstrb[temp_reg]<=1;
+                            end
+                            wvalid=HIGH;
+                            write_address<=write_address+(8-write_address%8);
+                            completed_transfers<=completed_transfers+1;
+                            write_state<=WAIT_FOR_WREADY;
+                        end
+                        else
+                        begin
+                            for(temp_reg=write_address%8;temp_reg<=CC[17:15];temp_reg=temp_reg+1)
+                            begin
+                                wdata[7+(8*temp_reg):8*temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_reg];
+                                wstrb[temp_reg]<=1;
+                            end
+                            wvalid=HIGH;
+                            write_address<=write_address+CC[17:15];
+                            completed_tranfers<=completed_transfers+1;
+                            write_state<=WAIT_FOR_WREADY;
+                        end
+                        
+                        
+                    end
+                    else
+                    begin
+                        write_state<=WRITE_IDLE;
+                    end
+                end
+                WAIT_FOR_WREADY:
+                begin
+                    if(wready==1)
+                    begin
+                        completed_transfers<=completed_transfers+1;
+                        if(completed_transfers==CC[dma_st_channel_no][21:18]-1)
+                        begin
+                            wstrb<=0;
+                            wdata<=0;
+                            if(CC[17:15]>8-(write_address%8)) //tranfer overflow for first transfer in the case of unaligned transfer
+                            begin
+                                for(temp_reg=write_address%8;temp_reg<=(8-(DA%8));temp_reg=temp_reg+1)
+                                begin
+                                    wdata[7+(8*temp_reg):8*temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_reg];
+                                    wstrb[temp_reg]<=1;
+                                end
+                                wvalid<=HIGH;
+                                write_state<=WAIT_FOR_WREADY;
+                            end
+                            else
+                            begin
+                                for(temp_reg=write_address%8;temp_reg<=CC[17:15];temp_reg=temp_reg+1)
+                                begin
+                                    wdata[7+(8*temp_reg):8*temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_reg];
+                                    wstrb[temp_reg]<=1;
+                                end
+                                wvalid<=HIGH;
+                                write_state<=WAIT_FOR_WREADY;
+                            end
+                            write_state<=WAIT_FOR_RESPONSE;
+                        end
+                        else
+                        begin
+                            write_state<=WAIT_FOR_WREADY;
+                        end
+                        
+                    end
+                    else
+                    begin
+                        write_state<=WAIT_FOR_WREADY;
+                    end
+                end
+                WAIT_FOR_RESPONSE:
+                begin
+                    if(bvalid==1)
+                    begin
+                        write_state<=WAIT_FOR_RESPONSE;
+                        if(bresp<=2'b00)//valid write completed
+                        begin
+                            DA<=write_address;  //update the destination address register
+                            
+                        end
+                        else//a write error an abort
+                        begin
+                            
+                        end
+                        write_address<=0;
+                        completed_transfes<=0;
+                        write_state<=WRITE_IDLE;
+                    end
+                    else
+                    begin
+                        write_state<=WAIT_FOR_RESPONSE;
+                        
+                    end
+                end
+            endcase
+         end
+   end 
+   
    /*
         cache controller for read data logic(since rready is to be generated here only) I have to drive rready here too
    */
@@ -541,6 +763,11 @@ module DMA_Controller(
    reg[1:0] req_type;
    reg[3:0] channel_waiting_for_fill[1:0];
    reg[1:0] no_of_cache_misses;
+   
+   //temp signals
+   reg[7:0] temp_reg; 
+   
+   
    always@(posedge clk or negedge reset)
    begin
         if(!reset)
@@ -629,7 +856,7 @@ module DMA_Controller(
                         end
                         else
                         begin
-                            if(no_of_cache_missees==0)
+                            if(no_of_cache_misses==0)
                             begin
                                 cache_address_register[0]<=CPC[next_thread_to_execute];
                                 channel_waiting_for_fill[0]<=next_thread_to_execute;
@@ -736,9 +963,29 @@ module DMA_Controller(
                                 end
                             end 
                         end
-                        else
+                        else// the rid is for load request
                         begin
-                            axi_read_state<=WAIT_FOR_RVALID;
+                            for(temp_reg=0;temp_reg<=CC[rid][3:1];temp_reg=temp_reg+1)
+                            begin
+                                channel_data_buffer[rid][channel_write_pointer+temp_reg]<=rdata[(SA%8)+7+temp_reg:(SA%8)+temp_reg];
+                            end
+                            SA<=SA+CC[rid][3:1];
+                            channel_write_pointer[rid]<=channel_write_pointer[rid]+CC[rid][3:1];
+                            if(rlast)
+                            begin
+                                if(no_of_cache_misses>0)
+                                begin
+                                    axi_read_state<=WAIT_FOR_RVALID;
+                                end
+                                else
+                                begin
+                                    axi_read_state<=IDLE;//should be changed according to the requirement
+                                end
+                            end
+                            else
+                            begin
+                                axi_read_state<=WAIT_FOR_RVALID;
+                            end    
                             cache_enable_RW<=1'b0;
                             cache_read<=1'b1;
                         end
@@ -779,16 +1026,6 @@ module DMA_Controller(
    
    
    
-   /*
-        AXI write interface for dmasts
-   */
-
-   reg axi_write_nos;
-   
-   always@(posedge clk or negedge reset)
-   begin
-         
-   end 
 
 
    /*

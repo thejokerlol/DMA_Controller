@@ -1,6 +1,32 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tag_RAM
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Data_RAM
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module Instruction_Buffer
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/Instruction_Buffer_tb.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module Instruction_Buffer_tb
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.sim/sim_1/behav/glbl.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Instruction_Cache
+WARNING: [VRFC 10-986] literal value truncated to fit in 4 bits [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:67]
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module DMA_Controller
+ERROR: [VRFC 10-46] IDLE is already declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:627]
+WARNING: [VRFC 10-986] literal value truncated to fit in 32 bits [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1763]
+ERROR: [VRFC 10-91] clk is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:448]
+ERROR: [VRFC 10-91] reset is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:450]
+ERROR: [VRFC 10-91] cache_miss is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:459]
+ERROR: [VRFC 10-91] cache_miss is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:505]
+ERROR: [VRFC 10-91] clk is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:558]
+ERROR: [VRFC 10-91] reset is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:560]
+ERROR: [VRFC 10-91] clk is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:640]
+ERROR: [VRFC 10-91] reset is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:642]
+ERROR: [VRFC 10-402] cannot assign to memory no_reads directly [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:645]
+ERROR: [VRFC 10-395] cannot assign a packed type to an unpacked type [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:645]
+ERROR: [VRFC 10-1523] unpacked value/target cannot be used in assignment [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:645]
+ERROR: [VRFC 10-91] cache_miss is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:707]
+ERROR: [VRFC 10-91] channel_waiting_fill is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:764]
+ERROR: [VRFC 10-91] WAITING_FOR_RVALID is not declared [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:814]
+ERROR: [VRFC 10-394] cannot access memory SA directly [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:837]
+ERROR: [VRFC 10-845] illegal operand for operator % [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:837]
+ERROR: [VRFC 10-394] cannot access memory channel_write_pointer directly [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:839]
+ERROR: [VRFC 10-845] illegal operand for operator + [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:839]
+INFO: [#UNDEF] Sorry, too many errors..
