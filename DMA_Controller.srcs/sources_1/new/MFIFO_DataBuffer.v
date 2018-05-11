@@ -22,23 +22,23 @@
 
 module MFIFO_DataBuffer(
     clk,
-    reset,
+    areset,
     data_in,
     data_out,
     full,
     empty
     );
     input clk;
-    input reset;
+    input areset;
     input data_in;
     output data_out;
     output full;
     output empty;
     
     reg[7:0] mem[0:7][0:7];
-    always@(posedge clk or negedge reset)
+    always@(posedge clk or negedge areset)
     begin
-        if(!reset)
+        if(!areset)
         begin
             
         end

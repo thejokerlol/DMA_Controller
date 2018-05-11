@@ -24,7 +24,7 @@ module Instruction_Buffer_tb(
 
     );
     reg clk;
-    reg reset;
+    reg areset;
     reg write;
     reg read;
     reg[31:0] data_in;
@@ -34,7 +34,7 @@ module Instruction_Buffer_tb(
     
     Instruction_Buffer IB(
         clk,
-        reset,
+        areset,
         write,
         data_in,
         read,
@@ -47,7 +47,7 @@ module Instruction_Buffer_tb(
         initial
         begin
             clk=0;
-            reset=1;
+            areset=1;
             write=0;
             read=0;
             data_in=0;
@@ -64,8 +64,8 @@ module Instruction_Buffer_tb(
         
         initial
         begin
-            #2 reset=0;
-            #2 reset=1;
+            #2 areset=0;
+            #2 areset=1;
             
             #3 write=1;
                data_in=20;

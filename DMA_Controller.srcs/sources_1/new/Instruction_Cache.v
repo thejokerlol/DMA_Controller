@@ -26,7 +26,7 @@ module Instruction_Cache(
 
     clk,
     address,
-    reset,
+    areset,
     read,
     enable_RW,
     data_in,
@@ -37,7 +37,7 @@ module Instruction_Cache(
     
     input clk;
     input[31:0] address;
-    input reset;
+    input areset;
     input read;
     input enable_RW;
     input[31:0] data_in;

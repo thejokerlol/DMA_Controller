@@ -22,7 +22,7 @@
 
 module Data_Buffer(
     clk,
-    reset,
+    areset,
     write,
     data_in,
     read,
@@ -35,7 +35,7 @@ module Data_Buffer(
 );
 
 input clk;
-input reset;
+input areset;
 input[31:0] data_in;
 input write;
 input read;
@@ -49,9 +49,9 @@ reg[2:0] read_pointer;
 reg[2:0] write_pointer;
 reg flip;
 
-always@(posedge clk or negedge reset)
+always@(posedge clk or negedge areset)
 begin
-    if(!reset)
+    if(!areset)
     begin
         read_pointer=0;
         write_pointer=0;
@@ -81,9 +81,9 @@ begin
 end
 
 //logic for flip
-always@(posedge clk or negedge reset)
+always@(posedge clk or negedge areset)
 begin
-    if(!reset)
+    if(!areset)
     begin
         flip<=0;
     end
@@ -139,9 +139,9 @@ begin
 end
 
 
-always@(posedge clk or negedge reset)
+always@(posedge clk or negedge areset)
 begin
-    if(!reset)
+    if(!areset)
     begin
         write_pointer=0;
     end

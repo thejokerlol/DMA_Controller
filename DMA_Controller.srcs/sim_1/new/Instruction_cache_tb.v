@@ -25,7 +25,7 @@ module Instruction_cache_tb(
     );
     reg clk;
     reg[31:0] address;
-    reg reset;
+    reg areset;
     reg read;
     reg enable_RW;
     reg[31:0] data_in;
@@ -36,7 +36,7 @@ module Instruction_cache_tb(
     
         clk,
         address,
-        reset,
+        areset,
         read,
         enable_RW,
         data_in,
@@ -48,7 +48,7 @@ module Instruction_cache_tb(
     initial
     begin
         clk=0;
-        reset=1'b1;
+        areset=1'b1;
         address=32'd0;
         read=0;
         enable_RW=0;
@@ -67,8 +67,8 @@ module Instruction_cache_tb(
     
     initial
     begin
-        #2 reset=1'b0;
-        #5 reset=1'b1;
+        #2 areset=1'b0;
+        #5 areset=1'b1;
         #20 address=32'd89;
             enable_RW=1'b1;
             read=1'b0;
