@@ -91,7 +91,7 @@ module DMA_Controller(
     
     parameter ID_MSB=3;
     parameter DATA_MSB=64;
-    parameter STRB_MSB=3;
+    parameter STRB_MSB=7;
     parameter n=3; 
     
     /*
@@ -304,9 +304,9 @@ module DMA_Controller(
     
     
     //cache signals
-    reg cache_clk;
+    wire cache_clk;
     reg[31:0] cache_address;
-    reg cache_reset;
+    wire cache_reset;
     reg cache_read;
     reg cache_enable_RW;
     reg[31:0] cache_data_in;
@@ -415,6 +415,9 @@ module DMA_Controller(
     /*
         cache instance
     */
+    assign cache_clk=aclk;
+    assign cache_reset=areset;
+    
     Instruction_Cache Instr_cache(
     
         cache_clk,
@@ -536,10 +539,11 @@ module DMA_Controller(
             case(axi_read_address_state)
                 AXI_ADDRESS_IDLE:
                 begin
-                    if(cache_miss==HIGH)
+                    if(axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)
                     begin
                         if(next_thread_to_execute==0)
                         begin
+                            arid<=0;
                             araddr<=DPC;
                             arlen<=4'b1000;
                             arsize<=3'b101;
@@ -549,6 +553,7 @@ module DMA_Controller(
                         end
                         else
                         begin
+                            arid<=next_thread_to_execute;
                             araddr<=CPC[next_thread_to_execute];
                             arlen<=4'b1000;
                             arsize<=3'b101;
@@ -578,7 +583,6 @@ module DMA_Controller(
                     if(arready==0)
                     begin
                         axi_read_address_state<=AXI_WAITING_FOR_READY;
-                        arvalid<=LOW;
                     end
                     else
                     begin
@@ -930,7 +934,6 @@ module DMA_Controller(
             case(axi_read_state)
                 CACHE_IDLE:
                 begin
-                     
                      if(next_thread_to_execute==0)
                      begin
                          if(Manager_ThreadState==EXECUTING && inst_counter==0)
@@ -939,19 +942,20 @@ module DMA_Controller(
                               cache_enable_RW<=1'b1;
                               cache_read<=1'b1;
                               rready<=1'b1;
-                              cache_state<=WAIT_FOR_CLK_CYCLE;
+                              axi_read_state<=WAIT_FOR_CLK_CYCLE;
                           end
                           else if(Manager_ThreadState==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
                           begin
                               cache_address<=cache_address+4;
                               cache_enable_RW<=1'b1;
                               cache_read<=1'b1;
-                              cache_state<=WAIT_FOR_CLK_CYCLE;
+                              axi_read_state<=WAIT_FOR_CLK_CYCLE;
                               rready<=1'b1;
                           end
                           else
                           begin
                               rready<=1'b1;
+                              cache_enable_RW=1'b0;
                               cache_state<=CACHE_IDLE;
                           end
                      end
@@ -963,7 +967,7 @@ module DMA_Controller(
                                cache_enable_RW<=1'b1;
                                cache_read<=1'b1;
                                rready<=1'b1;
-                               cache_state<=WAIT_FOR_CLK_CYCLE;
+                               axi_read_state<=WAIT_FOR_CLK_CYCLE;
                            end
                            else if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && second_cache_access_needed==HIGH && inst_counter==1)
                            begin
@@ -971,18 +975,18 @@ module DMA_Controller(
                                cache_enable_RW<=1'b1;
                                cache_read<=1'b1;
                                rready=1'b1;
-                               cache_state<=WAIT_FOR_CLK_CYCLE;       
+                               axi_read_state<=WAIT_FOR_CLK_CYCLE;       
                            end
                            else
                            begin
                                rready<=1'b1;
-                               cache_state<=CACHE_IDLE; 
+                               axi_read_state<=CACHE_IDLE; 
                            end
                      end 
                 end
                 WAIT_FOR_CLK_CYCLE:
                 begin
-                    cache_state<=CHECK_FOR_CACHE_MISS;
+                    axi_read_state<=CHECK_FOR_CACHE_MISS;
                 end
                 CHECK_FOR_CACHE_MISS:
                 begin
@@ -1020,6 +1024,7 @@ module DMA_Controller(
                             end
                             else
                             begin
+                            
                             end
                             
                         end
@@ -1063,7 +1068,7 @@ module DMA_Controller(
                                     no_reads[0]<=no_reads[0]+1;
                                     axi_read_state<=WAIT_FOR_RVALID;
                                 end
-                                else if(no_reads[0]==8)
+                                else if(no_reads[0]==7)
                                 begin
                                     cache_address<=cache_address_register[0]+4;
                                     cache_data_in<=rdata;
@@ -1075,6 +1080,7 @@ module DMA_Controller(
                                 else
                                 begin
                                     cache_address<=cache_address_register[0]+4;
+                                    cache_address_register[0]<=cache_address_register[0]+4;
                                     cache_data_in<=rdata;
                                     cache_enable_RW<=1'b1;
                                     cache_read<=1'b0;//cache write
@@ -1093,9 +1099,10 @@ module DMA_Controller(
                                     no_reads[1]<=no_reads[1]+1;
                                     axi_read_state<=WAIT_FOR_RVALID;
                                 end
-                                else if(no_reads[1]==8)
+                                else if(no_reads[1]==7)
                                 begin
                                     cache_address<=cache_address_register[1]+4;
+                                    cache_address_register[1]<=cache_address_register[1]+4;
                                     cache_data_in<=rdata;
                                     cache_enable_RW<=1'b1;
                                     cache_read<=1'b0;//cache write
@@ -1115,6 +1122,7 @@ module DMA_Controller(
                                 else
                                 begin
                                     cache_address<=cache_address_register[1]+4;
+                                    cache_address_register[1]<=cache_address_register[1]+4;
                                     cache_data_in<=rdata;
                                     cache_enable_RW<=1'b1;
                                     cache_read<=1'b0;//cache write
@@ -1182,11 +1190,6 @@ module DMA_Controller(
             endcase
         end
    end
-   
-   
-   
-   
-
 
    /*
         Track the state in each clk cycle in EXECUTING state
@@ -1273,7 +1276,15 @@ module DMA_Controller(
                             begin
                                 if((boot_from_pc==HIGH) || (DBGCMD[0]==HIGH))
                                 begin
-                                    DPC<={DBGINST1,DBGINST0[31:16]};
+                                    if(boot_from_pc==HIGH)
+                                    begin
+                                        DPC<=boot_addr;
+                                    end
+                                    else
+                                    begin
+                                        DPC<={DBGINST1,DBGINST0[31:16]};
+                                    end
+                                    
                                     Manager_ThreadState=EXECUTING;
                                 end
                                 else
@@ -1308,7 +1319,7 @@ module DMA_Controller(
                                 begin
                                     if(rid==channel_waiting_for_fill[0])
                                     begin
-                                        if(no_reads[0]==8)
+                                        if(no_reads[0]==7)
                                         begin
                                             Manager_ThreadState<=EXECUTING;
                                         end

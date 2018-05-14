@@ -1,7 +1,0 @@
-Running: xsim.dir/DMA_Controller_behav/xsimk.exe -simmode gui -wdb DMA_Controller_behav.wdb -simrunnum 0 -socket 50209
-Design successfully loaded
-Design Loading Memory Usage: 18112 KB (Peak: 18112 KB)
-Design Loading CPU Usage: 140 ms
-Simulation completed
-Simulation Memory Usage: 18444 KB (Peak: 18444 KB)
-Simulation CPU Usage: 156 ms
