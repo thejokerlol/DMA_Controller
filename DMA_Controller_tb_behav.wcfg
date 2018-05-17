@@ -296,6 +296,11 @@
    <wvobject fp_name="group313" type="group">
       <obj_property name="label">DEBUG_SIGNALS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/next_thread_to_execute" type="array">
+         <obj_property name="ElementShortName">next_thread_to_execute[3:0]</obj_property>
+         <obj_property name="ObjectShortName">next_thread_to_execute[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/DPC" type="array">
          <obj_property name="ElementShortName">DPC[31:0]</obj_property>
          <obj_property name="ObjectShortName">DPC[31:0]</obj_property>
@@ -385,11 +390,6 @@
             <obj_property name="ElementShortName">cache_hit</obj_property>
             <obj_property name="ObjectShortName">cache_hit</obj_property>
          </wvobject>
-         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/next_thread_to_execute" type="array">
-            <obj_property name="ElementShortName">next_thread_to_execute[3:0]</obj_property>
-            <obj_property name="ObjectShortName">next_thread_to_execute[3:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
          <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/axi_read_state" type="array">
             <obj_property name="ElementShortName">axi_read_state[2:0]</obj_property>
             <obj_property name="ObjectShortName">axi_read_state[2:0]</obj_property>
@@ -417,6 +417,15 @@
    <wvobject fp_name="group357" type="group">
       <obj_property name="label">CONTROL_SIGNALS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_start_channel" type="logic">
+         <obj_property name="ElementShortName">dma_start_channel</obj_property>
+         <obj_property name="ObjectShortName">dma_start_channel</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_channel" type="array">
+         <obj_property name="ElementShortName">dma_channel[3:0]</obj_property>
+         <obj_property name="ObjectShortName">dma_channel[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/end_current_thread" type="logic">
          <obj_property name="ElementShortName">end_current_thread</obj_property>
          <obj_property name="ObjectShortName">end_current_thread</obj_property>

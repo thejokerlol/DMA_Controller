@@ -1251,6 +1251,33 @@ module DMA_Controller(
         end
     end
     
+    /*
+        process to drive fetched instruction
+    */
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            fetched_instruction=0;
+        end
+        else
+        begin
+            if(next_thread_to_execute==0)
+            begin
+                if(Manager_ThreadState==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && second_cache_access_needed==1 && cache_miss==LOW)
+                begin
+                    fetched_instruction<=cache_data_out;
+                end
+            end
+            else
+            begin
+                if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && second_cache_access_needed==1 && cache_miss==LOW)
+                begin
+                    fetched_instruction<=cache_data_out;
+                end
+            end
+        end
+    end
     
     
     
@@ -2428,12 +2455,12 @@ module DMA_Controller(
           endcase
                   
         end
-        else if((next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && inst_counter==1) 
-                || (next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && inst_counter==1))
+        else if((next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1) 
+                || (next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1))
         
         begin
             casez(fetched_instruction[15:0])//64 bit instruction the first 32 bits are stored in fetched_instruction register
-                16'b00000zzz10111100://DMAGO
+                16'b00000zzz101000z0://DMAGO
                 begin
                     dma_start_channel=HIGH;
                     dma_channel=fetched_instruction[10:8];
@@ -2453,6 +2480,9 @@ module DMA_Controller(
             sr_write=0;
             dr_write=0;
             end_current_thread=0;
+            dma_start_channel=LOW;
+            dma_channel=0;
+            invalid_instruction=LOW;
             
         end
     end
