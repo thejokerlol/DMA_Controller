@@ -269,33 +269,49 @@
          <obj_property name="ObjectShortName">pready</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject fp_name="group309" type="group">
-      <obj_property name="label">PARAMETERS</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/ID_MSB" type="array">
-         <obj_property name="ElementShortName">ID_MSB[31:0]</obj_property>
-         <obj_property name="ObjectShortName">ID_MSB[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/DATA_MSB" type="array">
-         <obj_property name="ElementShortName">DATA_MSB[31:0]</obj_property>
-         <obj_property name="ObjectShortName">DATA_MSB[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/STRB_MSB" type="array">
-         <obj_property name="ElementShortName">STRB_MSB[31:0]</obj_property>
-         <obj_property name="ObjectShortName">STRB_MSB[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/n" type="array">
-         <obj_property name="ElementShortName">n[31:0]</obj_property>
-         <obj_property name="ObjectShortName">n[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-   </wvobject>
    <wvobject fp_name="group313" type="group">
       <obj_property name="label">DEBUG_SIGNALS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC" type="array">
+         <obj_property name="ElementShortName">CPC[1:8][31:0]</obj_property>
+         <obj_property name="ObjectShortName">CPC[1:8][31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[1]" type="array">
+            <obj_property name="ElementShortName">[1][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[1][31:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[2]" type="array">
+            <obj_property name="ElementShortName">[2][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[2][31:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[3]" type="array">
+            <obj_property name="ElementShortName">[3][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[3][31:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[4]" type="array">
+            <obj_property name="ElementShortName">[4][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[4][31:0]</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[5]" type="array">
+            <obj_property name="ElementShortName">[5][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[5][31:0]</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[6]" type="array">
+            <obj_property name="ElementShortName">[6][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[6][31:0]</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[7]" type="array">
+            <obj_property name="ElementShortName">[7][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[7][31:0]</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/CPC[8]" type="array">
+            <obj_property name="ElementShortName">[8][31:0]</obj_property>
+            <obj_property name="ObjectShortName">CPC[8][31:0]</obj_property>
+         </wvobject>
+      </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/next_thread_to_execute" type="array">
          <obj_property name="ElementShortName">next_thread_to_execute[3:0]</obj_property>
          <obj_property name="ObjectShortName">next_thread_to_execute[3:0]</obj_property>
@@ -429,6 +445,30 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/end_current_thread" type="logic">
          <obj_property name="ElementShortName">end_current_thread</obj_property>
          <obj_property name="ObjectShortName">end_current_thread</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group309" type="group">
+      <obj_property name="label">PARAMETERS</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/ID_MSB" type="array">
+         <obj_property name="ElementShortName">ID_MSB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ID_MSB[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/DATA_MSB" type="array">
+         <obj_property name="ElementShortName">DATA_MSB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_MSB[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/STRB_MSB" type="array">
+         <obj_property name="ElementShortName">STRB_MSB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">STRB_MSB[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/n" type="array">
+         <obj_property name="ElementShortName">n[31:0]</obj_property>
+         <obj_property name="ObjectShortName">n[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>
