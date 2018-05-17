@@ -382,7 +382,6 @@ module DMA_Controller(
     
     //cache state
     reg[2:0] cache_state;
-    reg second_instruction_cache_access_needed;
     
     //data buffer memory
     reg[7:0] channel_data_buffer[1:8][0:127]; //128 8-bit words for each channel
@@ -922,7 +921,7 @@ module DMA_Controller(
    begin
         if(!reset)
         begin
-            axi_read_state<=IDLE;
+            axi_read_state<=CACHE_IDLE;
             no_reads[0]<=0;
             no_reads[1]<=0;
             cache_enable_RW<=1'b0;
@@ -1125,13 +1124,13 @@ module DMA_Controller(
                                     cache_address_register[1]<=cache_address_register[1]+4;
                                     cache_data_in<=rdata;
                                     cache_enable_RW<=1'b1;
-                                    cache_read<=1'b0;//cache write
+                                    cache_read<=1'b0;       //cache write
                                     no_reads[1]<=no_reads[1]+1;
                                     axi_read_state<=WAIT_FOR_RVALID;
                                 end
                             end 
                         end
-                        else// the rid is for load request
+                        else            // the rid is for load request
                         begin
                             for(temp_reg=0;temp_reg<=CC[rid][3:1];temp_reg=temp_reg+1)
                             begin
@@ -1190,7 +1189,74 @@ module DMA_Controller(
             endcase
         end
    end
-
+    /*
+        a process for always block
+    */
+    always@(*)
+    begin
+        if(rvalid==HIGH)
+        begin
+            rready=1'b1;
+        end
+        else
+        begin
+        end
+        
+    end
+    
+    
+    
+    /*
+        controller for data load in the channel buffer
+    */
+    reg channel_data_load_completed;
+    reg[1:0] axi_channel_buffer_state;
+    parameter CHANNEL_IDLE=2'b00;
+    parameter CHANNEL_FILL=2'b01;
+    parameter CHANNEL_WAIT=2'b10;
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            channel_data_load_completed<=0;
+        end
+        else
+        begin
+            case(dma_ld_req)
+                CHANNEL_IDLE:
+                begin
+                end
+                
+            endcase
+            if(rvalid==HIGH)
+            begin
+                if(rid!=0)
+                begin
+                    for(temp_reg=0;temp_reg<=CC[rid][3:1];temp_reg=temp_reg+1)
+                    begin
+                        channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=rdata[temp_reg];
+                    end
+                    SA[rid]<=SA[rid]+CC[rid][3:1];
+                    channel_write_pointer[rid]<=channel_write_pointer[rid]+CC[rid][3:1];
+                    if(rlast)
+                    begin
+                        channel_data_load_completed<=1;   
+                    end
+                    else
+                    begin
+                        channel_data_load_completed<=0;
+                    end
+                end
+            end
+        end
+    end
+    
+    
+    
+    
+    
+    
+    
    /*
         Track the state in each clk cycle in EXECUTING state
    */
@@ -1211,13 +1277,6 @@ module DMA_Controller(
                 begin
                     inst_counter<=inst_counter+1;//first 32 bits accessed or a cache miss
                 end
-                else if(Manager_ThreadState==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW)
-                begin
-                    inst_counter<=inst_counter+1;//second 32 bits accessed
-                end
-                /*
-                    i.e, if the next state is either  Updating PC or faulting or a cache miss, reset the inst_counter
-                */
                 else if((Manager_ThreadState==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && second_cache_access_needed==LOW)
                         || (Manager_ThreadState==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS))//when the PC is getting updated reset the instruction counter
                 begin
@@ -1233,10 +1292,6 @@ module DMA_Controller(
                 if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW)
                 begin
                     inst_counter<=inst_counter+1;//first 32 bits or a cache miss
-                end
-                else if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW)
-                begin
-                    inst_counter<=inst_counter+1;
                 end
                 else if((Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && second_cache_access_needed==LOW)
                         || (Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS))//when the PC is getting updated reset the instruction counter
@@ -1298,12 +1353,20 @@ module DMA_Controller(
                                 begin
                                     Manager_ThreadState<=CACHE_MISS;
                                 end
-                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_instruction_cache_access_needed==LOW) && (invalid_instruction==LOW)) 
-                                                                || ((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==LOW)))
+                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_cache_access_needed==LOW) && (invalid_instruction==LOW)) 
+                                                                || ((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==LOW))
+                                                                || ((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_cache_access_needed==HIGH) && (invalid_instruction==LOW)))
                                 begin
-                                    Manager_ThreadState<=UPDATING_PC;
+                                    if(end_current_thread==1 && next_thread_to_execute==0)
+                                    begin
+                                        Manager_ThreadState<=STOPPED;
+                                    end
+                                    else
+                                    begin 
+                                        Manager_ThreadState<=UPDATING_PC;
+                                    end
                                 end
-                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_instruction_cache_access_needed==LOW) && (invalid_instruction==HIGH)) 
+                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_cache_access_needed==LOW) && (invalid_instruction==HIGH)) 
                                                                 || ((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==HIGH)))
                                 begin
                                     Manager_ThreadState<=FAULTING;
@@ -1411,12 +1474,12 @@ module DMA_Controller(
                                 begin
                                     Channel_ThreadState[thread_no]<=CACHE_MISS;
                                 end
-                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_instruction_cache_access_needed==LOW) && (!thread_stall) && (invalid_instruction==LOW)) 
+                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_cache_access_needed==LOW) && (!thread_stall) && (invalid_instruction==LOW)) 
                                                                 || ((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==LOW)))
                                 begin
                                     Channel_ThreadState[thread_no]<=UPDATING_PC;
                                 end
-                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_instruction_cache_access_needed==LOW) && (invalid_instruction==HIGH)) 
+                                else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_cache_access_needed==LOW) && (invalid_instruction==HIGH)) 
                                                                 || ((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==HIGH))
                                                                 || (thread_stall && watchdog_timer==127))
                                 begin
@@ -1993,14 +2056,20 @@ module DMA_Controller(
    begin
         if(Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0)
         begin
-            if(cache_data_out[15:0]==16'b00000zzz10111100 || cache_data_out[15:0]==16'b00000zzz101000z0)//i.e. if they are DMAGO or DMAMOV instructions
-            begin
-                second_cache_access_needed=1;
-            end
-            else
-            begin
-                second_cache_access_needed=0;
-            end
+            casez(cache_data_out[15:0])
+                16'b00000zzz10111100://i.e. if they are DMAGO or DMAMOV instructions
+                begin
+                    second_cache_access_needed=1;
+                end
+                16'b00000zzz101000z0:
+                begin
+                    second_cache_access_needed=1;
+                end
+                default:
+                begin
+                    second_cache_access_needed=0;
+                end
+            endcase
         end
         else
         begin
@@ -2021,10 +2090,11 @@ module DMA_Controller(
     always@(*)
     begin
            // if fetched_instruction
-           
-       if((next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==WAIT_FOR_CLK_CYCLE && cache_miss==LOW && inst_counter==0)
-            || (next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0))//I doubt that the first statement is needed like Manager_ThreadState is executing
+          invalid_instruction=LOW; 
+       if((next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0)
+            || (next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==0))//I doubt that the first statement is needed like Manager_ThreadState is executing
        begin
+            
           casez(cache_data_out)
             32'bzzzzzzzzzzzzzzzzzzzzzzzz010101z0: // the register to add an immediate is contained in [26:24], the current channel thread source and destination are to be set
             begin
@@ -2051,7 +2121,9 @@ module DMA_Controller(
             end
             32'bzzzzzzzzzzzzzzzz00000zzz101000z0://DMAGO
             begin
-            
+                $display("EXECUTING DMA GO");
+                $display("The address is %d ",cache_data_out);
+                invalid_instruction=LOW;
             end
             32'bzzzzzzzzzzzzzzzzzzzzzzzz000001zz://DMALD[S/B]
             begin
@@ -2351,6 +2423,7 @@ module DMA_Controller(
             default:
             begin
                 invalid_instruction=HIGH;
+                $display("The opcode for the instruction is %d", cache_data_out);
             end
           endcase
                   
@@ -2371,6 +2444,7 @@ module DMA_Controller(
                 default:
                 begin
                     invalid_instruction=1;//an abort
+                   // $display("An Abort has occurred");
                 end
             endcase
         end

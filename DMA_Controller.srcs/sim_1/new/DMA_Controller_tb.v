@@ -278,48 +278,48 @@ module DMA_Controller_tb(
             #40 arready=0;
             
             /*
-                cache update signals and data
+                cache update signals and data , give data to start 3 DMA channels and execute a DMAEND
             */
             #40 rid=0;
-                rdata=40;
+                rdata=416;//DMAGO for channel 1
                 rvalid=1;
                 
             #40 rvalid=0;
             #40 rid=0;
-                rdata=48;
+                rdata=256;//PC for channel 1
                 rvalid=1;
             #40 rvalid=0;
             #80 rid=0;
-                rdata=56;
+                rdata=672;//DMAGO for channel 2
                 rvalid=1;
                 
             #40 rvalid=0;
             
             #120 rid=0;
-                rdata=64;
+                rdata=512;//PC for channel 2
                 rvalid=1;
                 
             #40 rvalid=0;
             
             #40 rid=0;
-                rdata=72;
+                rdata=928;//DMAGO for channel 3
                 rvalid=1;
                 
             #40 rvalid=0;
             
             #40 rid=0;
-                rdata=80;
+                rdata=1024;//PC for channel 3
                 rvalid=1;
                 
             #40 rid=0;
-                rdata=86;
+                rdata=0;//DMAEND
                 rvalid=1;
                 
             #40 rid=0;
                 rdata=92;
                 rvalid=1;
                 
-            #80 rvalid=0;        
+            #80 rvalid=0;  
                 
         end
         
