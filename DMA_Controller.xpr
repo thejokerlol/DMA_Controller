@@ -138,7 +138,7 @@
         <Option Name="XSimWcfgFile" Val="$PPRDIR/Instruction_cache_tb_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/Instruction_Buffer_tb_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/DMA_Controller_tb_behav.wcfg"/>
-        <Option Name="xsim.simulate.runtime" Val="3000ns"/>
+        <Option Name="xsim.simulate.runtime" Val="4000ns"/>
       </Config>
     </FileSet>
   </FileSets>

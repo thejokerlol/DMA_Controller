@@ -2,4 +2,4 @@ Vivado Simulator 2015.2
 Time resolution is 1 ps
 The opcode for the instruction is          x
 The opcode for the instruction is          x
-$finish called at time : 3 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263
+$finish called at time : 4 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263

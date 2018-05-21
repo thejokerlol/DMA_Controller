@@ -248,28 +248,28 @@ module DMA_Controller(
     reg[31:0] FTM;//Fault type DMA manager register(RO)
     
     //Fault type register for DMA channels(RO)
-    reg[31:0] FTC[0:7];
+    reg[31:0] FTC[1:8];
     
     //Channel status for DMA channels(RO)
-    reg[31:0] CS[0:7];
+    reg[31:0] CS[1:8];
     
     //Channel program counter registers for DMA channels(RO)
     reg[31:0] CPC[1:8];
     
     //source address registers(RO)
-    reg[31:0] SA[0:7];
+    reg[31:0] SA[1:8];
     
     //Destination address registers(RO)
-    reg[31:0] DA[0:7];
+    reg[31:0] DA[1:8];
     
     //Channel control registers(RO)
-    reg[31:0] CC[0:7];
+    reg[31:0] CC[1:8];
     
     //AXI status and loop counter register0(RO)
-    reg[31:0] LCO1[0:7];
+    reg[31:0] LCO1[1:8];
      
     //loop counter register1(RO)
-    reg[31:0] LCO2[0:7];
+    reg[31:0] LCO2[1:8];
     
     /*
         DMAC Debug register
@@ -355,6 +355,12 @@ module DMA_Controller(
   
   //for DMAKILL
   reg dma_kill;
+  
+  /*
+    
+  */
+  
+  
   
   /*
       Memory barriers executed
@@ -2179,7 +2185,7 @@ module DMA_Controller(
                             //thread stalled in executing state
                             read_inst_read[next_thread_to_execute]=0;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
-                            thread_stall=1;
+                            thread_stall=1;//hasn't finished execution
                         end
                     end
                     else//request flag set to burst
@@ -2472,8 +2478,11 @@ module DMA_Controller(
                     dma_start_channel=HIGH;
                     dma_channel=fetched_instruction[10:8];
                 end
-                16'b00000zzz101000z0://DMAMOV
+                16'b00000zzz10111100://DMAMOV
                 begin
+                    dma_write_register=1;
+                    dma_register_type=fetched_instruction[10:8];
+                    dma_register_value={cache_data_out[15:0],fetched_instruction[31:16]};
                 end
                 default:
                 begin
@@ -2516,6 +2525,75 @@ module DMA_Controller(
             end
         end
     end
+    
+    /*
+        Moving values into the SA,DA,CC registers
+    */
+    integer i;
+    
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            for(i=1;i<=8;i=i+1)
+            begin
+                SA[i]<=0;
+                CC[i]<=0;
+                DA[i]<=0;
+            end
+        end
+        else
+        begin
+            if(dma_write_register)
+            begin
+                if(dma_register_type==3'b000)// source address register
+                begin
+                    SA[next_thread_to_execute]<=dma_register_value;
+                end
+                else if(dma_register_type==3'b001)// channel control register
+                begin
+                    CC[next_thread_to_execute]<=dma_register_value;
+                end
+                else if(dma_register_type==3'b010)// destination address register
+                begin
+                    DA[next_thread_to_execute]<=dma_register_value;
+                end
+            end
+           
+        end
+    end
+    
+    /*
+        Process to perform DMALD ....writes one instruction into the read queue ....tries to execute an instruction from read queue and one from write queue
+    */
+    reg[1:0] read_state;
+    parameter LOAD_IDLE=3'b000;
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            read_state<=LOAD_IDLE;
+        end
+        else
+        begin
+            case(read_state)
+                LOAD_IDLE:
+                begin
+                    if(load_data_S_B)
+                    begin
+                    
+                    end
+                    else
+                    begin
+                        read_state<=IDLE;
+                    end
+                end
+            endcase
+        end
+    end
+    /*
+        Process to perform DMAST ....writes one instruction into the write queue....tries to execute an instruction from read queue and one from write queue 
+    */
     
     
     

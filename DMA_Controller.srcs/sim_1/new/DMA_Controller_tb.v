@@ -260,7 +260,7 @@ module DMA_Controller_tb(
         
         initial
         begin
-            #3000 $finish;
+            #4000 $finish;
         end
         
         
