@@ -15,5 +15,5 @@ Compiling module xil_defaultlib.Instruction_Buffer
 Compiling module xil_defaultlib.DMA_Controller_default
 Compiling module xil_defaultlib.DMA_Controller_tb
 Compiling module xil_defaultlib.glbl
-Waiting for 2 sub-compilation(s) to finish...
+Waiting for 3 sub-compilation(s) to finish...
 Built simulation snapshot DMA_Controller_tb_behav

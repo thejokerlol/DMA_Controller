@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="13" />
+   <WVObjectSize size="17" />
    <wvobject fp_name="group310" type="group">
       <obj_property name="label">CLK AND RESET</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -129,6 +129,7 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/arburst" type="array">
          <obj_property name="ElementShortName">arburst[1:0]</obj_property>
          <obj_property name="ObjectShortName">arburst[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/arready" type="logic">
          <obj_property name="ElementShortName">arready</obj_property>
@@ -375,6 +376,23 @@
                <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
             </wvobject>
          </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/invalid_instruction" type="logic">
+            <obj_property name="ElementShortName">invalid_instruction</obj_property>
+            <obj_property name="ObjectShortName">invalid_instruction</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/end_current_thread" type="logic">
+            <obj_property name="ElementShortName">end_current_thread</obj_property>
+            <obj_property name="ObjectShortName">end_current_thread</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/second_cache_access_needed" type="logic">
+            <obj_property name="ElementShortName">second_cache_access_needed</obj_property>
+            <obj_property name="ObjectShortName">second_cache_access_needed</obj_property>
+         </wvobject>
+         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/inst_counter" type="array">
+            <obj_property name="ElementShortName">inst_counter[1:0]</obj_property>
+            <obj_property name="ObjectShortName">inst_counter[1:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
       </wvobject>
       <wvobject fp_name="group103" type="group">
          <obj_property name="label">CACHE_SIGNALS</obj_property>
@@ -411,24 +429,15 @@
             <obj_property name="ObjectShortName">axi_read_state[2:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/invalid_instruction" type="logic">
-            <obj_property name="ElementShortName">invalid_instruction</obj_property>
-            <obj_property name="ObjectShortName">invalid_instruction</obj_property>
-         </wvobject>
-         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/end_current_thread" type="logic">
-            <obj_property name="ElementShortName">end_current_thread</obj_property>
-            <obj_property name="ObjectShortName">end_current_thread</obj_property>
-         </wvobject>
-         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/second_cache_access_needed" type="logic">
-            <obj_property name="ElementShortName">second_cache_access_needed</obj_property>
-            <obj_property name="ObjectShortName">second_cache_access_needed</obj_property>
-         </wvobject>
-         <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/inst_counter" type="array">
-            <obj_property name="ElementShortName">inst_counter[1:0]</obj_property>
-            <obj_property name="ObjectShortName">inst_counter[1:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
       </wvobject>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/thread_stall" type="logic">
+      <obj_property name="ElementShortName">thread_stall</obj_property>
+      <obj_property name="ObjectShortName">thread_stall</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/load_data_S_B" type="logic">
+      <obj_property name="ElementShortName">load_data_S_B</obj_property>
+      <obj_property name="ObjectShortName">load_data_S_B</obj_property>
    </wvobject>
    <wvobject fp_name="group357" type="group">
       <obj_property name="label">CONTROL_SIGNALS</obj_property>
@@ -445,6 +454,18 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/end_current_thread" type="logic">
          <obj_property name="ElementShortName">end_current_thread</obj_property>
          <obj_property name="ObjectShortName">end_current_thread</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_write_register" type="logic">
+         <obj_property name="ElementShortName">dma_write_register</obj_property>
+         <obj_property name="ObjectShortName">dma_write_register</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_register_type" type="array">
+         <obj_property name="ElementShortName">dma_register_type[2:0]</obj_property>
+         <obj_property name="ObjectShortName">dma_register_type[2:0]</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_register_value" type="array">
+         <obj_property name="ElementShortName">dma_register_value[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dma_register_value[31:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group309" type="group">
@@ -470,5 +491,25 @@
          <obj_property name="ObjectShortName">n[31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/no_reads" type="array">
+      <obj_property name="ElementShortName">no_reads[1:0][3:0]</obj_property>
+      <obj_property name="ObjectShortName">no_reads[1:0][3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/no_reads[1]" type="array">
+         <obj_property name="ElementShortName">[1][3:0]</obj_property>
+         <obj_property name="ObjectShortName">no_reads[1][3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/no_reads[0]" type="array">
+         <obj_property name="ElementShortName">[0][3:0]</obj_property>
+         <obj_property name="ObjectShortName">no_reads[0][3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/no_of_cache_misses" type="array">
+      <obj_property name="ElementShortName">no_of_cache_misses[1:0]</obj_property>
+      <obj_property name="ObjectShortName">no_of_cache_misses[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>

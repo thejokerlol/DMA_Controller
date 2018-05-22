@@ -281,34 +281,34 @@ module DMA_Controller_tb(
                 cache update signals and data , give data to start 3 DMA channels and execute a DMAEND
             */
             #40 rid=0;
-                rdata=416;//DMAGO for channel 1
+                rdata=32'h000101A0;//DMAGO for channel 1, decimal value 416(just for check)
                 rvalid=1;
                 
             #40 rvalid=0;
             #40 rid=0;
-                rdata=256;//PC for channel 1
+                rdata=32'h00000100;//PC for channel 1,decimal value for 256(just for check)
                 rvalid=1;
             #40 rvalid=0;
             #80 rid=0;
-                rdata=672;//DMAGO for channel 2
+                rdata=32'h000202A0;//DMAGO for channel 2
                 rvalid=1;
                 
             #40 rvalid=0;
             
             #120 rid=0;
-                rdata=512;//PC for channel 2
+                rdata=32'h00001000;//PC for channel 2
                 rvalid=1;
                 
             #40 rvalid=0;
             
             #40 rid=0;
-                rdata=928;//DMAGO for channel 3
+                rdata=32'h000303A0;//DMAGO for channel 3
                 rvalid=1;
                 
             #40 rvalid=0;
             
             #40 rid=0;
-                rdata=1024;//PC for channel 3
+                rdata=32'h00010000;//PC for channel 3
                 rvalid=1;
                 
             #40 rid=0;
@@ -320,7 +320,54 @@ module DMA_Controller_tb(
                 rvalid=1;
                 
             #80 rvalid=0;  
+            
+            #480
+            #40 arready=1;
+            #40 arready=0;
+            
+            
+            /*
+                rvalid data for the first channel
+            */
+            #280    
+            #40 rid<=1;
+                rdata<=32'h000000BC;
+                rvalid<=1'b1;
+            
+            #40 rvalid<=1'b0;
+            
+            #40 rdata<=32'h00000800;
+                rvalid<=1'b1;
                 
+            #40 rvalid<=1'b0;    
+            
+            #40 rdata<=32'h000001BC;
+                rvalid<=1'b1;
+                
+            #40 rvalid<=1'b0;
+            
+            #40 rdata<=32'h0000000E;
+                rvalid<=1'b1;
+                
+            #40 rvalid<=1'b0;
+            
+            #40 rdata<=32'h00000007;
+                rvalid<=1'b1;
+                
+            #40 rvalid<=1'b1;
+                rdata<=32'h0000000B;
+                
+            #40 rvalid<=1'b0;
+            
+            #40 rdata<=32'h0000000B;
+                rvalid<=1'b1;
+                
+            #40 rvalid<=1'b0;
+            
+            #40 rdata<=32'h00000000;
+                rvalid<=1'b1;
+                
+            #40 rvalid<=1'b0;            
         end
         
         
