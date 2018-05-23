@@ -136,7 +136,7 @@ module DMA_Controller(
     
     //Read channel
     input[ID_MSB:0] rid;
-    input[DATA_MSB:0] rdata;
+    input[DATA_MSB-1:0] rdata;
     input[1:0] rresp;
     input rlast;
     input rvalid;
@@ -364,6 +364,7 @@ module DMA_Controller(
   reg dma_write_register;
   reg[2:0] dma_register_type;
   reg[31:0] dma_register_value;
+  reg[3:0] dma_thread_no;
   
   
   /*
@@ -533,6 +534,7 @@ module DMA_Controller(
    */ 
    reg dma_ld_req;
    reg[3:0] dma_ld_channel_no;
+   reg[3:0] dma_load_channel_no;
 
    always@(posedge aclk or negedge areset)
    begin
@@ -570,11 +572,11 @@ module DMA_Controller(
                     end
                     else if(dma_ld_req==HIGH)
                     begin
-                        arid<=dma_ld_channel_no;
-                        araddr<=SA[dma_ld_channel_no];
-                        arlen<=CC[dma_ld_channel_no][7:4];
-                        arsize<=CC[dma_ld_channel_no][3:1];
-                        arburst<=CC[dma_ld_channel_no][0];
+                        arid<=dma_load_channel_no;
+                        araddr<=SA[dma_load_channel_no];
+                        arlen<=CC[dma_load_channel_no][7:4];
+                        arsize<=CC[dma_load_channel_no][3:1];
+                        arburst<=CC[dma_load_channel_no][0];
                         axi_read_address_state<=AXI_WAITING_FOR_READY;     
                         arvalid<=HIGH;                  
                     end
@@ -615,11 +617,11 @@ module DMA_Controller(
                         end
                         else if(dma_ld_req==HIGH)
                         begin
-                            arid<=dma_ld_channel_no;
-                            araddr<=SA[dma_ld_channel_no];
-                            arlen<=CC[dma_ld_channel_no][7:4];
-                            arsize<=CC[dma_ld_channel_no][3:1];
-                            arburst<=CC[dma_ld_channel_no][0];
+                            arid<=dma_load_channel_no;
+                            araddr<=SA[dma_load_channel_no];
+                            arlen<=CC[dma_load_channel_no][7:4];
+                            arsize<=CC[dma_load_channel_no][3:1];
+                            arburst<=CC[dma_load_channel_no][0];
                             axi_read_address_state<=AXI_WAITING_FOR_READY;
                             arvalid<=HIGH;
                             
@@ -921,7 +923,8 @@ module DMA_Controller(
    reg[1:0] req_type;
    reg[3:0] channel_waiting_for_fill[1:0];
    reg[1:0] no_of_cache_misses;
-   
+   reg cache_miss0_free;
+   reg cache_miss1_free;
    
    
    always@(posedge clk or negedge reset)
@@ -934,6 +937,8 @@ module DMA_Controller(
             cache_enable_RW<=1'b0;
             no_of_cache_misses<=2'b00;
             rready=1'b1;
+            cache_miss0_free=1;
+            cache_miss1_free=1;
         end
         else
         begin
@@ -1007,11 +1012,22 @@ module DMA_Controller(
                             begin
                                 cache_address_register[0]<=DPC;
                                 channel_waiting_for_fill[0]<=next_thread_to_execute;
+                                cache_miss0_free=0;
                             end
                             else if(no_of_cache_misses==1)
                             begin
-                                cache_address_register[1]<=DPC;
-                                channel_waiting_for_fill[1]<=next_thread_to_execute;
+                                if(cache_miss0_free)
+                                begin
+                                    cache_address_register[0]<=DPC;
+                                    channel_waiting_for_fill[0]<=next_thread_to_execute;
+                                    cache_miss0_free=0;
+                                end
+                                else if(cache_miss1_free)
+                                begin
+                                    cache_address_register[1]<=DPC;
+                                    channel_waiting_for_fill[1]<=next_thread_to_execute;
+                                    cache_miss1_free=0;
+                                end
                             end
                             
                         end
@@ -1021,12 +1037,24 @@ module DMA_Controller(
                             begin
                                 cache_address_register[0]<=CPC[next_thread_to_execute];
                                 channel_waiting_for_fill[0]<=next_thread_to_execute;
+                                cache_miss0_free=0;
                                 
                             end
                             else if(no_of_cache_misses==1)
                             begin
-                                cache_address_register[1]<=CPC[next_thread_to_execute];
-                                channel_waiting_for_fill[1]<=next_thread_to_execute;
+                                if(cache_miss0_free)
+                                begin
+                                    cache_address_register[0]<=CPC[next_thread_to_execute];
+                                    channel_waiting_for_fill[0]<=next_thread_to_execute;
+                                    cache_miss0_free=0;
+                                end
+                                else if(cache_miss1_free)
+                                begin
+                                    cache_address_register[1]<=CPC[next_thread_to_execute];
+                                    channel_waiting_for_fill[1]<=next_thread_to_execute;
+                                    cache_miss1_free=0;
+                                end
+                                
                             end
                             else
                             begin
@@ -1037,6 +1065,7 @@ module DMA_Controller(
                     end
                     else
                     begin
+                    
                         if(second_cache_access_needed==HIGH)
                         begin
                             cache_address<=cache_address+4;
@@ -1046,7 +1075,7 @@ module DMA_Controller(
                         end
                         else
                         begin
-                            if(no_of_cache_misses>1)
+                            if(no_of_cache_misses>=1)
                             begin
                                 axi_read_state<=WAIT_FOR_RVALID;
                             end
@@ -1082,6 +1111,7 @@ module DMA_Controller(
                                     cache_read<=1'b0;//cache write
                                     no_reads[0]<=0;
                                     no_of_cache_misses<=no_of_cache_misses-1;
+                                    cache_miss0_free<=1;
                                     axi_read_state<=CACHE_IDLE;
                                 end
                                 else
@@ -1114,6 +1144,7 @@ module DMA_Controller(
                                     cache_enable_RW<=1'b1;
                                     cache_read<=1'b0;//cache write
                                     no_reads[1]<=0;
+                                    cache_miss1_free<=1;
                                     if(no_of_cache_misses==2)
                                     begin
                                         axi_read_state<=WAIT_FOR_RVALID;
@@ -1139,30 +1170,17 @@ module DMA_Controller(
                             end 
                         end
                         else            // the rid is for load request
-                        begin
-                            for(temp_reg=0;temp_reg<=CC[rid][3:1];temp_reg=temp_reg+1)
+                        begin  
+                            if(no_of_cache_misses>0)
                             begin
-                                channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=rdata[temp_reg];
-                            end
-                            SA[rid]<=SA[rid]+CC[rid][3:1];
-                            channel_write_pointer[rid]<=channel_write_pointer[rid]+CC[rid][3:1];
-                            if(rlast)
-                            begin
-                                if(no_of_cache_misses>0)
-                                begin
-                                    axi_read_state<=WAIT_FOR_RVALID;
-                                end
-                                else
-                                begin
-                                    axi_read_state<=CACHE_IDLE;//should be changed according to the requirement
-                                end
+                                axi_read_state<=WAIT_FOR_RVALID;
                             end
                             else
                             begin
-                                axi_read_state<=WAIT_FOR_RVALID;
-                            end    
+                                axi_read_state<=CACHE_IDLE;//should be changed according to the requirement
+                            end
                             cache_enable_RW<=1'b0;
-                            cache_read<=1'b1;
+                            cache_read<=1'b0;
                         end
                         
                     end
@@ -1198,7 +1216,7 @@ module DMA_Controller(
         end
    end
     /*
-        a process for always block
+        a process for ready block
     */
     always@(*)
     begin
@@ -1226,36 +1244,57 @@ module DMA_Controller(
     begin
         if(!reset)
         begin
-            channel_data_load_completed<=0;
+            channel_data_load_completed<=1;
+            axi_channel_buffer_state<=CHANNEL_IDLE;
         end
         else
         begin
-            case(dma_ld_req)
-                CHANNEL_IDLE:
-                begin
-                end
-                
-            endcase
-            if(rvalid==HIGH)
+            case(axi_channel_buffer_state)
+            CHANNEL_IDLE:
             begin
-                if(rid!=0)
+                if(dma_ld_req)
                 begin
-                    for(temp_reg=0;temp_reg<=CC[rid][3:1];temp_reg=temp_reg+1)
-                    begin
-                        channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=rdata[temp_reg];
-                    end
-                    SA[rid]<=SA[rid]+CC[rid][3:1];
-                    channel_write_pointer[rid]<=channel_write_pointer[rid]+CC[rid][3:1];
-                    if(rlast)
-                    begin
-                        channel_data_load_completed<=1;   
-                    end
-                    else
-                    begin
-                        channel_data_load_completed<=0;
-                    end
+                    axi_channel_buffer_state<=CHANNEL_FILL;
+                    channel_data_load_completed<=0;
+                end
+                else
+                begin
+                    axi_channel_buffer_state<=CHANNEL_IDLE;
+                    channel_data_load_completed<=1;
                 end
             end
+            CHANNEL_FILL:
+            begin
+                if(rvalid==HIGH)
+                begin
+                    if(rid!=0)
+                    begin
+                        for(temp_reg=0;temp_reg<=CC[rid][3:1];temp_reg=temp_reg+1)
+                        begin
+                            channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=rdata[temp_reg];
+                        end
+                        SA[rid]<=SA[rid]+CC[rid][3:1];
+                        channel_write_pointer[rid]<=channel_write_pointer[rid]+CC[rid][3:1];
+                        if(rlast)
+                        begin
+                            channel_data_load_completed<=1;
+                            axi_channel_buffer_state<=CHANNEL_IDLE;   
+                        end
+                        else
+                        begin
+                            channel_data_load_completed<=0;
+                            axi_channel_buffer_state<=CHANNEL_FILL;
+                        end
+                    end
+                end
+                else
+                begin
+                    axi_channel_buffer_state<=CHANNEL_FILL;
+                end
+            end
+            endcase
+            
+            
         end
     end
     
@@ -1534,6 +1573,10 @@ module DMA_Controller(
                                                 begin
                                                     Channel_ThreadState[thread_no]<=UPDATING_PC;
                                                 end     
+                                        end
+                                        else if((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (invalid_instruction==LOW) && (second_cache_access_needed==HIGH))
+                                        begin
+                                            CPC[thread_no]<=CPC[thread_no]+4;
                                         end
                                         else if((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==LOW) && (second_cache_access_needed==LOW))
                                         begin
@@ -2118,14 +2161,15 @@ module DMA_Controller(
    //whether the cache needs to access a second time
    always@(*)
    begin
-        if(Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0)
+        if((next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0)
+            || (next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0))
         begin
             casez(cache_data_out[15:0])
                 16'b00000zzz10111100://i.e. if they are DMAGO or DMAMOV instructions
                 begin
                     second_cache_access_needed=1;
                 end
-                16'b00000zzz101000z0:
+                16'b00000zzz101000z0://DMAGO
                 begin
                     second_cache_access_needed=1;
                 end
@@ -2165,6 +2209,11 @@ module DMA_Controller(
             dma_channel=0;
             invalid_instruction=LOW;
             load_data_S_B=LOW;
+            dma_write_register=0;
+            dma_register_type=0;
+            dma_register_value=0;
+            dma_thread_no=0;
+            dma_ld_channel_no=0;
        end 
        else if((next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0)
             || (next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==0))//I doubt that the first statement is needed like Manager_ThreadState is executing
@@ -2208,6 +2257,7 @@ module DMA_Controller(
                     if(request_flag==0)//request flag set to single,write into the read queue
                     begin
                         load_data_S_B=1'b1;
+                        dma_ld_channel_no=next_thread_to_execute;
                         load_type=1'b0;//single
                         
                     end
@@ -2227,6 +2277,7 @@ module DMA_Controller(
                     else//request flag set to burst
                     begin
                         load_data_S_B=1'b1;
+                        dma_ld_channel_no=next_thread_to_execute;
                         load_type=1'b1;
                         if(read_inst_full[next_thread_to_execute]!=1)
                         begin
@@ -2506,6 +2557,7 @@ module DMA_Controller(
                     dma_write_register=1;
                     dma_register_type=fetched_instruction[10:8];
                     dma_register_value={cache_data_out[15:0],fetched_instruction[31:16]};
+                    dma_thread_no=next_thread_to_execute;
                 end
                 default:
                 begin
@@ -2523,7 +2575,11 @@ module DMA_Controller(
             dma_channel=0;
             invalid_instruction=LOW;
             load_data_S_B=LOW;
-            
+            dma_write_register=0;
+            dma_register_type=0;
+            dma_register_value=0;
+            dma_thread_no=0;
+            dma_ld_channel_no=0;
         end
     end
     
@@ -2572,15 +2628,15 @@ module DMA_Controller(
             begin
                 if(dma_register_type==3'b000)// source address register
                 begin
-                    SA[next_thread_to_execute]<=dma_register_value;
+                    SA[dma_thread_no]<=dma_register_value;
                 end
-                else if(dma_register_type==3'b001)// channel control register
+                else if(dma_register_type==3'b010)// channel control register
                 begin
-                    CC[next_thread_to_execute]<=dma_register_value;
+                    CC[dma_thread_no]<=dma_register_value;
                 end
-                else if(dma_register_type==3'b010)// destination address register
+                else if(dma_register_type==3'b001)// destination address register
                 begin
-                    DA[next_thread_to_execute]<=dma_register_value;
+                    DA[dma_thread_no]<=dma_register_value;
                 end
             end
            
@@ -2607,6 +2663,7 @@ module DMA_Controller(
                     if(load_data_S_B)
                     begin
                         dma_ld_req<=1;
+                        dma_load_channel_no<=dma_ld_channel_no;
                         read_state<=WAIT_FOR_ADDRESS_TRANSFER;
                     end
                     else
@@ -2624,6 +2681,7 @@ module DMA_Controller(
                     else
                     begin
                         dma_ld_req=1;
+                        dma_load_channel_no<=dma_ld_channel_no;
                         read_state<=WAIT_FOR_ADDRESS_TRANSFER;
                     end
                 end
@@ -2645,7 +2703,7 @@ module DMA_Controller(
     begin
         if(!reset)
         begin
-            thread_stall<=0;
+            Thread_Stall_state<=THREAD_STALL_IDLE;
         end
         else
         begin
@@ -2665,7 +2723,7 @@ module DMA_Controller(
                 end
                 WAIT_FOR_CONDITION:
                 begin
-                    if(axi_read_state==WAIT_FOR_RVALID && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                    if(axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                     begin
                         thread_stall<=0;
                         Thread_Stall_state<=THREAD_STALL_IDLE;

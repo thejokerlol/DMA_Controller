@@ -41,11 +41,11 @@ module tag_RAM(clk,address,enable_RW,read,
         begin
             if(read)
             begin
-                data_out<=tag_mem[address[3:0]];
+                data_out<=tag_mem[address[8:5]];
             end
             else
             begin
-                tag_mem[address[3:0]]<=data_in;
+                tag_mem[address[8:5]]<=data_in;
             end
         end
     end

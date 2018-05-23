@@ -5,4 +5,9 @@ The opcode for the instruction is          x
 The opcode for the instruction is          x
 The opcode for the instruction is          x
 The opcode for the instruction is          x
-$finish called at time : 4 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263
+The opcode for the instruction is          x
+EXECUTING DMA GO
+The address is        416 
+EXECUTING DMA GO
+The address is    4194976 
+$finish called at time : 8 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263

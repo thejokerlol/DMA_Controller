@@ -260,7 +260,7 @@ module DMA_Controller_tb(
         
         initial
         begin
-            #4000 $finish;
+            #8000 $finish;
         end
         
         
@@ -281,7 +281,7 @@ module DMA_Controller_tb(
                 cache update signals and data , give data to start 3 DMA channels and execute a DMAEND
             */
             #40 rid=0;
-                rdata=32'h000101A0;//DMAGO for channel 1, decimal value 416(just for check)
+                rdata=32'h000001A0;//DMAGO for channel 1, decimal value 416(just for check)
                 rvalid=1;
                 
             #40 rvalid=0;
@@ -290,7 +290,7 @@ module DMA_Controller_tb(
                 rvalid=1;
             #40 rvalid=0;
             #80 rid=0;
-                rdata=32'h000202A0;//DMAGO for channel 2
+                rdata=32'h004002A0;//DMAGO for channel 2
                 rvalid=1;
                 
             #40 rvalid=0;
@@ -302,15 +302,15 @@ module DMA_Controller_tb(
             #40 rvalid=0;
             
             #40 rid=0;
-                rdata=32'h000303A0;//DMAGO for channel 3
+                rdata=32'h008003A0;//DMAGO for channel 3
                 rvalid=1;
                 
             #40 rvalid=0;
             
             #40 rid=0;
-                rdata=32'h00010000;//PC for channel 3
+                rdata=32'h00000010;//PC for channel 3
                 rvalid=1;
-                
+                 
             #40 rid=0;
                 rdata=0;//DMAEND
                 rvalid=1;
@@ -331,7 +331,7 @@ module DMA_Controller_tb(
             */
             #280    
             #40 rid<=1;
-                rdata<=32'h000000BC;
+                rdata<=32'h000000BC;//DMAMOV for source address register
                 rvalid<=1'b1;
             
             #40 rvalid<=1'b0;
@@ -341,20 +341,41 @@ module DMA_Controller_tb(
                 
             #40 rvalid<=1'b0;    
             
-            #40 rdata<=32'h000001BC;
+            #40 rdata<=32'h000001BC;//DMAMOV for destination address register
                 rvalid<=1'b1;
                 
             #40 rvalid<=1'b0;
             
             #40 rdata<=32'h0000000E;
                 rvalid<=1'b1;
+            
+                
+            #40 rvalid<=1'b0;
+            
+            #40 rdata<=32'h403902BC;//DMAMOV for channel control register
+                rvalid<=1'b1;
+                
+            #40 rvalid<=1'b0;
+            
+            #40 rvalid<=1'b1;
+                rdata<=32'h0000000E;
                 
             #40 rvalid<=1'b0;
             
             #40 rdata<=32'h00000007;
                 rvalid<=1'b1;
+            
+            #40 rvalid<=1'b0;
                 
-            #40 rvalid<=1'b1;
+            #40 rdata<=32'h00000007;
+                rvalid<=1'b1;
+                
+            #40 rvalid<=1'b0;
+            
+            
+            //In the next cache access
+                
+            /*#40 rvalid<=1'b1;
                 rdata<=32'h0000000B;
                 
             #40 rvalid<=1'b0;
@@ -367,7 +388,169 @@ module DMA_Controller_tb(
             #40 rdata<=32'h00000000;
                 rvalid<=1'b1;
                 
-            #40 rvalid<=1'b0;            
+            #40 rvalid<=1'b0;  */ 
+            
+            
+            /*
+                rvalid data for second channel
+            */
+            #480
+            #40 arready=1;
+            #40 arready=0;
+            
+           #280    
+           #40 rid<=2;
+               rdata<=32'h000000BC;//DMAMOV for source address register
+               rvalid<=1'b1;
+           
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h00000800;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;    
+           
+           #40 rdata<=32'h000001BC;//DMAMOV for destination address register
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h0000000E;
+               rvalid<=1'b1;
+           
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h403902BC;//DMAMOV for channel control register
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rvalid<=1'b1;
+               rdata<=32'h0000000E;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h00000007;
+               rvalid<=1'b1;
+           
+           #40 rvalid<=1'b0;
+               
+           #40 rdata<=32'h00000007;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           
+           //In the next cache access
+               
+           /*#40 rvalid<=1'b1;
+               rdata<=32'h0000000B;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h0000000B;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;  */ 
+            
+            /*
+                rvalid data for third channel
+            */
+            #480
+            #40 arready=1;
+            #40 arready=0;
+            
+           #360    
+           #40 rid<=3;
+               rdata<=32'h000000BC;//DMAMOV for source address register
+               rvalid<=1'b1;
+           
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h00000800;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;    
+           
+           #40 rdata<=32'h000001BC;//DMAMOV for destination address register
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h0000000E;
+               rvalid<=1'b1;
+           
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h403902BC;//DMAMOV for channel control register
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rvalid<=1'b1;
+               rdata<=32'h0000000E;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h00000007;
+               rvalid<=1'b1;
+           
+           #40 rvalid<=1'b0;
+               
+           #40 rdata<=32'h00000007;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #80 arready=1'b1;
+           #40 arready=1'b0;
+           
+           /*
+                Data for load
+           */
+           #40 rid=1;
+               rdata=27;
+               rvalid=1'b1;
+               
+          #40 rvalid=0;
+          
+          #40 rdata=36;
+              rvalid=1'b1;
+              
+          #40 rvalid=1'b0;
+          
+          #40 rdata=44;
+              rvalid=1'b1;
+              rlast=1'b1;
+              
+          #40 rvalid=1'b0;
+              rlast=1'b0;           
+           
+           
+           //In the next cache access
+               
+           /*#40 rvalid<=1'b1;
+               rdata<=32'h0000000B;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h0000000B;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;  */ 
+                    
         end
         
         
