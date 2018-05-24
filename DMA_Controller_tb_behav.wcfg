@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="23" />
+   <WVObjectSize size="24" />
    <wvobject fp_name="group310" type="group">
       <obj_property name="label">CLK AND RESET</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -114,7 +114,7 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/araddr" type="array">
          <obj_property name="ElementShortName">araddr[31:0]</obj_property>
          <obj_property name="ObjectShortName">araddr[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/arlen" type="array">
          <obj_property name="ElementShortName">arlen[3:0]</obj_property>
@@ -558,5 +558,9 @@
    <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/thread_stall" type="logic">
       <obj_property name="ElementShortName">thread_stall</obj_property>
       <obj_property name="ObjectShortName">thread_stall</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/axi_channel_buffer_state" type="array">
+      <obj_property name="ElementShortName">axi_channel_buffer_state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_channel_buffer_state[1:0]</obj_property>
    </wvobject>
 </wave_config>

@@ -397,6 +397,14 @@ module DMA_Controller(
     reg[6:0] channel_write_pointer[1:8];//7 bit write pointer for each channel
     reg[1:8] channel_buffer_empty;
     reg[1:8] channel_buffer_full;
+    
+    
+    //declaration for thread stall signals
+    reg Thread_Stall_state;
+    parameter THREAD_STALL_IDLE=0;
+    parameter WAIT_FOR_CONDITION=1;
+    
+    
         
     //extra signals
     assign reset=areset;
@@ -1220,13 +1228,6 @@ module DMA_Controller(
     */
     always@(*)
     begin
-        if(rvalid==HIGH)
-        begin
-            rready=1'b1;
-        end
-        else
-        begin
-        end
         
     end
     
@@ -1368,7 +1369,9 @@ module DMA_Controller(
                     inst_counter<=inst_counter+1;//first 32 bits or a cache miss
                 end
                 else if((Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && second_cache_access_needed==LOW)
-                        || (Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS))//when the PC is getting updated reset the instruction counter
+                        || (Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS)
+                        || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                        )//when the PC is getting updated reset the instruction counter
                 begin
                     inst_counter<=0;
                 end
@@ -1546,15 +1549,22 @@ module DMA_Controller(
                             begin
                                if(next_thread_to_execute==thread_no)
                                begin
-                                    if(thread_stall)//I am not sure if dma_ld_S_B should be there
+                                    if(Thread_Stall_state==WAIT_FOR_CONDITION)//I am not sure if dma_ld_S_B should be there
                                     begin
-                                        if(watchdog_timer==127)
+                                        if(axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                         begin
-                                            Channel_ThreadState[thread_no]<=FAULTING;
+                                            Channel_ThreadState[thread_no]<=UPDATING_PC;
                                         end
                                         else
                                         begin
-                                            Channel_ThreadState[thread_no]<=EXECUTING;
+                                            if(watchdog_timer==127)
+                                            begin
+                                                Channel_ThreadState[thread_no]<=FAULTING;
+                                            end
+                                            else
+                                            begin
+                                                Channel_ThreadState[thread_no]<=EXECUTING;
+                                            end
                                         end
                                     end
                                     else
@@ -1748,6 +1758,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[1]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[1]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[1]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1794,7 +1805,9 @@ module DMA_Controller(
                     if((Channel_ThreadState[2]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[2]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[2]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for manager
+                                            
                                             )
                     begin
                         if(Manager_ThreadState==EXECUTING)
@@ -1841,6 +1854,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[3]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[3]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[3]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1887,6 +1901,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[4]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[4]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[4]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1933,6 +1948,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[5]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[5]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[5]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1979,6 +1995,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[6]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[6]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[6]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -2025,6 +2042,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[7]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[7]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[7]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -2071,6 +2089,7 @@ module DMA_Controller(
                     if((Channel_ThreadState[8]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
                                             ||(Channel_ThreadState[8]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[8]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
                                             //we need to include barriers,faulting,completing etc states for each channel thread
                                             )
                     begin
@@ -2696,9 +2715,7 @@ module DMA_Controller(
     /*
         Process for Thread Stall
     */
-    reg Thread_Stall_state;
-    parameter THREAD_STALL_IDLE=0;
-    parameter WAIT_FOR_CONDITION=1;
+    
     always@(posedge clk or negedge reset)
     begin
         if(!reset)
@@ -2723,8 +2740,9 @@ module DMA_Controller(
                 end
                 WAIT_FOR_CONDITION:
                 begin
-                    if(axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                    if(axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1)
                     begin
+                        $display("Entering IDLE state again");
                         thread_stall<=0;
                         Thread_Stall_state<=THREAD_STALL_IDLE;
                     end

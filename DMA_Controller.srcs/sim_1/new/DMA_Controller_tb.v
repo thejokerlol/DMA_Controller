@@ -260,7 +260,7 @@ module DMA_Controller_tb(
         
         initial
         begin
-            #8000 $finish;
+            #10000 $finish;
         end
         
         
@@ -550,7 +550,153 @@ module DMA_Controller_tb(
                rvalid<=1'b1;
                
            #40 rvalid<=1'b0;  */ 
-                    
+           
+           
+          #600
+          
+          #40 arready=1'b1;
+          
+          #40 arready=1'b0;
+          
+         
+           /*
+              Data for second load for dma channel 1
+         */
+         #40 rid=1;
+             rdata=27;
+             rvalid=1'b1;
+             
+        #40 rvalid=0;
+        
+        #40 rdata=36;
+            rvalid=1'b1;
+            
+        #40 rvalid=1'b0;
+        
+        #40 rdata=44;
+            rvalid=1'b1;
+            rlast=1'b1;
+            
+        #40 rvalid=1'b0;
+            rlast=1'b0; 
+           
+        /*
+            arready for channel 2
+        */
+        #280 arready=1'b1;
+        
+        #40 arready=1'b0;
+        
+        /*
+            data for first load for dma channel 2
+        */
+        
+          #40 rid=2;
+               rdata=27;
+               rvalid=1'b1;
+               
+          #40 rvalid=0;
+          
+          #40 rdata=36;
+              rvalid=1'b1;
+              
+          #40 rvalid=1'b0;
+          
+          #40 rdata=44;
+              rvalid=1'b1;
+              rlast=1'b1;
+              
+          #40 rvalid=1'b0;
+              rlast=1'b0;
+         
+         /*
+                Another three instructions for the first channel
+         */
+         #400 arready=1'b1;
+         
+         #40 arready=1'b0;
+         
+         
+         /*
+              other 8 data for the cache update  
+         */
+         
+         #40 rid<=1'b1;
+             rdata<=32'h0000000B;
+             rvalid<=1'b1;
+             
+         #40 rvalid<=1'b0;
+         
+         
+         #40 rdata<=332'h0000000B;
+             rvalid<=1'b1;
+             
+         #40 rvalid<=1'b0;
+         
+         
+         #40 rdata<=32'h00000000;
+             rvalid<=1'b1;
+             
+         #40 rvalid<=1'b0;            
+         
+         #40 rdata<=32'h00000000;
+             rvalid<=1'b1;
+          
+         #40 rvalid<=1'b0;
+                
+         #40 rdata<=32'h00000000;
+             rvalid<=1'b1;
+           
+         #40 rvalid<=1'b0;
+          
+          
+         #40 rdata<=32'h00000000;
+             rvalid<=1'b1;
+            
+         #40 rvalid<=1'b0;          
+                   
+         #40 rdata<=32'h00000000;
+             rvalid<=1'b1;
+             
+         #40 rvalid<=1'b0;
+         
+         #40 rdata<=32'h00000000;
+             rvalid<=1'b1;
+              
+         #40 rvalid<=1'b0;
+         
+         
+         
+         /*
+                Load Data for channel 2
+         */
+         
+         #40 arready<=1'b1;
+         
+         #40 arready<=1'b0;
+         
+         /*
+             data for first load for dma channel 2
+         */
+         
+           #40 rid=2;
+                rdata=27;
+                rvalid=1'b1;
+                
+           #40 rvalid=0;
+           
+           #40 rdata=36;
+               rvalid=1'b1;
+               
+           #40 rvalid=1'b0;
+           
+           #40 rdata=44;
+               rvalid=1'b1;
+               rlast=1'b1;
+               
+           #40 rvalid=1'b0;
+               rlast=1'b0;
+                   
         end
         
         

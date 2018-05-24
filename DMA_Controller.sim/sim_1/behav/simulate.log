@@ -10,4 +10,10 @@ EXECUTING DMA GO
 The address is        416 
 EXECUTING DMA GO
 The address is    4194976 
-$finish called at time : 8 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263
+Entering IDLE state again
+Entering IDLE state again
+Entering IDLE state again
+Entering IDLE state again
+EXECUTING DMA GO
+The address is    8389536 
+$finish called at time : 10 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263
