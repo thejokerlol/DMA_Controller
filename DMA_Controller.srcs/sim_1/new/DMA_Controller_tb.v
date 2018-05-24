@@ -696,7 +696,28 @@ module DMA_Controller_tb(
                
            #40 rvalid=1'b0;
                rlast=1'b0;
-                   
+           
+           
+           #400
+           #40 awready=1'b1;
+           #40 awready=1'b0;
+           
+           #120
+           
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+           
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+           
+           #40 bid=1;
+               bvalid=1'b1;
+               
+           #40 bvalid=1'b0;     
+                              
         end
         
         

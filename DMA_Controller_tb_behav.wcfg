@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="24" />
+   <WVObjectSize size="28" />
    <wvobject fp_name="group310" type="group">
       <obj_property name="label">CLK AND RESET</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -33,22 +33,27 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/awid" type="array">
          <obj_property name="ElementShortName">awid[3:0]</obj_property>
          <obj_property name="ObjectShortName">awid[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/awaddr" type="array">
          <obj_property name="ElementShortName">awaddr[31:0]</obj_property>
          <obj_property name="ObjectShortName">awaddr[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/awlen" type="array">
          <obj_property name="ElementShortName">awlen[3:0]</obj_property>
          <obj_property name="ObjectShortName">awlen[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/awsize" type="array">
          <obj_property name="ElementShortName">awsize[2:0]</obj_property>
          <obj_property name="ObjectShortName">awsize[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/awburst" type="array">
          <obj_property name="ElementShortName">awburst[1:0]</obj_property>
          <obj_property name="ObjectShortName">awburst[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/awvalid" type="logic">
          <obj_property name="ElementShortName">awvalid</obj_property>
@@ -58,13 +63,10 @@
    <wvobject fp_name="group303" type="group">
       <obj_property name="label">WRITE_DATA_CHANNEL</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wready" type="logic">
-         <obj_property name="ElementShortName">wready</obj_property>
-         <obj_property name="ObjectShortName">wready</obj_property>
-      </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wid" type="array">
          <obj_property name="ElementShortName">wid[3:0]</obj_property>
          <obj_property name="ObjectShortName">wid[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wdata" type="array">
          <obj_property name="ElementShortName">wdata[64:0]</obj_property>
@@ -81,6 +83,10 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wvalid" type="logic">
          <obj_property name="ElementShortName">wvalid</obj_property>
          <obj_property name="ObjectShortName">wvalid</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wready" type="logic">
+         <obj_property name="ElementShortName">wready</obj_property>
+         <obj_property name="ObjectShortName">wready</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group304" type="group">
@@ -442,6 +448,14 @@
    <wvobject fp_name="group357" type="group">
       <obj_property name="label">CONTROL_SIGNALS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/store_data_S_B" type="logic">
+         <obj_property name="ElementShortName">store_data_S_B</obj_property>
+         <obj_property name="ObjectShortName">store_data_S_B</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/store_type" type="logic">
+         <obj_property name="ElementShortName">store_type</obj_property>
+         <obj_property name="ObjectShortName">store_type</obj_property>
+      </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_start_channel" type="logic">
          <obj_property name="ElementShortName">dma_start_channel</obj_property>
          <obj_property name="ObjectShortName">dma_start_channel</obj_property>
@@ -466,6 +480,7 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_register_value" type="array">
          <obj_property name="ElementShortName">dma_register_value[31:0]</obj_property>
          <obj_property name="ObjectShortName">dma_register_value[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group309" type="group">
@@ -562,5 +577,21 @@
    <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/axi_channel_buffer_state" type="array">
       <obj_property name="ElementShortName">axi_channel_buffer_state[1:0]</obj_property>
       <obj_property name="ObjectShortName">axi_channel_buffer_state[1:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_ld_req" type="logic">
+      <obj_property name="ElementShortName">dma_ld_req</obj_property>
+      <obj_property name="ObjectShortName">dma_ld_req</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/dma_st_req" type="logic">
+      <obj_property name="ElementShortName">dma_st_req</obj_property>
+      <obj_property name="ObjectShortName">dma_st_req</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/write_state" type="array">
+      <obj_property name="ElementShortName">write_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">write_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/completed_transfers" type="array">
+      <obj_property name="ElementShortName">completed_transfers[2:0]</obj_property>
+      <obj_property name="ObjectShortName">completed_transfers[2:0]</obj_property>
    </wvobject>
 </wave_config>

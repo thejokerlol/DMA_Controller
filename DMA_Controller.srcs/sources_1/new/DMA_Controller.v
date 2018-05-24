@@ -345,6 +345,14 @@ module DMA_Controller(
   reg load_type;//single or burst
   reg[4:0] peripheral_number;
   /*
+        control signals for DMAST and DMASTP
+  */
+  reg store_data_S_B;
+  reg store_type;
+  reg[3:0] dma_store_channel_no;
+  
+  
+  /*
       control signals for DMALP and DMALPEND
   */
   reg[7:0] loop_value;
@@ -649,6 +657,8 @@ module DMA_Controller(
         ADDRESS WRITE AXI STATES
    */
    reg[1:0] axi_write_address_state;
+   parameter AXI_WRITE_ADDRESS_IDLE=2'b00;
+   parameter AXI_WAITING_FOR_WREADY=2'b01;
    /*
         write_address control
    */
@@ -659,59 +669,50 @@ module DMA_Controller(
    begin
         if(!reset)
         begin
-            axi_write_address_state<=AXI_ADDRESS_IDLE;
+            axi_write_address_state<=AXI_WRITE_ADDRESS_IDLE;
         end
         else
         begin
             case(axi_write_address_state)
-                AXI_ADDRESS_IDLE:
+                AXI_WRITE_ADDRESS_IDLE:
                 begin
                     if(dma_st_req)
                     begin
-                        awid<=dma_st_channel_no;
-                        awaddr<=DA[dma_st_channel_no];
-                        awlen<=CC[dma_st_channel_no][21:18];
-                        awsize<=CC[dma_st_channel_no][17:15];
-                        awburst<=CC[dma_st_channel_no][14];
-                        axi_write_address_state<=AXI_WAITING_FOR_READY;
+                        awid<=dma_store_channel_no;
+                        awaddr<=DA[dma_store_channel_no];
+                        awlen<=CC[dma_store_channel_no][21:18];
+                        awsize<=CC[dma_store_channel_no][17:15];
+                        awburst<=CC[dma_store_channel_no][14];
+                        axi_write_address_state<=AXI_WAITING_FOR_WREADY;
                         awvalid<=HIGH;
                     end
                     else
                     begin
-                        axi_write_address_state<=AXI_ADDRESS_IDLE;
+                        axi_write_address_state<=AXI_WRITE_ADDRESS_IDLE;
                         awvalid<=LOW;
                     end
                 end
-                AXI_WAITING_FOR_READY:
+                AXI_WAITING_FOR_WREADY:
                 begin
                     if(awready==LOW)
                     begin
-                        axi_write_address_state<=AXI_WAITING_FOR_READY;
-                        awvalid=LOW;
+                        axi_write_address_state<=AXI_WAITING_FOR_WREADY;
                     end
                     else
                     begin
-                        if(arready==HIGH)
+                       if(dma_st_req)
                         begin
-                           if(dma_st_req)
-                            begin
-                                awid<=dma_st_channel_no;
-                                awaddr<=DA[dma_st_channel_no];
-                                awlen<=CC[dma_st_channel_no][21:18];
-                                awsize<=CC[dma_st_channel_no][17:15];
-                                awburst<=CC[dma_st_channel_no][14];
-                                axi_write_address_state<=AXI_WAITING_FOR_READY;
-                                awvalid<=HIGH;
-                            end
-                            else
-                            begin
-                                axi_write_address_state<=AXI_ADDRESS_IDLE;
-                                awvalid<=LOW;
-                            end
+                            awid<=dma_store_channel_no;
+                            awaddr<=DA[dma_store_channel_no];
+                            awlen<=CC[dma_store_channel_no][21:18];
+                            awsize<=CC[dma_store_channel_no][17:15];
+                            awburst<=CC[dma_store_channel_no][14];
+                            axi_write_address_state<=AXI_WAITING_FOR_WREADY;
+                            awvalid<=HIGH;
                         end
                         else
                         begin
-                            axi_write_address_state<=AXI_WAITING_FOR_READY;
+                            axi_write_address_state<=AXI_ADDRESS_IDLE;
                             awvalid<=LOW;
                         end
                     end
@@ -751,12 +752,13 @@ module DMA_Controller(
                 begin
                     if(dma_st_req)
                     begin
+                        wid<=dma_store_channel_no;
                         wstrb<=0;
                         for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                         begin
                             WDATA[temp_reg]<=0;
                         end
-                        write_address<=DA[dma_st_channel_no];
+                        write_address<=DA[dma_store_channel_no];
                         if(CC[dma_st_channel_no][17:15]>8-(write_address%8)) //tranfer overflow for first transfer in the case of unaligned transfer
                         begin
                             temp_count=0;
@@ -764,7 +766,7 @@ module DMA_Controller(
                             begin
                                 if(temp_reg>=write_address%8 && temp_reg<=(8-(write_address%8)))
                                 begin
-                                    WDATA[temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_count];
+                                    WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
                                     wstrb[temp_reg]<=1;
                                     temp_count=temp_count+1;
                                 end
@@ -790,9 +792,9 @@ module DMA_Controller(
                             
                             for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                             begin
-                                if(temp_reg>=write_address%8 && temp_reg<=((write_address%8)+CC[dma_st_channel_no][17:15]))
+                                if(temp_reg>=write_address%8 && temp_reg<=((write_address%8)+CC[dma_store_channel_no][17:15]))
                                 begin
-                                    WDATA[temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_count];
+                                    WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
                                     wstrb[temp_reg]<=1;
                                     temp_count=temp_count+1;
                                 end
@@ -803,7 +805,7 @@ module DMA_Controller(
                                 end
                             end
                             wvalid=HIGH;
-                            write_address<=write_address+CC[dma_st_channel_no][17:15];
+                            write_address<=write_address+CC[dma_store_channel_no][17:15];
                             completed_transfers<=completed_transfers+1;
                             write_state<=WAIT_FOR_WREADY;
                         end
@@ -820,22 +822,24 @@ module DMA_Controller(
                     if(wready==1)
                     begin
                         completed_transfers<=completed_transfers+1;
-                        if(completed_transfers==CC[dma_st_channel_no][21:18]-1)
+                        $display("Dma store channel no is %d",dma_store_channel_no);
+                        $display("DMA Channel control signals are %d",(CC[dma_store_channel_no][21:18]-1));
+                        if(completed_transfers==(CC[dma_store_channel_no][21:18]-1))
                         begin
                             wstrb<=0;
                             for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                             begin
                                 WDATA[temp_reg]<=0;
                             end
-                            if(CC[dma_st_channel_no][17:15]>8-(write_address%8)) //tranfer overflow for first transfer in the case of unaligned transfer
+                            if(CC[dma_store_channel_no][17:15]>8-(write_address%8)) //tranfer overflow for first transfer in the case of unaligned transfer
                             begin
                                 temp_count=0;
                                 
                                 for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                                 begin
-                                    if(temp_reg>=write_address%8 && temp_reg<=(8-(DA[dma_st_channel_no]%8)))
+                                    if(temp_reg>=write_address%8 && temp_reg<=(8-(DA[dma_store_channel_no]%8)))
                                     begin
-                                        WDATA[temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_count];
+                                        WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
                                         wstrb[temp_reg]<=1;
                                         temp_count=temp_count+1;
                                     end
@@ -846,7 +850,8 @@ module DMA_Controller(
                                     end
                                 end
                                 wvalid<=HIGH;
-                                write_state<=WAIT_FOR_WREADY;
+                                write_state<=WAIT_FOR_RESPONSE;
+                                bready<=1'b1;
                             end
                             else
                             begin
@@ -863,9 +868,9 @@ module DMA_Controller(
                                 
                                 for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                                 begin
-                                    if(temp_reg>=write_address%8 && temp_reg<=CC[dma_st_channel_no][17:15])
+                                    if(temp_reg>=write_address%8 && temp_reg<=CC[dma_store_channel_no][17:15])
                                     begin
-                                        WDATA[temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_count];
+                                        WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
                                         wstrb[temp_reg]<=1;
                                         temp_count=temp_count+1;
                                     end
@@ -877,9 +882,9 @@ module DMA_Controller(
                                 end
                                 
                                 wvalid<=HIGH;
-                                write_state<=WAIT_FOR_WREADY;
+                                write_state<=WAIT_FOR_RESPONSE;
+                                bready<=1'b1;
                             end
-                            write_state<=WAIT_FOR_RESPONSE;
                         end
                         else
                         begin
@@ -894,12 +899,14 @@ module DMA_Controller(
                 end
                 WAIT_FOR_RESPONSE:
                 begin
+                    
                     if(bvalid==1)
                     begin
-                        write_state<=WAIT_FOR_RESPONSE;
                         if(bresp<=2'b00)//valid write completed
                         begin
                             DA[bid]<=write_address;  //update the destination address register
+                            
+                            
                         end
                         else//a write error an abort
                         begin
@@ -908,10 +915,12 @@ module DMA_Controller(
                         write_address<=0;
                         completed_transfers<=0;
                         write_state<=WRITE_IDLE;
+                        bready=0;
                     end
                     else
                     begin
-                        write_state<=WAIT_FOR_RESPONSE; 
+                        write_state<=WAIT_FOR_RESPONSE;
+                        bready<=1'b1; 
                     end
                 end
             endcase
@@ -1371,6 +1380,7 @@ module DMA_Controller(
                 else if((Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && second_cache_access_needed==LOW)
                         || (Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS)
                         || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                        || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                         )//when the PC is getting updated reset the instruction counter
                 begin
                     inst_counter<=0;
@@ -1551,7 +1561,8 @@ module DMA_Controller(
                                begin
                                     if(Thread_Stall_state==WAIT_FOR_CONDITION)//I am not sure if dma_ld_S_B should be there
                                     begin
-                                        if(axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                        if((axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (write_state==WAIT_FOR_RESPONSE && bvalid==1'b1))
                                         begin
                                             Channel_ThreadState[thread_no]<=UPDATING_PC;
                                         end
@@ -1575,7 +1586,7 @@ module DMA_Controller(
                                         end
                                         else if((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_cache_access_needed==LOW) && (invalid_instruction==LOW))
                                         begin
-                                                if(load_data_S_B)//multi cycle instruction
+                                                if(load_data_S_B || store_data_S_B)//multi cycle instruction
                                                 begin
                                                     Channel_ThreadState[thread_no]<=EXECUTING;
                                                 end
@@ -1755,10 +1766,11 @@ module DMA_Controller(
                 end
                 4'd1:
                 begin
-                    if((Channel_ThreadState[1]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[1]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[1]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[1]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1802,10 +1814,11 @@ module DMA_Controller(
                 end
                 4'd2:
                 begin
-                    if((Channel_ThreadState[2]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[2]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[2]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[2]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             
                                             )
@@ -1851,10 +1864,11 @@ module DMA_Controller(
                 end
                 4'd3:
                 begin
-                    if((Channel_ThreadState[3]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[3]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[3]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[3]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1898,10 +1912,11 @@ module DMA_Controller(
                 end
                 4'd4:
                 begin
-                    if((Channel_ThreadState[4]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[4]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[4]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[4]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1945,10 +1960,11 @@ module DMA_Controller(
                 end
                 4'd5:
                 begin
-                    if((Channel_ThreadState[5]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[5]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[5]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[5]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -1992,10 +2008,11 @@ module DMA_Controller(
                 end
                 4'd6:
                 begin
-                    if((Channel_ThreadState[6]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[6]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[6]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[6]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -2039,10 +2056,11 @@ module DMA_Controller(
                 end
                 4'd7:
                 begin
-                    if((Channel_ThreadState[7]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[7]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[7]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[7]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for manager
                                             )
                     begin
@@ -2086,10 +2104,11 @@ module DMA_Controller(
                 end
                 4'd8:
                 begin
-                    if((Channel_ThreadState[8]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0)//next state is update PC state
+                    if((Channel_ThreadState[8]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==LOW  && load_data_S_B==0 && thread_stall==0 && store_data_S_B==0)//next state is update PC state
                                             ||(Channel_ThreadState[8]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==HIGH)//next state is cache miss
                                             ||(Channel_ThreadState[8]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==1)//again an update PC state in case of 64 bit instructions
                                             || (Thread_Stall_state==WAIT_FOR_CONDITION && axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1 && rid==next_thread_to_execute)
+                                            || (Thread_Stall_state==WAIT_FOR_CONDITION && write_state==WAIT_FOR_RESPONSE && bvalid==1'b1)
                                             //we need to include barriers,faulting,completing etc states for each channel thread
                                             )
                     begin
@@ -2218,7 +2237,7 @@ module DMA_Controller(
     begin
            // if fetched_instruction
        invalid_instruction=LOW;
-       if(dma_ld_req==1 || thread_stall==1)
+       if(dma_ld_req==1 || thread_stall==1 || dma_st_req==1)
        begin
             //no op
             sr_write=0;
@@ -2233,6 +2252,9 @@ module DMA_Controller(
             dma_register_value=0;
             dma_thread_no=0;
             dma_ld_channel_no=0;
+            store_data_S_B=0;
+            store_type=0;
+            dma_st_channel_no=0;
        end 
        else if((next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0)
             || (next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==0))//I doubt that the first statement is needed like Manager_ThreadState is executing
@@ -2419,39 +2441,41 @@ module DMA_Controller(
                 begin
                     if(request_flag==0)//request flag set to single,write into the read queue
                     begin
-                        load_data_S_B=1'b1;
-                        load_type=1'b0;//single
+                        store_data_S_B=1'b1;
+                        dma_st_channel_no=next_thread_to_execute;
+                        store_type=1'b0;//single
                         //write into the read instruction queue
                         if(read_inst_full[next_thread_to_execute]!=1)
                         begin
-                            read_inst_read[next_thread_to_execute]=1;
-                            read_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
+                            write_inst_read[next_thread_to_execute]=1;
+                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
                         end
                         else
                         begin
                             //thread stalled in executing state
-                            read_inst_read[next_thread_to_execute]=0;
-                            read_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
+                            write_inst_read[next_thread_to_execute]=0;
+                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
                             
                         end
                     end
                     else//request flag set to burst
                     begin
-                        load_data_S_B=1'b0;//no operation
-                        load_type=1'b0;
+                        store_data_S_B=1'b0;//no operation
+                        store_type=1'b0;
                     end
                 end
                 else
                 begin
                     if(request_flag==0)//request flag set to single
                     begin
-                        load_data_S_B=1'b0;//no operation
-                        load_type=1'b0;
+                        store_data_S_B=1'b0;//no operation
+                        store_type=1'b0;
                     end
                     else//request flag set to burst
                     begin
-                        load_data_S_B=1'b1;
-                        load_type=1'b1;
+                        store_data_S_B=1'b1;
+                        dma_st_channel_no=next_thread_to_execute;
+                        store_type=1'b1;
                         if(read_inst_full[next_thread_to_execute]!=1)
                         begin
                             write_inst_read[next_thread_to_execute]=1;
@@ -2599,6 +2623,9 @@ module DMA_Controller(
             dma_register_value=0;
             dma_thread_no=0;
             dma_ld_channel_no=0;
+            store_data_S_B=0;
+            store_type=0;
+            dma_st_channel_no=0;
         end
     end
     
@@ -2667,7 +2694,7 @@ module DMA_Controller(
     */
     reg[1:0] read_state;
     parameter LOAD_IDLE=2'b00;
-    parameter WAIT_FOR_ADDRESS_TRANSFER=2'B10; 
+    parameter WAIT_FOR_ADDRESS_TRANSFER=2'b10; 
     always@(posedge clk or negedge reset)
     begin
         if(!reset)
@@ -2708,9 +2735,57 @@ module DMA_Controller(
             endcase
         end
     end
+    
     /*
         Process to perform DMAST ....writes one instruction into the write queue....tries to execute an instruction from read queue and one from write queue 
     */
+    reg[1:0] store_state;
+    parameter STORE_IDLE=2'b00;
+    parameter WAIT_FOR_STORE_ADDRESS_TRANSFER=2'b01;
+    always@(posedge clk or negedge reset)
+    begin
+        if(!reset)
+        begin
+            store_state<=STORE_IDLE;
+        end
+        else
+        begin
+            case(write_state)
+                STORE_IDLE:
+                begin
+                    if(store_data_S_B)
+                    begin
+                        dma_st_req<=1;
+                        dma_store_channel_no<=dma_st_channel_no;
+                        store_state<=WAIT_FOR_STORE_ADDRESS_TRANSFER;
+                        
+                    end
+                    else
+                    begin
+                        
+                        dma_st_req<=0;
+                        store_state<=STORE_IDLE;
+                    end
+                end
+                WAIT_FOR_STORE_ADDRESS_TRANSFER:
+                begin
+                    if(awready<=1'b1)
+                    begin
+                        dma_st_req=0;
+                        store_state<=STORE_IDLE;
+                    end
+                    else
+                    begin
+                    
+                        dma_st_req=1;
+                        dma_store_channel_no<=dma_st_channel_no;
+                        store_state<=WAIT_FOR_STORE_ADDRESS_TRANSFER;
+                    end
+                end
+            endcase
+        end
+    end
+    
     
     /*
         Process for Thread Stall
@@ -2727,7 +2802,7 @@ module DMA_Controller(
             case(Thread_Stall_state)
                 THREAD_STALL_IDLE:
                 begin
-                    if(load_data_S_B)
+                    if(load_data_S_B || store_data_S_B)
                     begin
                         thread_stall<=1;
                         Thread_Stall_state<=WAIT_FOR_CONDITION;
@@ -2740,9 +2815,10 @@ module DMA_Controller(
                 end
                 WAIT_FOR_CONDITION:
                 begin
-                    if(axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1)
+                    if((axi_channel_buffer_state==CHANNEL_FILL && rlast==1 && rvalid==1)
+                        ||(write_state==WAIT_FOR_RESPONSE && bvalid==1'b1))
                     begin
-                        $display("Entering IDLE state again");
+                        //$display("Entering IDLE state again");
                         thread_stall<=0;
                         Thread_Stall_state<=THREAD_STALL_IDLE;
                     end
@@ -2752,6 +2828,7 @@ module DMA_Controller(
                         Thread_Stall_state<=WAIT_FOR_CONDITION;
                     end
                 end
+                
             endcase    
         end
     end
