@@ -46,7 +46,7 @@ module DMA_Controller_tb(
     //write channel
     reg wready;
     wire[ID_MSB:0] wid;
-    wire[DATA_MSB:0] wdata;//better to keep 8 bit data of different length
+    wire[DATA_MSB-1:0] wdata;//better to keep 8 bit data of different length
     wire[STRB_MSB:0] wstrb;
     wire wlast;
     wire wvalid;
@@ -68,7 +68,7 @@ module DMA_Controller_tb(
     
     //Read channel
     reg[ID_MSB:0] rid;
-    reg[DATA_MSB:0] rdata;
+    reg[DATA_MSB-1:0] rdata;
     reg[1:0] rresp;
     reg rlast;
     reg rvalid;
@@ -260,7 +260,7 @@ module DMA_Controller_tb(
         
         initial
         begin
-            #10000 $finish;
+            #30000 $finish;
         end
         
         
@@ -509,12 +509,17 @@ module DMA_Controller_tb(
                
            #40 rvalid<=1'b0;
            
+           
+           //first arready for data 1 channel 1
+           #1400
            #80 arready=1'b1;
            #40 arready=1'b0;
            
            /*
                 Data for load
            */
+           
+           
            #40 rid=1;
                rdata=27;
                rvalid=1'b1;
@@ -551,8 +556,9 @@ module DMA_Controller_tb(
                
            #40 rvalid<=1'b0;  */ 
            
+           //second arready for data2 channel 1
            
-          #600
+          #1200
           
           #40 arready=1'b1;
           
@@ -583,7 +589,7 @@ module DMA_Controller_tb(
         /*
             arready for channel 2
         */
-        #280 arready=1'b1;
+        #1000 arready=1'b1;
         
         #40 arready=1'b0;
         
@@ -612,7 +618,7 @@ module DMA_Controller_tb(
          /*
                 Another three instructions for the first channel
          */
-         #400 arready=1'b1;
+         #800 arready=1'b1;
          
          #40 arready=1'b0;
          
@@ -671,7 +677,7 @@ module DMA_Controller_tb(
                 Load Data for channel 2
          */
          
-         #40 arready<=1'b1;
+         #1000 arready<=1'b1;
          
          #40 arready<=1'b0;
          
@@ -697,7 +703,7 @@ module DMA_Controller_tb(
            #40 rvalid=1'b0;
                rlast=1'b0;
            
-           
+         //first write data for channel 1  
            #400
            #40 awready=1'b1;
            #40 awready=1'b0;
@@ -716,8 +722,244 @@ module DMA_Controller_tb(
            #40 bid=1;
                bvalid=1'b1;
                
-           #40 bvalid=1'b0;     
-                              
+           #40 bvalid=1'b0;
+            
+           
+            /*
+                  Another three instructions for the second channel
+           */
+           #400 arready=1'b1;
+           
+           #40 arready=1'b0;
+           
+           
+           /*
+                other 8 data for the cache update  
+           */
+           
+           #40 rid<=2;
+               rdata<=32'h0000000B;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           
+           #40 rdata<=332'h0000000B;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;            
+           
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+            
+           #40 rvalid<=1'b0;
+                  
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+             
+           #40 rvalid<=1'b0;
+            
+            
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+              
+           #40 rvalid<=1'b0;          
+                     
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+               
+           #40 rvalid<=1'b0;
+           
+           #40 rdata<=32'h00000000;
+               rvalid<=1'b1;
+                
+           #40 rvalid<=1'b0;
+           
+           
+           /*
+                Data for first load for DMA channel 3
+           */
+           
+           #40 arready<=1'b1;
+           
+           #40 arready<=1'b0;
+           
+           #40 rid=3;
+                rdata=27;
+                rvalid=1'b1;
+                
+           #40 rvalid=0;
+           
+           #40 rdata=36;
+               rvalid=1'b1;
+               
+           #40 rvalid=1'b0;
+           
+           #40 rdata=44;
+               rvalid=1'b1;
+               rlast=1'b1;
+               
+           #40 rvalid=1'b0;
+               rlast=1'b0; 
+                            
+                            
+           #400
+           #40 awready=1'b1;
+           #40 awready=1'b0;
+             
+           #120
+             
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+             
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+  
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+             
+           #40 bid=1;
+               bvalid=1'b1;
+                 
+           #40 bvalid=1'b0;
+             
+             
+             
+           #400
+           #40 awready=1'b1;
+           #40 awready=1'b0;
+              
+           #120
+              
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+              
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+   
+           #40 wready=1'b1;
+           #40 wready=1'b0;
+              
+           #40 bid=1;
+               bvalid=1'b1;
+                  
+           #40 bvalid=1'b0;
+              
+                   /*
+                  Load Data for channel 2
+           */
+           
+           #1000 arready<=1'b1;
+           
+           #40 arready<=1'b0;
+           
+           /*
+               data for second load for dma channel 3
+           */
+           
+             #40 rid=3;
+                  rdata=27;
+                  rvalid=1'b1;
+                  
+             #40 rvalid=0;
+             
+             #40 rdata=36;
+                 rvalid=1'b1;
+                 
+             #40 rvalid=1'b0;
+             
+             #40 rdata=44;
+                 rvalid=1'b1;
+                 rlast=1'b1;
+                 
+             #40 rvalid=1'b0;
+                 rlast=1'b0;
+                 
+             #400
+             #40 awready=1'b1;
+             #40 awready=1'b0;
+                
+             #120
+                
+             #40 wready=1'b1;
+             #40 wready=1'b0;
+                
+             #40 wready=1'b1;
+             #40 wready=1'b0;
+     
+             #40 wready=1'b1;
+             #40 wready=1'b0;
+                
+             #40 bid=1;
+                 bvalid=1'b1;
+                    
+             #40 bvalid=1'b0;              
+            
+            
+             /*
+                      Another three instructions for the third channel
+               */
+               #400 arready=1'b1;
+               
+               #40 arready=1'b0;
+               
+               
+               /*
+                    other 8 data for the cache update  
+               */
+               
+               #40 rid<=3;
+                   rdata<=32'h0000000B;
+                   rvalid<=1'b1;
+                   
+               #40 rvalid<=1'b0;
+               
+               
+               #40 rdata<=332'h0000000B;
+                   rvalid<=1'b1;
+                   
+               #40 rvalid<=1'b0;
+               
+               
+               #40 rdata<=32'h00000000;
+                   rvalid<=1'b1;
+                   
+               #40 rvalid<=1'b0;            
+               
+               #40 rdata<=32'h00000000;
+                   rvalid<=1'b1;
+                
+               #40 rvalid<=1'b0;
+                      
+               #40 rdata<=32'h00000000;
+                   rvalid<=1'b1;
+                 
+               #40 rvalid<=1'b0;
+                
+                
+               #40 rdata<=32'h00000000;
+                   rvalid<=1'b1;
+                  
+               #40 rvalid<=1'b0;          
+                         
+               #40 rdata<=32'h00000000;
+                   rvalid<=1'b1;
+                   
+               #40 rvalid<=1'b0;
+               
+               #40 rdata<=32'h00000000;
+                   rvalid<=1'b1;
+                    
+               #40 rvalid<=1'b0;
+            
+                 
+                                
         end
         
         

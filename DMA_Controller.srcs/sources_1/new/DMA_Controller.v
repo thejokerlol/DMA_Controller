@@ -114,7 +114,7 @@ module DMA_Controller(
     //write channel
     input wready;
     output reg[ID_MSB:0] wid;
-    output[DATA_MSB:0] wdata;//better to keep 8 bit data of different length
+    output[DATA_MSB-1:0] wdata;//better to keep 8 bit data of different length
     output reg[STRB_MSB:0] wstrb;
     output reg wlast;
     output reg wvalid;
@@ -670,6 +670,12 @@ module DMA_Controller(
         if(!reset)
         begin
             axi_write_address_state<=AXI_WRITE_ADDRESS_IDLE;
+            awid<=0;
+            awaddr<=0;
+            awlen<=0;
+            awsize<=0;
+            awburst<=0;
+            awvalid<=0;
         end
         else
         begin
@@ -744,6 +750,19 @@ module DMA_Controller(
          begin
             write_state<=WRITE_IDLE;
             completed_transfers<=0;
+            wid<=0;
+            wstrb<=0;
+            WDATA[0]<=0;
+            WDATA[1]<=0;
+            WDATA[2]<=0;
+            WDATA[3]<=0;
+            WDATA[4]<=0;
+            WDATA[5]<=0;
+            WDATA[6]<=0;
+            WDATA[7]<=0;
+            wvalid<=0;
+            wlast<=0;
+            bready<=0;
          end
          else
          begin
@@ -824,7 +843,7 @@ module DMA_Controller(
                         completed_transfers<=completed_transfers+1;
                         $display("Dma store channel no is %d",dma_store_channel_no);
                         $display("DMA Channel control signals are %d",(CC[dma_store_channel_no][21:18]-1));
-                        if(completed_transfers==(CC[dma_store_channel_no][21:18]-1))
+                        if(completed_transfers==(CC[dma_store_channel_no][21:18]))
                         begin
                             wstrb<=0;
                             for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
@@ -849,7 +868,7 @@ module DMA_Controller(
                                         wstrb[temp_reg]<=0;
                                     end
                                 end
-                                wvalid<=HIGH;
+                                wvalid<=LOW;
                                 write_state<=WAIT_FOR_RESPONSE;
                                 bready<=1'b1;
                             end
@@ -881,7 +900,7 @@ module DMA_Controller(
                                     end
                                 end
                                 
-                                wvalid<=HIGH;
+                                wvalid<=LOW;
                                 write_state<=WAIT_FOR_RESPONSE;
                                 bready<=1'b1;
                             end
@@ -943,7 +962,6 @@ module DMA_Controller(
    reg cache_miss0_free;
    reg cache_miss1_free;
    
-   
    always@(posedge clk or negedge reset)
    begin
         if(!reset)
@@ -956,6 +974,7 @@ module DMA_Controller(
             rready=1'b1;
             cache_miss0_free=1;
             cache_miss1_free=1;
+            
         end
         else
         begin
@@ -1375,7 +1394,10 @@ module DMA_Controller(
             begin
                 if(Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW)
                 begin
-                    inst_counter<=inst_counter+1;//first 32 bits or a cache miss
+                    if(!end_current_thread)
+                    begin
+                        inst_counter<=inst_counter+1;//first 32 bits or a cache miss
+                    end
                 end
                 else if((Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==0 && axi_read_state==CHECK_FOR_CACHE_MISS && second_cache_access_needed==LOW)
                         || (Channel_ThreadState[next_thread_to_execute]==EXECUTING && inst_counter==1 && axi_read_state==CHECK_FOR_CACHE_MISS)
@@ -1590,6 +1612,10 @@ module DMA_Controller(
                                                 begin
                                                     Channel_ThreadState[thread_no]<=EXECUTING;
                                                 end
+                                                else if(end_current_thread==1)
+                                                begin
+                                                    Channel_ThreadState[thread_no]<=STOPPED;
+                                                end
                                                 else
                                                 begin
                                                     Channel_ThreadState[thread_no]<=UPDATING_PC;
@@ -1601,7 +1627,8 @@ module DMA_Controller(
                                         end
                                         else if((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==LOW) && (second_cache_access_needed==LOW))
                                         begin
-                                            Channel_ThreadState[thread_no]<=UPDATING_PC;
+                                                
+                                                Channel_ThreadState[thread_no]<=UPDATING_PC;
                                         end
                                         else if(((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==0) && (second_cache_access_needed==LOW) && (invalid_instruction==HIGH)) 
                                                                         || ((axi_read_state==CHECK_FOR_CACHE_MISS) && (cache_miss==LOW) && (inst_counter==1) && (invalid_instruction==HIGH))
@@ -2230,14 +2257,29 @@ module DMA_Controller(
     reg[2:0] thread_count;
     reg manager_switch;
     
-    
   
     
     always@(*)
     begin
            // if fetched_instruction
        invalid_instruction=LOW;
-       if(dma_ld_req==1 || thread_stall==1 || dma_st_req==1)
+                   //no op
+       sr_write=0;
+       dr_write=0;
+       end_current_thread=0;
+       dma_start_channel=LOW;
+       dma_channel=0;
+       invalid_instruction=LOW;
+       load_data_S_B=LOW;
+       dma_write_register=0;
+       dma_register_type=0;
+       dma_register_value=0;
+       dma_thread_no=0;
+       dma_ld_channel_no=0;
+       store_data_S_B=0;
+       store_type=0;
+       dma_st_channel_no=0;
+       if(load_data_S_B==1 || thread_stall==1 || store_data_S_B==1)
        begin
             //no op
             sr_write=0;
@@ -2255,6 +2297,7 @@ module DMA_Controller(
             store_data_S_B=0;
             store_type=0;
             dma_st_channel_no=0;
+            
        end 
        else if((next_thread_to_execute!=0 && Channel_ThreadState[next_thread_to_execute]==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0)
             || (next_thread_to_execute==0 && Manager_ThreadState==EXECUTING && axi_read_state==CHECK_FOR_CACHE_MISS && cache_miss==LOW && inst_counter==0 && second_cache_access_needed==0))//I doubt that the first statement is needed like Manager_ThreadState is executing
@@ -2719,15 +2762,15 @@ module DMA_Controller(
                 end
                 WAIT_FOR_ADDRESS_TRANSFER:
                 begin
-                    if(axi_read_address_state==AXI_ADDRESS_IDLE)
+                    if(axi_read_address_state==AXI_WAITING_FOR_READY && arready==1'b1 && arid==dma_load_channel_no)
                     begin
-                        dma_ld_req=0;
+                        dma_ld_req<=0;
                         read_state<=LOAD_IDLE;
                     end
                     else
                     begin
                         dma_ld_req=1;
-                        dma_load_channel_no<=dma_ld_channel_no;
+                        //dma_load_channel_no<=dma_ld_channel_no;
                         read_state<=WAIT_FOR_ADDRESS_TRANSFER;
                     end
                 end

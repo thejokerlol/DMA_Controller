@@ -2,9 +2,14 @@
 # Webtalk v2015.2 (64-bit)
 # SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
 # IP Build 1264090 on Wed Jun 24 14:22:01 MDT 2015
-# Start of session at: Fri May 25 02:13:50 2018
-# Process ID: 19168
+# Start of session at: Sat May 26 15:57:11 2018
+# Process ID: 3068
 # Log file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.sim/sim_1/behav/webtalk.log
 # Journal file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.sim/sim_1/behav\webtalk.jou
 #-----------------------------------------------------------
 source C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.sim/sim_1/behav/xsim.dir/DMA_Controller_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+
+    while executing
+"webtalk_transmit -clientid 364838213 -regid "211223928_0_0_462" -xml C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.sim/s..."
+    (file "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.sim/sim_1/behav/xsim.dir/DMA_Controller_tb_behav/webtalk/xsim_webtalk.tcl" line 41)
+INFO: [Common 17-206] Exiting Webtalk at Sat May 26 15:57:11 2018...

@@ -16,4 +16,25 @@ Dma store channel no is  1
 DMA Channel control signals are          2
 Dma store channel no is  1
 DMA Channel control signals are          2
-$finish called at time : 10 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263
+Dma store channel no is  1
+DMA Channel control signals are          2
+Dma store channel no is  1
+DMA Channel control signals are          2
+Dma store channel no is  1
+DMA Channel control signals are          2
+Dma store channel no is  1
+DMA Channel control signals are          2
+The opcode for the instruction is          x
+Dma store channel no is  2
+DMA Channel control signals are          2
+Dma store channel no is  2
+DMA Channel control signals are          2
+Dma store channel no is  2
+DMA Channel control signals are          2
+Dma store channel no is  2
+DMA Channel control signals are          2
+Dma store channel no is  2
+DMA Channel control signals are          2
+Dma store channel no is  2
+DMA Channel control signals are          2
+$finish called at time : 30 us : File "C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sim_1/new/DMA_Controller_tb.v" Line 263
