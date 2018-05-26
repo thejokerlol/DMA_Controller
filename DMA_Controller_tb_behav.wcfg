@@ -71,6 +71,7 @@
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wdata" type="array">
          <obj_property name="ElementShortName">wdata[63:0]</obj_property>
          <obj_property name="ObjectShortName">wdata[63:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wstrb" type="array">
          <obj_property name="ElementShortName">wstrb[3:0]</obj_property>

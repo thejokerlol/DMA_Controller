@@ -26,7 +26,7 @@ module DMA_Controller_tb(
     
     parameter ID_MSB=3;
     parameter DATA_MSB=64;
-    parameter STRB_MSB=3;
+    parameter STRB_MSB=8;
     parameter n=3; 
     
     
@@ -47,7 +47,7 @@ module DMA_Controller_tb(
     reg wready;
     wire[ID_MSB:0] wid;
     wire[DATA_MSB-1:0] wdata;//better to keep 8 bit data of different length
-    wire[STRB_MSB:0] wstrb;
+    wire[STRB_MSB-1:0] wstrb;
     wire wlast;
     wire wvalid;
     

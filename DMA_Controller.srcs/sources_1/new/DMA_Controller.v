@@ -91,7 +91,7 @@ module DMA_Controller(
     
     parameter ID_MSB=3;
     parameter DATA_MSB=64;
-    parameter STRB_MSB=7;
+    parameter STRB_MSB=8;
     parameter n=3; 
     
     /*
@@ -115,7 +115,7 @@ module DMA_Controller(
     input wready;
     output reg[ID_MSB:0] wid;
     output[DATA_MSB-1:0] wdata;//better to keep 8 bit data of different length
-    output reg[STRB_MSB:0] wstrb;
+    output reg[STRB_MSB-1:0] wstrb;
     output reg wlast;
     output reg wvalid;
     
@@ -743,7 +743,7 @@ module DMA_Controller(
    
    integer temp_reg;
    integer temp_count;
-   
+   integer channel_count;
    always@(posedge clk or negedge reset)
    begin
          if(!reset)
@@ -763,6 +763,11 @@ module DMA_Controller(
             wvalid<=0;
             wlast<=0;
             bready<=0;
+            for(channel_count=1;channel_count<=8;channel_count=channel_count+1)
+            begin
+                channel_read_pointer[channel_count]=0;
+                channel_write_pointer[channel_count]=0;
+            end
          end
          else
          begin
