@@ -552,7 +552,7 @@ module DMA_Controller(
    reg[3:0] dma_ld_channel_no;
    reg[3:0] dma_load_channel_no;
 
-   always@(posedge aclk or negedge areset)
+   always@(posedge clk or negedge reset)
    begin
         if(!reset)
         begin
@@ -648,7 +648,11 @@ module DMA_Controller(
                             arvalid<=LOW;
                         end
                     end
-                end       
+                end
+                default:
+                begin
+                    axi_read_address_state<=AXI_ADDRESS_IDLE;
+                end      
             endcase
         end
         
@@ -723,6 +727,11 @@ module DMA_Controller(
                         end
                     end
                 end
+                default:
+                begin
+                    axi_write_address_state<=AXI_WRITE_ADDRESS_IDLE;
+                end
+             
             endcase
             
         end
@@ -766,7 +775,6 @@ module DMA_Controller(
             for(channel_count=1;channel_count<=8;channel_count=channel_count+1)
             begin
                 channel_read_pointer[channel_count]=0;
-                channel_write_pointer[channel_count]=0;
             end
          end
          else
@@ -793,6 +801,7 @@ module DMA_Controller(
                                     WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
                                     wstrb[temp_reg]<=1;
                                     temp_count=temp_count+1;
+                                    
                                 end
                                 else
                                 begin
@@ -800,6 +809,7 @@ module DMA_Controller(
                                     wstrb[temp_reg]<=0;
                                 end
                             end
+                            
                             wvalid=HIGH;
                             write_address<=write_address+(8-write_address%8);
                             completed_transfers<=completed_transfers+1;
@@ -946,6 +956,10 @@ module DMA_Controller(
                         write_state<=WAIT_FOR_RESPONSE;
                         bready<=1'b1; 
                     end
+                end
+                default:
+                begin
+                    write_state<=WRITE_IDLE;
                 end
             endcase
          end
@@ -1253,6 +1267,9 @@ module DMA_Controller(
                         rready<=1'b1;
                     end
                 end
+                default://retain the previous state
+                begin
+                end
             endcase
         end
    end
@@ -1280,6 +1297,10 @@ module DMA_Controller(
         begin
             channel_data_load_completed<=1;
             axi_channel_buffer_state<=CHANNEL_IDLE;
+            for(channel_count=1;channel_count<=8;channel_count=channel_count+1)
+            begin
+                channel_write_pointer[channel_count]=0;
+            end
         end
         else
         begin
@@ -1303,9 +1324,12 @@ module DMA_Controller(
                 begin
                     if(rid!=0)
                     begin
-                        for(temp_reg=0;temp_reg<=CC[rid][3:1];temp_reg=temp_reg+1)
+                        for(temp_reg=0;temp_reg<=8;temp_reg=temp_reg+1)
                         begin
-                            channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=rdata[temp_reg];
+                            if(temp_reg<=CC[rid][3:1])
+                            begin
+                                channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=rdata[temp_reg];
+                            end
                         end
                         SA[rid]<=SA[rid]+CC[rid][3:1];
                         channel_write_pointer[rid]<=channel_write_pointer[rid]+CC[rid][3:1];
@@ -1325,6 +1349,9 @@ module DMA_Controller(
                 begin
                     axi_channel_buffer_state<=CHANNEL_FILL;
                 end
+            end
+            default://retain the state
+            begin
             end
             endcase
             
@@ -1555,6 +1582,10 @@ module DMA_Controller(
                                     Manager_ThreadState=FAULTING;
                                 end
                             end
+                            default:
+                            begin
+                                Manager_ThreadState=STOPPED;
+                            end
                         endcase
                     end
                 end
@@ -1694,19 +1725,7 @@ module DMA_Controller(
                                 CPC[thread_no]<=CPC[thread_no]+4;
                                 Channel_ThreadState[thread_no]<=EXECUTING;
                             end
-                            WAITING_FOR_EVENT:
-                            begin
-                            end
-                            AT_BARRIER:
-                            begin
-                            end
-                            WAITING_FOR_PERIPHERAL:
-                            begin
-                            end
-                            FAULTING_COMPLETING:
-                            begin
-                            end
-                            FAULTING:
+                            FAULTING://if nothing is specified then the state is retained
                             begin
                             end
                             KILLING:
@@ -1714,6 +1733,10 @@ module DMA_Controller(
                             end
                             COMPLETING:
                             begin
+                            end
+                            default:
+                            begin
+                                Channel_ThreadState[thread_no]<=STOPPED;
                             end
                         endcase
                     end 
@@ -2195,7 +2218,7 @@ module DMA_Controller(
    begin
         if(!reset)
         begin
-            for(count=0;count<7;count=count+1)
+            for(count=1;count<=8;count=count+1)
             begin
                 SA[count]<=32'd0;
             end
@@ -2311,6 +2334,7 @@ module DMA_Controller(
           casez(cache_data_out)
             32'bzzzzzzzzzzzzzzzzzzzzzzzz010101z0: // the register to add an immediate is contained in [26:24], the current channel thread source and destination are to be set
             begin
+                
                 if(cache_data_out[1]==LOW)//add the immediate to the source register
                 begin
                     sr_no=next_thread_to_execute;

@@ -1,0 +1,10 @@
+#-----------------------------------------------------------
+# Vivado v2015.2 (64-bit)
+# SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
+# IP Build 1264090 on Wed Jun 24 14:22:01 MDT 2015
+# Start of session at: Sun May 27 12:45:18 2018
+# Process ID: 6772
+# Log file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.runs/synth_1/DMA_Controller.vds
+# Journal file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source DMA_Controller.tcl -notrace

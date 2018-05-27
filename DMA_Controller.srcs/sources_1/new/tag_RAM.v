@@ -62,6 +62,10 @@ module tag_RAM(clk,address,enable_RW,read,
                 hit=1'b0;
             end
         end
+        else
+        begin
+            hit=0;
+        end
         
     end
     

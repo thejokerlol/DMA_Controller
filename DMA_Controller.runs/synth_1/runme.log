@@ -1,0 +1,1798 @@
+
+*** Running vivado
+    with args -log DMA_Controller.vds -m64 -mode batch -messageDb vivado.pb -notrace -source DMA_Controller.tcl
+
+WARNING: Default location for XILINX_VIVADO_HLS not found: 
+
+****** Vivado v2015.2 (64-bit)
+  **** SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
+  **** IP Build 1264090 on Wed Jun 24 14:22:01 MDT 2015
+    ** Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
+
+source DMA_Controller.tcl -notrace
+Command: synth_design -top DMA_Controller -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-1223] The version limit for your license is '2017.08' and will expire in -269 days. A version limit expiration means that, although you may be able to continue to use the current version of tools or IP with this license, you will not be eligible for any updates or new releases.
+WARNING: [Synth 8-2292] literal value truncated to fit in 32 bits [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2476]
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:06 ; elapsed = 00:00:15 . Memory (MB): peak = 254.813 ; gain = 78.918
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'DMA_Controller' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:23]
+	Parameter ID_MSB bound to: 3 - type: integer 
+	Parameter DATA_MSB bound to: 64 - type: integer 
+	Parameter STRB_MSB bound to: 8 - type: integer 
+	Parameter n bound to: 3 - type: integer 
+	Parameter STOPPED bound to: 4'b0000 
+	Parameter EXECUTING bound to: 4'b0001 
+	Parameter CACHE_MISS bound to: 4'b0010 
+	Parameter UPDATING_PC bound to: 4'b0011 
+	Parameter WAITING_FOR_EVENT bound to: 4'b0100 
+	Parameter AT_BARRIER bound to: 4'b0101 
+	Parameter WAITING_FOR_PERIPHERAL bound to: 4'b0110 
+	Parameter FAULTING_COMPLETING bound to: 4'b0111 
+	Parameter FAULTING bound to: 4'b1000 
+	Parameter KILLING bound to: 4'b1001 
+	Parameter COMPLETING bound to: 4'b1010 
+	Parameter HIGH bound to: 1'b1 
+	Parameter LOW bound to: 1'b0 
+	Parameter AXI_IDLE bound to: 4'b0000 
+	Parameter IDLE bound to: 3'b000 
+	Parameter INVALIDATE bound to: 3'b001 
+	Parameter READ bound to: 3'b010 
+	Parameter WRITE bound to: 3'b011 
+	Parameter THREAD_STALL_IDLE bound to: 0 - type: integer 
+	Parameter WAIT_FOR_CONDITION bound to: 1 - type: integer 
+	Parameter AXI_ADDRESS_IDLE bound to: 2'b00 
+	Parameter AXI_WAITING_FOR_READY bound to: 2'b01 
+	Parameter AXI_WRITE_ADDRESS_IDLE bound to: 2'b00 
+	Parameter AXI_WAITING_FOR_WREADY bound to: 2'b01 
+	Parameter WRITE_IDLE bound to: 3'b000 
+	Parameter SEND_DATA bound to: 3'b001 
+	Parameter WAIT_FOR_WREADY bound to: 3'b010 
+	Parameter WAIT_FOR_RESPONSE bound to: 3'b011 
+	Parameter CACHE_IDLE bound to: 3'b000 
+	Parameter WAIT_FOR_RVALID bound to: 3'b001 
+	Parameter CHECK_FOR_CACHE_MISS bound to: 3'b010 
+	Parameter WAIT_FOR_CLK_CYCLE bound to: 3'b011 
+	Parameter CHANNEL_IDLE bound to: 2'b00 
+	Parameter CHANNEL_FILL bound to: 2'b01 
+	Parameter CHANNEL_WAIT bound to: 2'b10 
+	Parameter LOAD_IDLE bound to: 2'b00 
+	Parameter WAIT_FOR_ADDRESS_TRANSFER bound to: 2'b10 
+	Parameter STORE_IDLE bound to: 2'b00 
+	Parameter WAIT_FOR_STORE_ADDRESS_TRANSFER bound to: 2'b01 
+INFO: [Synth 8-638] synthesizing module 'Instruction_Cache' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:25]
+	Parameter bytes_in_cache_line bound to: 8'b00100000 
+INFO: [Synth 8-638] synthesizing module 'tag_RAM' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'tag_RAM' (1#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v:23]
+INFO: [Synth 8-638] synthesizing module 'Data_RAM' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'Data_RAM' (2#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'Instruction_Cache' (3#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:25]
+INFO: [Synth 8-638] synthesizing module 'Instruction_Buffer' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:25]
+WARNING: [Synth 8-4767] Trying to implement RAM 'mem_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
+Reason is one or more of the following :
+RAM "mem_reg" dissolved into registers
+INFO: [Synth 8-256] done synthesizing module 'Instruction_Buffer' (4#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:25]
+WARNING: [Synth 8-324] index 0 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2242]
+WARNING: [Synth 8-151] case item 32'bxxxxxxxxxxxxxxxxxxxxx000001010x1 is unreachable [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2334]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2777]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2824]
+INFO: [Synth 8-4512] found unpartitioned construct node [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1606]
+WARNING: [Synth 8-3848] Net DBGCMD in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:279]
+WARNING: [Synth 8-3848] Net DBGINST0 in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:280]
+WARNING: [Synth 8-3848] Net request_flag in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:342]
+WARNING: [Synth 8-3848] Net cache_state in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:400]
+WARNING: [Synth 8-3848] Net DBGINST1 in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:281]
+WARNING: [Synth 8-3848] Net datype in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:154]
+WARNING: [Synth 8-3848] Net davalid in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:155]
+WARNING: [Synth 8-3848] Net drready in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:156]
+WARNING: [Synth 8-3848] Net irq in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:162]
+WARNING: [Synth 8-3848] Net irq_abort in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:163]
+WARNING: [Synth 8-3848] Net prdata in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:185]
+WARNING: [Synth 8-3848] Net pready in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:186]
+WARNING: [Synth 8-3848] Net read_inst_write[1] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net read_inst_write[2] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net read_inst_write[3] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net read_inst_write[4] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net read_inst_write[5] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net read_inst_write[6] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net read_inst_write[7] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net read_inst_write[8] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:461]
+WARNING: [Synth 8-3848] Net write_inst_write[1] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+WARNING: [Synth 8-3848] Net write_inst_write[2] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+WARNING: [Synth 8-3848] Net write_inst_write[3] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+WARNING: [Synth 8-3848] Net write_inst_write[4] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+WARNING: [Synth 8-3848] Net write_inst_write[5] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+WARNING: [Synth 8-3848] Net write_inst_write[6] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+WARNING: [Synth 8-3848] Net write_inst_write[7] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+WARNING: [Synth 8-3848] Net write_inst_write[8] in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:491]
+INFO: [Synth 8-256] done synthesizing module 'DMA_Controller' (5#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:23]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port datype[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port datype[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port davalid
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port drready
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port irq[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port irq[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port irq[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port irq[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port irq_abort
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[31]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[30]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[29]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[28]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[27]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[26]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[25]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[24]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[23]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[22]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[21]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[20]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[19]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[18]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[17]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[16]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[15]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[14]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[13]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[12]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[11]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[10]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[9]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[8]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[7]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[6]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[5]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[4]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port prdata[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port pready
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[63]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[62]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[61]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[60]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[59]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[58]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[57]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[56]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[55]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[54]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[53]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[52]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[51]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[50]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[49]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[48]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[47]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[46]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[45]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[44]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[43]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[42]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[41]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[40]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[39]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[38]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[37]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[36]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[35]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[34]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[33]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rdata[32]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rresp[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rresp[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port daready
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port drlast
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port drtype[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port drtype[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_manager_ns
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[31]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[30]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[29]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[28]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[27]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[26]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[25]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[24]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[23]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[22]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port paddr[21]
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:02:50 ; elapsed = 00:03:15 . Memory (MB): peak = 1392.379 ; gain = 1216.484
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:03:02 ; elapsed = 00:03:34 . Memory (MB): peak = 1392.379 ; gain = 1216.484
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a100tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:03:02 ; elapsed = 00:03:35 . Memory (MB): peak = 1392.379 ; gain = 1216.484
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: [Synth 8-3537] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the inputs of the operator [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:794]
+INFO: [Synth 8-802] inferred FSM for state register 'axi_read_state_reg' in module 'DMA_Controller'
+INFO: [Synth 8-802] inferred FSM for state register 'next_thread_to_execute_reg' in module 'DMA_Controller'
+INFO: [Synth 8-5544] ROM "DA_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "DA_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "DA_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "DA_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "DA_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "DA_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "DA_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "DA_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "no_of_cache_misses" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "no_of_cache_misses" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "dma_st_req" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5546] ROM "Channel_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5544] ROM "Manager_ThreadState" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "Manager_ThreadState" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5546] ROM "Manager_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][10]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][11]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-5544] ROM "axi_read_state" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "axi_read_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "cache_address_register" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "axi_read_state" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                     Old Encoding 
+---------------------------------------------------------------------------------------------------
+              CACHE_IDLE |                               00 |                              000
+      WAIT_FOR_CLK_CYCLE |                               01 |                              011
+    CHECK_FOR_CACHE_MISS |                               10 |                              010
+         WAIT_FOR_RVALID |                               11 |                              001
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'axi_read_state_reg' using encoding 'sequential' in module 'DMA_Controller'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                     Old Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0000 |                             0000
+                 iSTATE7 |                             1000 |                             1000
+                 iSTATE6 |                             0111 |                             0111
+                 iSTATE5 |                             0110 |                             0110
+                 iSTATE4 |                             0101 |                             0101
+                 iSTATE3 |                             0100 |                             0100
+                 iSTATE2 |                             0011 |                             0011
+                 iSTATE1 |                             0010 |                             0010
+                 iSTATE0 |                             0001 |                             0001
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'next_thread_to_execute_reg' using encoding 'sequential' in module 'DMA_Controller'
+WARNING: [Synth 8-327] inferring latch for variable 'sr_imm_reg' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2341]
+WARNING: [Synth 8-327] inferring latch for variable 'dr_imm_reg' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2347]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[1]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[1]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[2]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[2]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[3]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[3]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[4]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[4]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[5]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[5]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[6]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[6]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[7]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[7]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_data_in_reg[8]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:478]
+WARNING: [Synth 8-327] inferring latch for variable 'read_inst_read_reg[8]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:479]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[1]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[2]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[3]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[4]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[5]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[6]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[7]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_read_reg[8]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:508]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[1]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[2]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[3]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[4]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[5]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[6]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[7]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+WARNING: [Synth 8-327] inferring latch for variable 'write_inst_data_in_reg[8]' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:507]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:53:28 ; elapsed = 00:56:33 . Memory (MB): peak = 1980.535 ; gain = 1804.641
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++------+---------------------+------------+----------+
+|      |RTL Partition        |Replication |Instances |
++------+---------------------+------------+----------+
+|1     |DMA_Controller__GB0  |           1|     27799|
+|2     |DMA_Controller__GB1  |           1|     19833|
+|3     |DMA_Controller__GB2  |           1|      8631|
+|4     |DMA_Controller__GB3  |           1|     17661|
+|5     |DMA_Controller__GB4  |           1|     20710|
+|6     |DMA_Controller__GB5  |           1|     26855|
+|7     |DMA_Controller__GB6  |           1|     33064|
+|8     |DMA_Controller__GB7  |           1|     41276|
+|9     |DMA_Controller__GB8  |           1|     40705|
+|10    |DMA_Controller__GB9  |           1|     10568|
+|11    |DMA_Controller__GB10 |           1|     45151|
+|12    |DMA_Controller__GB11 |           1|     21635|
+|13    |DMA_Controller__GB12 |           1|     37261|
+|14    |DMA_Controller__GB13 |           1|     12582|
+|15    |DMA_Controller__GB14 |           1|     15459|
+|16    |DMA_Controller__GB15 |           1|     17333|
+|17    |DMA_Controller__GB16 |           1|     41390|
+|18    |DMA_Controller__GB17 |           1|     10861|
+|19    |DMA_Controller__GB18 |           1|     47812|
+|20    |DMA_Controller__GB19 |           1|     44329|
+|21    |DMA_Controller__GB20 |           1|     23099|
+|22    |DMA_Controller__GB21 |           1|     39986|
+|23    |DMA_Controller__GB22 |           1|      8606|
+|24    |DMA_Controller__GB23 |           1|     11460|
+|25    |DMA_Controller__GB24 |           1|     13703|
+|26    |DMA_Controller__GB25 |           1|     16620|
+|27    |DMA_Controller__GB26 |           1|     19999|
+|28    |DMA_Controller__GB27 |           1|     28301|
+|29    |DMA_Controller__GB28 |           1|     41560|
+|30    |DMA_Controller__GB29 |           1|      8370|
+|31    |DMA_Controller__GB30 |           1|      9409|
+|32    |DMA_Controller__GB31 |           1|     11784|
+|33    |DMA_Controller__GB32 |           1|     15460|
+|34    |DMA_Controller__GB33 |           1|     19830|
+|35    |DMA_Controller__GB34 |           1|     18796|
+|36    |DMA_Controller__GB35 |           1|     32275|
+|37    |DMA_Controller__GB36 |           1|     40826|
+|38    |DMA_Controller__GB37 |           1|     10329|
+|39    |DMA_Controller__GB38 |           1|     13260|
+|40    |DMA_Controller__GB39 |           1|     14846|
+|41    |DMA_Controller__GB40 |           1|     19811|
+|42    |DMA_Controller__GB41 |           1|     22905|
+|43    |DMA_Controller__GB42 |           1|     31803|
+|44    |DMA_Controller__GB43 |           1|     40069|
+|45    |DMA_Controller__GB44 |           1|     25661|
+|46    |DMA_Controller__GB45 |           1|     41421|
+|47    |DMA_Controller__GB46 |           1|      9853|
+|48    |DMA_Controller__GB47 |           1|     11356|
+|49    |DMA_Controller__GB48 |           1|     13753|
+|50    |DMA_Controller__GB49 |           1|     17910|
+|51    |DMA_Controller__GB50 |           1|     23544|
+|52    |DMA_Controller__GB51 |           1|     21062|
+|53    |DMA_Controller__GB52 |           1|     35113|
+|54    |DMA_Controller__GB53 |           1|     41882|
+|55    |DMA_Controller__GB54 |           1|     47135|
+|56    |DMA_Controller__GB55 |           1|     12470|
++------+---------------------+------------+----------+
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     33 Bit       Adders := 16    
+	   2 Input     32 Bit       Adders := 20    
+	   2 Input      8 Bit       Adders := 8     
+	   2 Input      7 Bit       Adders := 23    
+	   3 Input      7 Bit       Adders := 4     
+	   2 Input      4 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 34    
++---Registers : 
+	               64 Bit    Registers := 1     
+	               32 Bit    Registers := 105   
+	                8 Bit    Registers := 1065  
+	                7 Bit    Registers := 17    
+	                4 Bit    Registers := 19    
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 23    
+	                1 Bit    Registers := 62    
++---RAMs : 
+	              512 Bit         RAMs := 1     
+	              128 Bit         RAMs := 32    
++---Muxes : 
+	   2 Input     64 Bit        Muxes := 3     
+	   2 Input     32 Bit        Muxes := 21    
+	   7 Input     32 Bit        Muxes := 1     
+	   4 Input     32 Bit        Muxes := 20    
+	   8 Input     32 Bit        Muxes := 12    
+	   3 Input     32 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 53    
+	   4 Input      8 Bit        Muxes := 8     
+	   2 Input      7 Bit        Muxes := 41    
+	   2 Input      4 Bit        Muxes := 46    
+	   4 Input      4 Bit        Muxes := 1     
+	   9 Input      4 Bit        Muxes := 2     
+	   8 Input      4 Bit        Muxes := 1     
+	  90 Input      4 Bit        Muxes := 1     
+	   3 Input      4 Bit        Muxes := 4     
+	  19 Input      4 Bit        Muxes := 2     
+	   5 Input      4 Bit        Muxes := 1     
+	   3 Input      3 Bit        Muxes := 2     
+	   2 Input      3 Bit        Muxes := 11    
+	   4 Input      3 Bit        Muxes := 1     
+	   7 Input      3 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 139   
+	   4 Input      2 Bit        Muxes := 1     
+	  23 Input      2 Bit        Muxes := 1     
+	   3 Input      2 Bit        Muxes := 1     
+	   6 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 158179
+	   3 Input      1 Bit        Muxes := 20    
+	   7 Input      1 Bit        Muxes := 1     
+	   4 Input      1 Bit        Muxes := 47    
+	  19 Input      1 Bit        Muxes := 39    
+	   8 Input      1 Bit        Muxes := 17    
+	  20 Input      1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module DMA_Controller 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     33 Bit       Adders := 16    
+	   2 Input     32 Bit       Adders := 20    
+	   2 Input      8 Bit       Adders := 8     
+	   2 Input      7 Bit       Adders := 23    
+	   3 Input      7 Bit       Adders := 4     
+	   2 Input      4 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               64 Bit    Registers := 1     
+	               32 Bit    Registers := 24    
+	                8 Bit    Registers := 1033  
+	                7 Bit    Registers := 17    
+	                4 Bit    Registers := 19    
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 7     
+	                1 Bit    Registers := 14    
++---Muxes : 
+	   2 Input     64 Bit        Muxes := 3     
+	   2 Input     32 Bit        Muxes := 21    
+	   7 Input     32 Bit        Muxes := 1     
+	   4 Input     32 Bit        Muxes := 4     
+	   8 Input     32 Bit        Muxes := 12    
+	   3 Input     32 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 53    
+	   4 Input      8 Bit        Muxes := 8     
+	   2 Input      7 Bit        Muxes := 41    
+	   2 Input      4 Bit        Muxes := 46    
+	   4 Input      4 Bit        Muxes := 1     
+	   9 Input      4 Bit        Muxes := 2     
+	   8 Input      4 Bit        Muxes := 1     
+	  90 Input      4 Bit        Muxes := 1     
+	   3 Input      4 Bit        Muxes := 4     
+	  19 Input      4 Bit        Muxes := 2     
+	   5 Input      4 Bit        Muxes := 1     
+	   3 Input      3 Bit        Muxes := 2     
+	   2 Input      3 Bit        Muxes := 11    
+	   4 Input      3 Bit        Muxes := 1     
+	   7 Input      3 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 43    
+	   4 Input      2 Bit        Muxes := 1     
+	  23 Input      2 Bit        Muxes := 1     
+	   3 Input      2 Bit        Muxes := 1     
+	   6 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 158099
+	   3 Input      1 Bit        Muxes := 20    
+	   7 Input      1 Bit        Muxes := 1     
+	   4 Input      1 Bit        Muxes := 47    
+	  19 Input      1 Bit        Muxes := 39    
+	   8 Input      1 Bit        Muxes := 17    
+	  20 Input      1 Bit        Muxes := 1     
+Module Instruction_Buffer__1 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__2 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__3 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__4 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__5 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__6 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__7 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__8 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__9 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__10 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module tag_RAM 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
++---RAMs : 
+	              512 Bit         RAMs := 1     
+Module Data_RAM__1 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__2 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__3 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__4 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__5 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__6 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__7 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__8 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__9 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__10 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__11 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__12 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__13 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__14 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__15 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__16 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__17 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__18 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__19 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__20 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__21 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__22 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__23 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__24 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__25 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__26 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__27 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__28 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__29 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__30 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__31 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Instruction_Cache 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 16    
+Module Instruction_Buffer__11 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__12 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__13 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__14 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer__15 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+Module Instruction_Buffer 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 240 (col length:80)
+BRAMs: 270 (col length: RAMB18 80 RAMB36 40)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+Start Parallel Synthesis Optimization  : Time (s): cpu = 00:54:03 ; elapsed = 00:57:12 . Memory (MB): peak = 1982.055 ; gain = 1806.160
+---------------------------------------------------------------------------------
+Start Cross Boundary Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5546] ROM "Channel_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "Manager_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary Optimization : Time (s): cpu = 00:55:37 ; elapsed = 01:20:44 . Memory (MB): peak = 1982.055 ; gain = 1806.160
+---------------------------------------------------------------------------------
+Finished Parallel Reinference  : Time (s): cpu = 00:55:37 ; elapsed = 01:20:44 . Memory (MB): peak = 1982.055 ; gain = 1806.160
+
+Report RTL Partitions: 
++------+---------------------+------------+----------+
+|      |RTL Partition        |Replication |Instances |
++------+---------------------+------------+----------+
+|1     |DMA_Controller__GB0  |           1|     28083|
+|2     |DMA_Controller__GB1  |           1|     20171|
+|3     |DMA_Controller__GB2  |           1|      8631|
+|4     |DMA_Controller__GB3  |           1|     18045|
+|5     |DMA_Controller__GB4  |           1|     20710|
+|6     |DMA_Controller__GB5  |           1|     26855|
+|7     |DMA_Controller__GB6  |           1|     33064|
+|8     |DMA_Controller__GB7  |           1|     41276|
+|9     |DMA_Controller__GB8  |           1|     40705|
+|10    |DMA_Controller__GB9  |           1|     10568|
+|11    |DMA_Controller__GB10 |           1|     45151|
+|12    |DMA_Controller__GB11 |           1|     21635|
+|13    |DMA_Controller__GB12 |           1|     37261|
+|14    |DMA_Controller__GB13 |           1|     12582|
+|15    |DMA_Controller__GB14 |           1|     15459|
+|16    |DMA_Controller__GB15 |           1|     17333|
+|17    |DMA_Controller__GB16 |           1|     41395|
+|18    |DMA_Controller__GB17 |           1|     10861|
+|19    |DMA_Controller__GB18 |           1|     47812|
+|20    |DMA_Controller__GB19 |           1|     44329|
+|21    |DMA_Controller__GB20 |           1|     23099|
+|22    |DMA_Controller__GB21 |           1|     39986|
+|23    |DMA_Controller__GB22 |           1|      8606|
+|24    |DMA_Controller__GB23 |           1|     11460|
+|25    |DMA_Controller__GB24 |           1|     13703|
+|26    |DMA_Controller__GB25 |           1|     16620|
+|27    |DMA_Controller__GB26 |           1|     19999|
+|28    |DMA_Controller__GB27 |           1|     28301|
+|29    |DMA_Controller__GB28 |           1|     41560|
+|30    |DMA_Controller__GB29 |           1|      8370|
+|31    |DMA_Controller__GB30 |           1|      9409|
+|32    |DMA_Controller__GB31 |           1|     11784|
+|33    |DMA_Controller__GB32 |           1|     15460|
+|34    |DMA_Controller__GB33 |           1|     19830|
+|35    |DMA_Controller__GB34 |           1|     18796|
+|36    |DMA_Controller__GB35 |           1|     32275|
+|37    |DMA_Controller__GB36 |           1|     40826|
+|38    |DMA_Controller__GB37 |           1|     10329|
+|39    |DMA_Controller__GB38 |           1|     13260|
+|40    |DMA_Controller__GB39 |           1|     14846|
+|41    |DMA_Controller__GB40 |           1|     19811|
+|42    |DMA_Controller__GB41 |           1|     22905|
+|43    |DMA_Controller__GB42 |           1|     31803|
+|44    |DMA_Controller__GB43 |           1|     40069|
+|45    |DMA_Controller__GB44 |           1|     25661|
+|46    |DMA_Controller__GB45 |           1|     41421|
+|47    |DMA_Controller__GB46 |           1|      9853|
+|48    |DMA_Controller__GB47 |           1|     11356|
+|49    |DMA_Controller__GB48 |           1|     13753|
+|50    |DMA_Controller__GB49 |           1|     17910|
+|51    |DMA_Controller__GB50 |           1|     23544|
+|52    |DMA_Controller__GB51 |           1|     21062|
+|53    |DMA_Controller__GB52 |           1|     35113|
+|54    |DMA_Controller__GB53 |           1|     41882|
+|55    |DMA_Controller__GB54 |           1|     47135|
+|56    |DMA_Controller__GB55 |           1|     12470|
++------+---------------------+------------+----------+
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: 
++--------------------+-----------------------------+-----------+----------------------+-----------------+---------------------------+
+|Module Name         | RTL Object                  | Inference | Size (Depth x Width) | Primitives      | Hierarchical Name         | 
++--------------------+-----------------------------+-----------+----------------------+-----------------+---------------------------+
+|DMA_Controller__GB1 | T1/tag_mem_reg              | Implied   | 16 x 32              | RAM16X1S x 32   | Instruction_Cache/ram__33 | 
+|DMA_Controller__GB1 | genblk1[0].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__34 | 
+|DMA_Controller__GB1 | genblk1[1].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__35 | 
+|DMA_Controller__GB1 | genblk1[2].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__36 | 
+|DMA_Controller__GB1 | genblk1[3].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__37 | 
+|DMA_Controller__GB1 | genblk1[4].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__38 | 
+|DMA_Controller__GB1 | genblk1[5].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__39 | 
+|DMA_Controller__GB1 | genblk1[6].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__40 | 
+|DMA_Controller__GB1 | genblk1[7].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__41 | 
+|DMA_Controller__GB1 | genblk1[8].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__42 | 
+|DMA_Controller__GB1 | genblk1[9].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__43 | 
+|DMA_Controller__GB1 | genblk1[10].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__44 | 
+|DMA_Controller__GB1 | genblk1[11].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__45 | 
+|DMA_Controller__GB1 | genblk1[12].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__46 | 
+|DMA_Controller__GB1 | genblk1[13].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__47 | 
+|DMA_Controller__GB1 | genblk1[14].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__48 | 
+|DMA_Controller__GB1 | genblk1[15].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__49 | 
+|DMA_Controller__GB1 | genblk1[16].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__50 | 
+|DMA_Controller__GB1 | genblk1[17].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__51 | 
+|DMA_Controller__GB1 | genblk1[18].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__52 | 
+|DMA_Controller__GB1 | genblk1[19].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__53 | 
+|DMA_Controller__GB1 | genblk1[20].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__54 | 
+|DMA_Controller__GB1 | genblk1[21].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__55 | 
+|DMA_Controller__GB1 | genblk1[22].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__56 | 
+|DMA_Controller__GB1 | genblk1[23].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__57 | 
+|DMA_Controller__GB1 | genblk1[24].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__58 | 
+|DMA_Controller__GB1 | genblk1[25].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__59 | 
+|DMA_Controller__GB1 | genblk1[26].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__60 | 
+|DMA_Controller__GB1 | genblk1[27].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__61 | 
+|DMA_Controller__GB1 | genblk1[28].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__62 | 
+|DMA_Controller__GB1 | genblk1[29].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__63 | 
+|DMA_Controller__GB1 | genblk1[30].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__64 | 
+|DMA_Controller__GB1 | genblk1[31].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__65 | 
++--------------------+-----------------------------+-----------+----------------------+-----------------+---------------------------+
+
+Note: The table shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once. "Hierarchical Name" reflects the Distributed RAM name as it appears in the hierarchical module and only part of it is displayed.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Area Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][107][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][28][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][69][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][55][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][99][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][94][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][71][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][38][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][62][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][10][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][66][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[4][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[1][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[3][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[2][27][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[8][126][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[7][126][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[6][126][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\channel_data_buffer_reg[5][126][7] )
+INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+WARNING: [Synth 8-3332] Sequential element (\write_pointer_reg[1] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\write_pointer_reg[0] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\write_pointer_reg[1]__0 ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\write_pointer_reg[0]__0 ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\read_pointer_reg[1] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\read_pointer_reg[0] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (flip_reg) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (empty_reg) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (full_reg) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][31] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][30] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][29] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][28] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][27] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][26] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][25] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][24] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][23] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][22] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][21] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][20] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][19] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][18] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][17] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][16] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][15] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][14] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][13] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][12] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][11] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][10] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][9] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][8] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][7] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][6] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][5] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][4] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][3] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][2] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][1] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[0][0] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][31] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][30] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][29] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][28] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][27] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][26] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][25] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][24] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][23] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][22] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][21] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][20] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][19] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][18] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][17] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][16] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][15] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][14] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][13] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][12] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][11] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][10] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][9] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][8] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][7] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][6] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][5] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][4] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][3] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][2] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][1] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[1][0] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][31] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][30] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][29] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][28] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][27] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][26] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][25] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][24] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][23] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][22] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][21] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][20] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][19] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][18] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][17] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][16] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][15] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][14] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][13] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][12] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][11] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][10] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][9] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][8] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][7] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][6] ) is unused and will be removed from module Instruction_Buffer__1.
+WARNING: [Synth 8-3332] Sequential element (\mem_reg[2][5] ) is unused and will be removed from module Instruction_Buffer__1.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B2 with 1st driver pin 'genblk1[6].Read_Instr_Buffer/i_0/B2' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B2 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B2 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B4 with 1st driver pin 'genblk1[4].Read_Instr_Buffer/i_0/B4' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B4 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B4 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B6 with 1st driver pin 'genblk1[3].Read_Instr_Buffer/i_0/B6' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B6 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B6 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B2 with 1st driver pin 'genblk1[8].Read_Instr_Buffer/i_0/B2' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B2 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B2 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B4 with 1st driver pin 'genblk1[7].Read_Instr_Buffer/i_0/B4' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B4 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B4 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B6 with 1st driver pin 'genblk1[5].Read_Instr_Buffer/i_0/B6' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B6 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B6 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B8 with 1st driver pin 'genblk1[2].Read_Instr_Buffer/i_0/B8' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B8 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B8 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B10 with 1st driver pin 'genblk1[1].Read_Instr_Buffer/i_0/B10' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net B10 with 2nd driver pin 'GND' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+CRITICAL WARNING: [Synth 8-5559] multi-driven net B10 is connected to constant driver, other driver is ignored [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:64]
+INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Area Optimization : Time (s): cpu = 00:57:21 ; elapsed = 01:42:31 . Memory (MB): peak = 2277.855 ; gain = 2101.961
+---------------------------------------------------------------------------------
+Finished Parallel Area Optimization  : Time (s): cpu = 00:57:21 ; elapsed = 01:42:32 . Memory (MB): peak = 2277.855 ; gain = 2101.961
+
+Report RTL Partitions: 
++------+---------------------+------------+----------+
+|      |RTL Partition        |Replication |Instances |
++------+---------------------+------------+----------+
+|1     |DMA_Controller__GB0  |           1|     27749|
+|2     |DMA_Controller__GB1  |           1|      7601|
+|3     |DMA_Controller__GB2  |           1|       984|
+|4     |DMA_Controller__GB3  |           1|      1646|
+|5     |DMA_Controller__GB4  |           1|      1474|
+|6     |DMA_Controller__GB5  |           1|      1818|
+|7     |DMA_Controller__GB6  |           1|      1966|
+|8     |DMA_Controller__GB7  |           1|      2963|
+|9     |DMA_Controller__GB8  |           1|      2565|
+|10    |DMA_Controller__GB9  |           1|       848|
+|11    |DMA_Controller__GB10 |           1|      2812|
+|12    |DMA_Controller__GB11 |           1|      1505|
+|13    |DMA_Controller__GB12 |           1|      2379|
+|14    |DMA_Controller__GB13 |           1|       792|
+|15    |DMA_Controller__GB14 |           1|      1167|
+|16    |DMA_Controller__GB15 |           1|      1279|
+|17    |DMA_Controller__GB16 |           1|      1872|
+|18    |DMA_Controller__GB17 |           1|       894|
+|19    |DMA_Controller__GB18 |           1|      2769|
+|20    |DMA_Controller__GB19 |           1|      2403|
+|21    |DMA_Controller__GB20 |           1|      1500|
+|22    |DMA_Controller__GB21 |           1|      2629|
+|23    |DMA_Controller__GB22 |           1|       846|
+|24    |DMA_Controller__GB23 |           1|       726|
+|25    |DMA_Controller__GB24 |           1|      1151|
+|26    |DMA_Controller__GB25 |           1|      1103|
+|27    |DMA_Controller__GB26 |           1|      1525|
+|28    |DMA_Controller__GB27 |           1|      1049|
+|29    |DMA_Controller__GB28 |           1|      2673|
+|30    |DMA_Controller__GB29 |           1|       467|
+|31    |DMA_Controller__GB30 |           1|       771|
+|32    |DMA_Controller__GB31 |           1|       785|
+|33    |DMA_Controller__GB32 |           1|      1064|
+|34    |DMA_Controller__GB33 |           1|      1226|
+|35    |DMA_Controller__GB34 |           1|       861|
+|36    |DMA_Controller__GB35 |           1|      1745|
+|37    |DMA_Controller__GB36 |           1|      2389|
+|38    |DMA_Controller__GB37 |           1|       719|
+|39    |DMA_Controller__GB38 |           1|       897|
+|40    |DMA_Controller__GB39 |           1|      1283|
+|41    |DMA_Controller__GB40 |           1|      1384|
+|42    |DMA_Controller__GB41 |           1|      1532|
+|43    |DMA_Controller__GB42 |           1|      2131|
+|44    |DMA_Controller__GB43 |           1|      2533|
+|45    |DMA_Controller__GB44 |           1|      1275|
+|46    |DMA_Controller__GB45 |           1|      2756|
+|47    |DMA_Controller__GB46 |           1|       711|
+|48    |DMA_Controller__GB47 |           1|       706|
+|49    |DMA_Controller__GB48 |           1|      1126|
+|50    |DMA_Controller__GB49 |           1|      1183|
+|51    |DMA_Controller__GB50 |           1|      1274|
+|52    |DMA_Controller__GB51 |           1|       464|
+|53    |DMA_Controller__GB52 |           1|      2120|
+|54    |DMA_Controller__GB53 |           1|      2640|
+|55    |DMA_Controller__GB54 |           1|      2606|
+|56    |DMA_Controller__GB55 |           1|      1019|
++------+---------------------+------------+----------+
+Finished Parallel Synthesis Optimization  : Time (s): cpu = 00:57:21 ; elapsed = 01:42:32 . Memory (MB): peak = 2277.855 ; gain = 2101.961
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:57:21 ; elapsed = 01:42:33 . Memory (MB): peak = 2277.855 ; gain = 2101.961
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++------+---------------------+------------+----------+
+|      |RTL Partition        |Replication |Instances |
++------+---------------------+------------+----------+
+|1     |DMA_Controller__GB0  |           1|     27749|
+|2     |DMA_Controller__GB1  |           1|      7601|
+|3     |DMA_Controller__GB2  |           1|       984|
+|4     |DMA_Controller__GB3  |           1|      1646|
+|5     |DMA_Controller__GB4  |           1|      1474|
+|6     |DMA_Controller__GB5  |           1|      1818|
+|7     |DMA_Controller__GB6  |           1|      1966|
+|8     |DMA_Controller__GB7  |           1|      2963|
+|9     |DMA_Controller__GB8  |           1|      2565|
+|10    |DMA_Controller__GB9  |           1|       848|
+|11    |DMA_Controller__GB10 |           1|      2812|
+|12    |DMA_Controller__GB11 |           1|      1505|
+|13    |DMA_Controller__GB12 |           1|      2379|
+|14    |DMA_Controller__GB13 |           1|       792|
+|15    |DMA_Controller__GB14 |           1|      1167|
+|16    |DMA_Controller__GB15 |           1|      1279|
+|17    |DMA_Controller__GB16 |           1|      1872|
+|18    |DMA_Controller__GB17 |           1|       894|
+|19    |DMA_Controller__GB18 |           1|      2769|
+|20    |DMA_Controller__GB19 |           1|      2403|
+|21    |DMA_Controller__GB20 |           1|      1500|
+|22    |DMA_Controller__GB21 |           1|      2629|
+|23    |DMA_Controller__GB22 |           1|       846|
+|24    |DMA_Controller__GB23 |           1|       726|
+|25    |DMA_Controller__GB24 |           1|      1151|
+|26    |DMA_Controller__GB25 |           1|      1103|
+|27    |DMA_Controller__GB26 |           1|      1525|
+|28    |DMA_Controller__GB27 |           1|      1049|
+|29    |DMA_Controller__GB28 |           1|      2673|
+|30    |DMA_Controller__GB29 |           1|       467|
+|31    |DMA_Controller__GB30 |           1|       771|
+|32    |DMA_Controller__GB31 |           1|       785|
+|33    |DMA_Controller__GB32 |           1|      1064|
+|34    |DMA_Controller__GB33 |           1|      1226|
+|35    |DMA_Controller__GB34 |           1|       861|
+|36    |DMA_Controller__GB35 |           1|      1745|
+|37    |DMA_Controller__GB36 |           1|      2389|
+|38    |DMA_Controller__GB37 |           1|       719|
+|39    |DMA_Controller__GB38 |           1|       897|
+|40    |DMA_Controller__GB39 |           1|      1283|
+|41    |DMA_Controller__GB40 |           1|      1384|
+|42    |DMA_Controller__GB41 |           1|      1532|
+|43    |DMA_Controller__GB42 |           1|      2131|
+|44    |DMA_Controller__GB43 |           1|      2533|
+|45    |DMA_Controller__GB44 |           1|      1275|
+|46    |DMA_Controller__GB45 |           1|      2756|
+|47    |DMA_Controller__GB46 |           1|       711|
+|48    |DMA_Controller__GB47 |           1|       706|
+|49    |DMA_Controller__GB48 |           1|      1126|
+|50    |DMA_Controller__GB49 |           1|      1183|
+|51    |DMA_Controller__GB50 |           1|      1274|
+|52    |DMA_Controller__GB51 |           1|       464|
+|53    |DMA_Controller__GB52 |           1|      2120|
+|54    |DMA_Controller__GB53 |           1|      2640|
+|55    |DMA_Controller__GB54 |           1|      2606|
+|56    |DMA_Controller__GB55 |           1|      1019|
++------+---------------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:58:00 ; elapsed = 01:43:42 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:58:26 ; elapsed = 01:44:12 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+---------------------------------------------------------------------------------
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[31] with 1st driver pin 'SA_reg[8][31]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[31] with 2nd driver pin 'SA_reg[8][31]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[31] with 3rd driver pin 'SA_reg[8][31]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[31] with 1st driver pin 'SA_reg[1][31]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[31] with 2nd driver pin 'SA_reg[1][31]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[31] with 3rd driver pin 'SA_reg[1][31]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[31] with 1st driver pin 'SA_reg[2][31]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[31] with 2nd driver pin 'SA_reg[2][31]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[31] with 3rd driver pin 'SA_reg[2][31]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[31] with 1st driver pin 'SA_reg[3][31]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[31] with 2nd driver pin 'SA_reg[3][31]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[31] with 3rd driver pin 'SA_reg[3][31]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[30] with 1st driver pin 'SA_reg[8][30]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[30] with 2nd driver pin 'SA_reg[8][30]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[30] with 3rd driver pin 'SA_reg[8][30]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[30] with 1st driver pin 'SA_reg[1][30]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[30] with 2nd driver pin 'SA_reg[1][30]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[30] with 3rd driver pin 'SA_reg[1][30]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[30] with 1st driver pin 'SA_reg[2][30]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[30] with 2nd driver pin 'SA_reg[2][30]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[30] with 3rd driver pin 'SA_reg[2][30]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[30] with 1st driver pin 'SA_reg[3][30]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[30] with 2nd driver pin 'SA_reg[3][30]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[30] with 3rd driver pin 'SA_reg[3][30]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[29] with 1st driver pin 'SA_reg[8][29]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[29] with 2nd driver pin 'SA_reg[8][29]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[29] with 3rd driver pin 'SA_reg[8][29]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[29] with 1st driver pin 'SA_reg[1][29]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[29] with 2nd driver pin 'SA_reg[1][29]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[29] with 3rd driver pin 'SA_reg[1][29]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[29] with 1st driver pin 'SA_reg[2][29]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[29] with 2nd driver pin 'SA_reg[2][29]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[29] with 3rd driver pin 'SA_reg[2][29]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[29] with 1st driver pin 'SA_reg[3][29]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[29] with 2nd driver pin 'SA_reg[3][29]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[29] with 3rd driver pin 'SA_reg[3][29]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[28] with 1st driver pin 'SA_reg[8][28]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[28] with 2nd driver pin 'SA_reg[8][28]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[28] with 3rd driver pin 'SA_reg[8][28]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[28] with 1st driver pin 'SA_reg[1][28]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[28] with 2nd driver pin 'SA_reg[1][28]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[28] with 3rd driver pin 'SA_reg[1][28]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[28] with 1st driver pin 'SA_reg[2][28]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[28] with 2nd driver pin 'SA_reg[2][28]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[28] with 3rd driver pin 'SA_reg[2][28]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[28] with 1st driver pin 'SA_reg[3][28]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[28] with 2nd driver pin 'SA_reg[3][28]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[28] with 3rd driver pin 'SA_reg[3][28]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[27] with 1st driver pin 'SA_reg[8][27]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[27] with 2nd driver pin 'SA_reg[8][27]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[27] with 3rd driver pin 'SA_reg[8][27]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[27] with 1st driver pin 'SA_reg[1][27]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[27] with 2nd driver pin 'SA_reg[1][27]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[27] with 3rd driver pin 'SA_reg[1][27]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[27] with 1st driver pin 'SA_reg[2][27]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[27] with 2nd driver pin 'SA_reg[2][27]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[27] with 3rd driver pin 'SA_reg[2][27]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[27] with 1st driver pin 'SA_reg[3][27]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[27] with 2nd driver pin 'SA_reg[3][27]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[27] with 3rd driver pin 'SA_reg[3][27]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[26] with 1st driver pin 'SA_reg[8][26]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[26] with 2nd driver pin 'SA_reg[8][26]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[26] with 3rd driver pin 'SA_reg[8][26]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[26] with 1st driver pin 'SA_reg[1][26]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[26] with 2nd driver pin 'SA_reg[1][26]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[26] with 3rd driver pin 'SA_reg[1][26]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[26] with 1st driver pin 'SA_reg[2][26]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[26] with 2nd driver pin 'SA_reg[2][26]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[26] with 3rd driver pin 'SA_reg[2][26]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[26] with 1st driver pin 'SA_reg[3][26]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[26] with 2nd driver pin 'SA_reg[3][26]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[26] with 3rd driver pin 'SA_reg[3][26]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[25] with 1st driver pin 'SA_reg[8][25]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[25] with 2nd driver pin 'SA_reg[8][25]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[8]__0[25] with 3rd driver pin 'SA_reg[8][25]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[25] with 1st driver pin 'SA_reg[1][25]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[25] with 2nd driver pin 'SA_reg[1][25]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[1]__0[25] with 3rd driver pin 'SA_reg[1][25]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[25] with 1st driver pin 'SA_reg[2][25]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[25] with 2nd driver pin 'SA_reg[2][25]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[2]__0[25] with 3rd driver pin 'SA_reg[2][25]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[25] with 1st driver pin 'SA_reg[3][25]__1/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1334]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[25] with 2nd driver pin 'SA_reg[3][25]__0/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2223]
+CRITICAL WARNING: [Synth 8-3352] multi-driven net SA[3]__0[25] with 3rd driver pin 'SA_reg[3][25]/Q' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2737]
+INFO: [Common 17-14] Message 'Synth 8-3352' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|      512|Failed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:58:27 ; elapsed = 01:44:13 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:58:28 ; elapsed = 01:44:15 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports : Time (s): cpu = 00:58:28 ; elapsed = 01:44:15 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:58:28 ; elapsed = 01:44:15 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |BUFG     |     1|
+|2     |CARRY4   |   136|
+|3     |LUT1     |   389|
+|4     |LUT2     |  1079|
+|5     |LUT3     |  3467|
+|6     |LUT4     |  3735|
+|7     |LUT5     |  8122|
+|8     |LUT6     | 17643|
+|9     |MUXF7    |   126|
+|10    |MUXF8    |    36|
+|11    |RAM16X1S |   279|
+|12    |FDCE     |  1343|
+|13    |FDPE     |     3|
+|14    |FDRE     |  2367|
+|15    |LD       |    24|
+|16    |IBUF     |    83|
+|17    |OBUF     |   172|
+|18    |OBUFT    |    42|
++------+---------+------+
+
+Report Instance Areas: 
++------+---------------------+------------------+------+
+|      |Instance             |Module            |Cells |
++------+---------------------+------------------+------+
+|1     |top                  |                  | 39047|
+|2     |  Instr_cache        |Instruction_Cache |  1277|
+|3     |    T1               |tag_RAM           |   246|
+|4     |    \genblk1[0].d1   |Data_RAM          |    16|
+|5     |    \genblk1[10].d1  |Data_RAM_0        |    17|
+|6     |    \genblk1[11].d1  |Data_RAM_1        |    17|
+|7     |    \genblk1[12].d1  |Data_RAM_2        |    32|
+|8     |    \genblk1[13].d1  |Data_RAM_3        |    32|
+|9     |    \genblk1[14].d1  |Data_RAM_4        |   102|
+|10    |    \genblk1[15].d1  |Data_RAM_5        |   371|
+|11    |    \genblk1[16].d1  |Data_RAM_6        |    16|
+|12    |    \genblk1[17].d1  |Data_RAM_7        |    16|
+|13    |    \genblk1[18].d1  |Data_RAM_8        |    17|
+|14    |    \genblk1[19].d1  |Data_RAM_9        |    17|
+|15    |    \genblk1[1].d1   |Data_RAM_10       |    16|
+|16    |    \genblk1[20].d1  |Data_RAM_11       |    16|
+|17    |    \genblk1[21].d1  |Data_RAM_12       |    16|
+|18    |    \genblk1[22].d1  |Data_RAM_13       |    17|
+|19    |    \genblk1[23].d1  |Data_RAM_14       |    17|
+|20    |    \genblk1[24].d1  |Data_RAM_15       |    16|
+|21    |    \genblk1[25].d1  |Data_RAM_16       |    16|
+|22    |    \genblk1[26].d1  |Data_RAM_17       |    17|
+|23    |    \genblk1[27].d1  |Data_RAM_18       |    17|
+|24    |    \genblk1[28].d1  |Data_RAM_19       |    24|
+|25    |    \genblk1[29].d1  |Data_RAM_20       |    24|
+|26    |    \genblk1[2].d1   |Data_RAM_21       |    17|
+|27    |    \genblk1[30].d1  |Data_RAM_22       |    25|
+|28    |    \genblk1[31].d1  |Data_RAM_23       |    25|
+|29    |    \genblk1[3].d1   |Data_RAM_24       |    17|
+|30    |    \genblk1[4].d1   |Data_RAM_25       |    16|
+|31    |    \genblk1[5].d1   |Data_RAM_26       |    16|
+|32    |    \genblk1[6].d1   |Data_RAM_27       |    17|
+|33    |    \genblk1[7].d1   |Data_RAM_28       |    17|
+|34    |    \genblk1[8].d1   |Data_RAM_29       |    16|
+|35    |    \genblk1[9].d1   |Data_RAM_30       |    16|
++------+---------------------+------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:59:21 ; elapsed = 01:45:09 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 1560 critical warnings and 585 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:59:18 ; elapsed = 01:47:41 . Memory (MB): peak = 2300.332 ; gain = 2108.609
+Synthesis Optimization Complete : Time (s): cpu = 00:59:21 ; elapsed = 01:47:54 . Memory (MB): peak = 2300.332 ; gain = 2124.438
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 522 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
+WARNING: [Netlist 29-101] Netlist 'DMA_Controller' is not ideal for floorplanning, since the cellview 'DMA_Controller' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 303 instances were transformed.
+  LD => LDCE: 24 instances
+  RAM16X1S => RAM32X1S (RAMS32): 279 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+329 Infos, 267 Warnings, 108 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:59:37 ; elapsed = 01:48:58 . Memory (MB): peak = 2300.332 ; gain = 2109.875
+write_checkpoint: Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2300.332 ; gain = 0.000
+report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:02 . Memory (MB): peak = 2300.332 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Sun May 27 20:01:03 2018...

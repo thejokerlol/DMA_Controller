@@ -1,0 +1,190 @@
+#-----------------------------------------------------------
+# Vivado v2015.2 (64-bit)
+# SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
+# IP Build 1264090 on Wed Jun 24 14:22:01 MDT 2015
+# Start of session at: Sun May 27 12:45:18 2018
+# Process ID: 6772
+# Log file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.runs/synth_1/DMA_Controller.vds
+# Journal file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source DMA_Controller.tcl -notrace
+Command: synth_design -top DMA_Controller -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-1223] The version limit for your license is '2017.08' and will expire in -269 days. A version limit expiration means that, although you may be able to continue to use the current version of tools or IP with this license, you will not be eligible for any updates or new releases.
+WARNING: [Synth 8-2292] literal value truncated to fit in 4 bits [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:67]
+WARNING: [Synth 8-2292] literal value truncated to fit in 32 bits [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2453]
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:06 ; elapsed = 00:00:12 . Memory (MB): peak = 254.883 ; gain = 78.824
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'DMA_Controller' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:23]
+	Parameter ID_MSB bound to: 3 - type: integer 
+	Parameter DATA_MSB bound to: 64 - type: integer 
+	Parameter STRB_MSB bound to: 8 - type: integer 
+	Parameter n bound to: 3 - type: integer 
+	Parameter STOPPED bound to: 4'b0000 
+	Parameter EXECUTING bound to: 4'b0001 
+	Parameter CACHE_MISS bound to: 4'b0010 
+	Parameter UPDATING_PC bound to: 4'b0011 
+	Parameter WAITING_FOR_EVENT bound to: 4'b0100 
+	Parameter AT_BARRIER bound to: 4'b0101 
+	Parameter WAITING_FOR_PERIPHERAL bound to: 4'b0110 
+	Parameter FAULTING_COMPLETING bound to: 4'b0111 
+	Parameter FAULTING bound to: 4'b1000 
+	Parameter KILLING bound to: 4'b1001 
+	Parameter COMPLETING bound to: 4'b1010 
+	Parameter HIGH bound to: 1'b1 
+	Parameter LOW bound to: 1'b0 
+	Parameter AXI_IDLE bound to: 4'b0000 
+	Parameter IDLE bound to: 3'b000 
+	Parameter INVALIDATE bound to: 3'b001 
+	Parameter READ bound to: 3'b010 
+	Parameter WRITE bound to: 3'b011 
+	Parameter THREAD_STALL_IDLE bound to: 0 - type: integer 
+	Parameter WAIT_FOR_CONDITION bound to: 1 - type: integer 
+	Parameter AXI_ADDRESS_IDLE bound to: 2'b00 
+	Parameter AXI_WAITING_FOR_READY bound to: 2'b01 
+	Parameter AXI_WRITE_ADDRESS_IDLE bound to: 2'b00 
+	Parameter AXI_WAITING_FOR_WREADY bound to: 2'b01 
+	Parameter WRITE_IDLE bound to: 3'b000 
+	Parameter SEND_DATA bound to: 3'b001 
+	Parameter WAIT_FOR_WREADY bound to: 3'b010 
+	Parameter WAIT_FOR_RESPONSE bound to: 3'b011 
+	Parameter CACHE_IDLE bound to: 3'b000 
+	Parameter WAIT_FOR_RVALID bound to: 3'b001 
+	Parameter CHECK_FOR_CACHE_MISS bound to: 3'b010 
+	Parameter WAIT_FOR_CLK_CYCLE bound to: 3'b011 
+	Parameter CHANNEL_IDLE bound to: 2'b00 
+	Parameter CHANNEL_FILL bound to: 2'b01 
+	Parameter CHANNEL_WAIT bound to: 2'b10 
+	Parameter LOAD_IDLE bound to: 2'b00 
+	Parameter WAIT_FOR_ADDRESS_TRANSFER bound to: 2'b10 
+	Parameter STORE_IDLE bound to: 2'b00 
+	Parameter WAIT_FOR_STORE_ADDRESS_TRANSFER bound to: 2'b01 
+INFO: [Synth 8-638] synthesizing module 'Instruction_Cache' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:25]
+	Parameter bytes_in_cache_line bound to: 4'b0000 
+INFO: [Synth 8-638] synthesizing module 'tag_RAM' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'tag_RAM' (1#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v:23]
+INFO: [Synth 8-638] synthesizing module 'Data_RAM' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'Data_RAM' (2#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'Instruction_Cache' (3#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:25]
+INFO: [Synth 8-638] synthesizing module 'Instruction_Buffer' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:25]
+WARNING: [Synth 8-4767] Trying to implement RAM 'mem_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
+Reason is one or more of the following :
+RAM "mem_reg" dissolved into registers
+INFO: [Synth 8-256] done synthesizing module 'Instruction_Buffer' (4#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v:25]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1443]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1572]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:563]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:682]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:774]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:986]
+WARNING: [Synth 8-324] index 64 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 65 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 66 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 67 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 68 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 69 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 70 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 71 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 72 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 73 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 74 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 75 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 76 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 77 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 78 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 79 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 80 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 81 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 82 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 83 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 84 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 85 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 86 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 87 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 88 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 89 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 90 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 91 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 92 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 93 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 94 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 95 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 96 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 97 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 98 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 99 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 100 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 101 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 102 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 103 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 104 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 105 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 106 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 107 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 108 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 109 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 110 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 111 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 112 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 113 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 114 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 115 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 116 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 117 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 118 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 119 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 120 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 121 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 122 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 123 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 124 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 125 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 126 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 127 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 128 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 129 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 130 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 131 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 132 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 133 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 134 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 135 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 136 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 137 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 138 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 139 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 140 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 141 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 142 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 143 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 144 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 145 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 146 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 147 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 148 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 149 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 150 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 151 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 152 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 153 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 154 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 155 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 156 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 157 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 158 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 159 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 160 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 161 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 162 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+WARNING: [Synth 8-324] index 163 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1308]
+INFO: [Common 17-14] Message 'Synth 8-324' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.

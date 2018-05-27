@@ -64,7 +64,7 @@ module Instruction_Cache(
     wire[7:0] data_out_banks[0:31];
     reg[7:0] data_in_banks[0:31];
     
-    parameter bytes_in_cache_line=4'd32;//32 bytes
+    parameter bytes_in_cache_line=8'd32;//32 bytes
     
     tag_RAM T1(clk,address,enable_RW,read,
         {address[31:9],9'd0},
