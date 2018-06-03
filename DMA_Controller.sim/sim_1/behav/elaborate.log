@@ -10,8 +10,7 @@ Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.tag_RAM
 Compiling module xil_defaultlib.Data_RAM
 Compiling module xil_defaultlib.Instruction_Cache_default
-Compiling module xil_defaultlib.Instruction_Buffer
-Compiling module xil_defaultlib.DMA_Controller_default
+Compiling module xil_defaultlib.DMA_Controller
 Compiling module xil_defaultlib.DMA_Controller_tb
 Compiling module xil_defaultlib.glbl
 Waiting for 3 sub-compilation(s) to finish...

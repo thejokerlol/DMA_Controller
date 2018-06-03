@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="31" />
+   <WVObjectSize size="34" />
    <wvobject fp_name="group310" type="group">
       <obj_property name="label">CLK AND RESET</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -74,8 +74,8 @@
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wstrb" type="array">
-         <obj_property name="ElementShortName">wstrb[3:0]</obj_property>
-         <obj_property name="ObjectShortName">wstrb[3:0]</obj_property>
+         <obj_property name="ElementShortName">wstrb[7:0]</obj_property>
+         <obj_property name="ObjectShortName">wstrb[7:0]</obj_property>
       </wvobject>
       <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/wlast" type="logic">
          <obj_property name="ElementShortName">wlast</obj_property>
@@ -607,5 +607,99 @@
    <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/read_state" type="array">
       <obj_property name="ElementShortName">read_state[1:0]</obj_property>
       <obj_property name="ObjectShortName">read_state[1:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_data_buffer" type="array">
+      <obj_property name="ElementShortName">channel_data_buffer[1:8][0:127][7:0]</obj_property>
+      <obj_property name="ObjectShortName">channel_data_buffer[1:8][0:127][7:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer" type="array">
+      <obj_property name="ElementShortName">channel_read_pointer[1:8][6:0]</obj_property>
+      <obj_property name="ObjectShortName">channel_read_pointer[1:8][6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[1]" type="array">
+         <obj_property name="ElementShortName">[1][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[1][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[2]" type="array">
+         <obj_property name="ElementShortName">[2][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[2][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[3]" type="array">
+         <obj_property name="ElementShortName">[3][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[3][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[4]" type="array">
+         <obj_property name="ElementShortName">[4][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[4][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[5]" type="array">
+         <obj_property name="ElementShortName">[5][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[5][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[6]" type="array">
+         <obj_property name="ElementShortName">[6][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[6][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[7]" type="array">
+         <obj_property name="ElementShortName">[7][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[7][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_read_pointer[8]" type="array">
+         <obj_property name="ElementShortName">[8][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_read_pointer[8][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer" type="array">
+      <obj_property name="ElementShortName">channel_write_pointer[1:8][6:0]</obj_property>
+      <obj_property name="ObjectShortName">channel_write_pointer[1:8][6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[1]" type="array">
+         <obj_property name="ElementShortName">[1][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[1][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[2]" type="array">
+         <obj_property name="ElementShortName">[2][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[2][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[3]" type="array">
+         <obj_property name="ElementShortName">[3][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[3][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[4]" type="array">
+         <obj_property name="ElementShortName">[4][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[4][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[5]" type="array">
+         <obj_property name="ElementShortName">[5][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[5][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[6]" type="array">
+         <obj_property name="ElementShortName">[6][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[6][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[7]" type="array">
+         <obj_property name="ElementShortName">[7][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[7][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" fp_name="/DMA_Controller_tb/D_controller/channel_write_pointer[8]" type="array">
+         <obj_property name="ElementShortName">[8][6:0]</obj_property>
+         <obj_property name="ObjectShortName">channel_write_pointer[8][6:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>

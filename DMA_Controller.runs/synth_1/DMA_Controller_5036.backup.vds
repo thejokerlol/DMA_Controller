@@ -1,0 +1,1069 @@
+#-----------------------------------------------------------
+# Vivado v2015.2 (64-bit)
+# SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
+# IP Build 1264090 on Wed Jun 24 14:22:01 MDT 2015
+# Start of session at: Mon May 28 15:15:20 2018
+# Process ID: 7436
+# Log file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.runs/synth_1/DMA_Controller.vds
+# Journal file: C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source DMA_Controller.tcl -notrace
+Command: synth_design -top DMA_Controller -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-1223] The version limit for your license is '2017.08' and will expire in -270 days. A version limit expiration means that, although you may be able to continue to use the current version of tools or IP with this license, you will not be eligible for any updates or new releases.
+WARNING: [Synth 8-2292] literal value truncated to fit in 32 bits [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2571]
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:07 ; elapsed = 00:00:16 . Memory (MB): peak = 255.477 ; gain = 79.250
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'DMA_Controller' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:23]
+	Parameter ID_MSB bound to: 3 - type: integer 
+	Parameter DATA_MSB bound to: 64 - type: integer 
+	Parameter STRB_MSB bound to: 8 - type: integer 
+	Parameter n bound to: 3 - type: integer 
+	Parameter STOPPED bound to: 4'b0000 
+	Parameter EXECUTING bound to: 4'b0001 
+	Parameter CACHE_MISS bound to: 4'b0010 
+	Parameter UPDATING_PC bound to: 4'b0011 
+	Parameter WAITING_FOR_EVENT bound to: 4'b0100 
+	Parameter AT_BARRIER bound to: 4'b0101 
+	Parameter WAITING_FOR_PERIPHERAL bound to: 4'b0110 
+	Parameter FAULTING_COMPLETING bound to: 4'b0111 
+	Parameter FAULTING bound to: 4'b1000 
+	Parameter KILLING bound to: 4'b1001 
+	Parameter COMPLETING bound to: 4'b1010 
+	Parameter HIGH bound to: 1'b1 
+	Parameter LOW bound to: 1'b0 
+	Parameter AXI_IDLE bound to: 4'b0000 
+	Parameter IDLE bound to: 3'b000 
+	Parameter INVALIDATE bound to: 3'b001 
+	Parameter READ bound to: 3'b010 
+	Parameter WRITE bound to: 3'b011 
+	Parameter THREAD_STALL_IDLE bound to: 0 - type: integer 
+	Parameter WAIT_FOR_CONDITION bound to: 1 - type: integer 
+	Parameter AXI_ADDRESS_IDLE bound to: 2'b00 
+	Parameter AXI_WAITING_FOR_READY bound to: 2'b01 
+	Parameter AXI_WRITE_ADDRESS_IDLE bound to: 2'b00 
+	Parameter AXI_WAITING_FOR_WREADY bound to: 2'b01 
+	Parameter WRITE_IDLE bound to: 3'b000 
+	Parameter SEND_DATA bound to: 3'b001 
+	Parameter WAIT_FOR_WREADY bound to: 3'b010 
+	Parameter WAIT_FOR_RESPONSE bound to: 3'b011 
+	Parameter CACHE_IDLE bound to: 3'b000 
+	Parameter WAIT_FOR_RVALID bound to: 3'b001 
+	Parameter CHECK_FOR_CACHE_MISS bound to: 3'b010 
+	Parameter WAIT_FOR_CLK_CYCLE bound to: 3'b011 
+	Parameter CHANNEL_IDLE bound to: 2'b00 
+	Parameter CHANNEL_FILL bound to: 2'b01 
+	Parameter CHANNEL_WAIT bound to: 2'b10 
+	Parameter LOAD_IDLE bound to: 2'b00 
+	Parameter WAIT_FOR_ADDRESS_TRANSFER bound to: 2'b10 
+	Parameter STORE_IDLE bound to: 2'b00 
+	Parameter WAIT_FOR_STORE_ADDRESS_TRANSFER bound to: 2'b01 
+INFO: [Synth 8-638] synthesizing module 'Instruction_Cache' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:25]
+	Parameter bytes_in_cache_line bound to: 8'b00100000 
+INFO: [Synth 8-638] synthesizing module 'tag_RAM' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'tag_RAM' (1#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v:23]
+INFO: [Synth 8-638] synthesizing module 'Data_RAM' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'Data_RAM' (2#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v:23]
+INFO: [Synth 8-256] done synthesizing module 'Instruction_Cache' (3#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v:25]
+WARNING: [Synth 8-324] index 8 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1396]
+WARNING: [Synth 8-324] index 0 out of range [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2325]
+WARNING: [Synth 8-151] case item 32'bxxxxxxxxxxxxxxxxxxxxx000001010x1 is unreachable [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2428]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2862]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2909]
+INFO: [Synth 8-4512] found unpartitioned construct node [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:1670]
+WARNING: [Synth 8-3848] Net DBGCMD in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:279]
+WARNING: [Synth 8-3848] Net DBGINST0 in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:280]
+WARNING: [Synth 8-3848] Net request_flag in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:342]
+WARNING: [Synth 8-3848] Net cache_state in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:400]
+WARNING: [Synth 8-3848] Net DBGINST1 in module/entity DMA_Controller does not have driver. [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:281]
+INFO: [Synth 8-256] done synthesizing module 'DMA_Controller' (4#1) [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:23]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rresp[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rresp[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_manager_ns
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[0]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:03:17 ; elapsed = 00:03:58 . Memory (MB): peak = 1402.383 ; gain = 1226.156
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:03:30 ; elapsed = 00:04:23 . Memory (MB): peak = 1402.383 ; gain = 1226.156
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a100tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:03:30 ; elapsed = 00:04:23 . Memory (MB): peak = 1402.383 ; gain = 1226.156
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: [Synth 8-802] inferred FSM for state register 'axi_read_state_reg' in module 'DMA_Controller'
+INFO: [Synth 8-802] inferred FSM for state register 'next_thread_to_execute_reg' in module 'DMA_Controller'
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_read_pointer_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "channel_write_pointer_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "no_of_cache_misses" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "no_of_cache_misses" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "dma_st_req" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5546] ROM "Channel_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5544] ROM "Manager_ThreadState" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "Manager_ThreadState" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5546] ROM "Manager_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][0]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][1]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][2]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][3]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][4]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][5]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][6]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][7]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][8]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Synth 8-5545] ROM "channel_data_buffer_reg[1][9]" won't be mapped to RAM because address size (32) is larger than maximum supported(18)
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-5544] ROM "axi_read_state" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "axi_read_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "cache_address_register" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "axi_read_state" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "SA_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "next_thread_to_execute" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                     Old Encoding 
+---------------------------------------------------------------------------------------------------
+              CACHE_IDLE |                               00 |                              000
+      WAIT_FOR_CLK_CYCLE |                               01 |                              011
+    CHECK_FOR_CACHE_MISS |                               10 |                              010
+         WAIT_FOR_RVALID |                               11 |                              001
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'axi_read_state_reg' using encoding 'sequential' in module 'DMA_Controller'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                     Old Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0000 |                             0000
+                 iSTATE7 |                             1000 |                             1000
+                 iSTATE6 |                             0111 |                             0111
+                 iSTATE5 |                             0110 |                             0110
+                 iSTATE4 |                             0101 |                             0101
+                 iSTATE3 |                             0100 |                             0100
+                 iSTATE2 |                             0011 |                             0011
+                 iSTATE1 |                             0010 |                             0010
+                 iSTATE0 |                             0001 |                             0001
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'next_thread_to_execute_reg' using encoding 'sequential' in module 'DMA_Controller'
+WARNING: [Synth 8-327] inferring latch for variable 'dr_imm_reg' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2442]
+WARNING: [Synth 8-327] inferring latch for variable 'sr_imm_reg' [C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v:2436]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 01:00:39 ; elapsed = 01:21:34 . Memory (MB): peak = 2895.828 ; gain = 2719.602
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++------+----------------------+------------+----------+
+|      |RTL Partition         |Replication |Instances |
++------+----------------------+------------+----------+
+|1     |DMA_Controller__GB0   |           1|     27702|
+|2     |DMA_Controller__GB1   |           1|     17615|
+|3     |DMA_Controller__GB2   |           1|     24703|
+|4     |DMA_Controller__GB3   |           1|     21126|
+|5     |DMA_Controller__GB4   |           1|     42366|
+|6     |DMA_Controller__GB5   |           1|     10572|
+|7     |DMA_Controller__GB6   |           1|     42574|
+|8     |DMA_Controller__GB7   |           1|     15470|
+|9     |DMA_Controller__GB8   |           1|     14951|
+|10    |DMA_Controller__GB9   |           1|      2908|
+|11    |DMA_Controller__GB10  |           1|     28870|
+|12    |DMA_Controller__GB11  |           1|     21058|
+|13    |DMA_Controller__GB12  |           1|     33509|
+|14    |DMA_Controller__GB13  |           1|     24787|
+|15    |DMA_Controller__GB14  |           1|     21176|
+|16    |DMA_Controller__GB15  |           1|     35163|
+|17    |DMA_Controller__GB16  |           1|     43492|
+|18    |DMA_Controller__GB17  |           1|     38728|
+|19    |DMA_Controller__GB18  |           1|     41302|
+|20    |DMA_Controller__GB19  |           1|     24637|
+|21    |DMA_Controller__GB20  |           1|     25343|
+|22    |DMA_Controller__GB21  |           1|     20630|
+|23    |DMA_Controller__GB22  |           1|     38824|
+|24    |DMA_Controller__GB23  |           1|     10509|
+|25    |DMA_Controller__GB24  |           1|     24606|
+|26    |DMA_Controller__GB25  |           1|     42545|
+|27    |DMA_Controller__GB26  |           1|     24593|
+|28    |DMA_Controller__GB27  |           1|     22266|
+|29    |DMA_Controller__GB28  |           1|     21226|
+|30    |DMA_Controller__GB29  |           1|     17650|
+|31    |DMA_Controller__GB30  |           1|     17588|
+|32    |DMA_Controller__GB31  |           1|     42248|
+|33    |DMA_Controller__GB32  |           1|     28153|
+|34    |DMA_Controller__GB33  |           1|     18294|
+|35    |DMA_Controller__GB34  |           1|     14022|
+|36    |DMA_Controller__GB35  |           1|     32900|
+|37    |DMA_Controller__GB36  |           1|     28036|
+|38    |DMA_Controller__GB37  |           1|     28168|
+|39    |DMA_Controller__GB38  |           1|     21279|
+|40    |DMA_Controller__GB39  |           1|     42339|
+|41    |DMA_Controller__GB40  |           1|     10564|
+|42    |DMA_Controller__GB41  |           1|     41091|
+|43    |DMA_Controller__GB42  |           1|     42298|
+|44    |DMA_Controller__GB43  |           1|     11131|
+|45    |DMA_Controller__GB44  |           1|     21878|
+|46    |DMA_Controller__GB45  |           1|     19348|
+|47    |DMA_Controller__GB46  |           1|     36165|
+|48    |DMA_Controller__GB47  |           1|     17028|
+|49    |DMA_Controller__GB48  |           1|     41005|
+|50    |DMA_Controller__GB49  |           1|     41899|
+|51    |DMA_Controller__GB50  |           1|     27098|
+|52    |DMA_Controller__GB51  |           1|     24716|
+|53    |DMA_Controller__GB52  |           1|     35703|
+|54    |DMA_Controller__GB53  |           1|     25648|
+|55    |DMA_Controller__GB54  |           1|     14941|
+|56    |DMA_Controller__GB55  |           1|     18217|
+|57    |DMA_Controller__GB56  |           1|     42411|
+|58    |DMA_Controller__GB57  |           1|      3602|
+|59    |DMA_Controller__GB58  |           1|     34557|
+|60    |DMA_Controller__GB59  |           1|     42082|
+|61    |DMA_Controller__GB60  |           1|     10820|
+|62    |DMA_Controller__GB61  |           1|     16394|
+|63    |DMA_Controller__GB62  |           1|     24738|
+|64    |DMA_Controller__GB63  |           1|     24637|
+|65    |DMA_Controller__GB64  |           1|     21084|
+|66    |DMA_Controller__GB65  |           1|     22641|
+|67    |DMA_Controller__GB66  |           1|     41317|
+|68    |DMA_Controller__GB67  |           1|     11106|
+|69    |DMA_Controller__GB68  |           1|     14704|
+|70    |DMA_Controller__GB69  |           1|     18420|
+|71    |DMA_Controller__GB70  |           1|     30914|
+|72    |DMA_Controller__GB71  |           1|     42167|
+|73    |DMA_Controller__GB72  |           1|     42291|
+|74    |DMA_Controller__GB73  |           1|     31773|
+|75    |DMA_Controller__GB74  |           1|     24694|
+|76    |DMA_Controller__GB75  |           1|     17628|
+|77    |DMA_Controller__GB76  |           1|     17615|
+|78    |DMA_Controller__GB77  |           1|     39962|
+|79    |DMA_Controller__GB78  |           1|     31281|
+|80    |DMA_Controller__GB79  |           1|     40075|
+|81    |DMA_Controller__GB80  |           1|     14176|
+|82    |DMA_Controller__GB81  |           1|     21085|
+|83    |DMA_Controller__GB82  |           1|     31390|
+|84    |DMA_Controller__GB83  |           1|     26577|
+|85    |DMA_Controller__GB84  |           1|     21047|
+|86    |DMA_Controller__GB85  |           1|     40894|
+|87    |DMA_Controller__GB86  |           1|     10488|
+|88    |DMA_Controller__GB87  |           1|      2382|
+|89    |DMA_Controller__GB88  |           1|     31615|
+|90    |DMA_Controller__GB89  |           1|     43817|
+|91    |DMA_Controller__GB90  |           1|     29397|
+|92    |DMA_Controller__GB91  |           1|     25300|
+|93    |DMA_Controller__GB92  |           1|     17631|
+|94    |DMA_Controller__GB93  |           1|     37543|
+|95    |DMA_Controller__GB94  |           1|     39587|
+|96    |DMA_Controller__GB95  |           1|     17715|
+|97    |DMA_Controller__GB96  |           1|     40757|
+|98    |DMA_Controller__GB97  |           1|     29406|
+|99    |DMA_Controller__GB98  |           1|     29502|
+|100   |DMA_Controller__GB99  |           1|     24647|
+|101   |DMA_Controller__GB100 |           1|     24032|
+|102   |DMA_Controller__GB101 |           1|     42290|
+|103   |DMA_Controller__GB102 |           1|     32372|
+|104   |DMA_Controller__GB103 |           1|     31624|
+|105   |DMA_Controller__GB104 |           1|     18677|
+|106   |DMA_Controller__GB105 |           1|     29224|
+|107   |DMA_Controller__GB106 |           1|     38844|
+|108   |DMA_Controller__GB107 |           1|     11183|
+|109   |DMA_Controller__GB108 |           1|     21198|
+|110   |DMA_Controller__GB109 |           1|     28194|
+|111   |DMA_Controller__GB110 |           1|     24694|
+|112   |DMA_Controller__GB111 |           1|     43199|
+|113   |DMA_Controller__GB112 |           1|     24660|
+|114   |DMA_Controller__GB113 |           1|     21173|
+|115   |DMA_Controller__GB114 |           1|     25944|
+|116   |DMA_Controller__GB115 |           1|      9506|
+|117   |DMA_Controller__GB116 |           1|     25810|
+|118   |DMA_Controller__GB117 |           1|     42280|
+|119   |DMA_Controller__GB118 |           1|     36861|
+|120   |DMA_Controller__GB119 |           1|     24694|
+|121   |DMA_Controller__GB120 |           1|     30608|
+|122   |DMA_Controller__GB121 |           1|     28218|
+|123   |DMA_Controller__GB122 |           1|     39845|
+|124   |DMA_Controller__GB123 |           1|     10530|
+|125   |DMA_Controller__GB124 |           1|      8839|
+|126   |DMA_Controller__GB125 |           1|     14642|
+|127   |DMA_Controller__GB126 |           1|     34329|
+|128   |DMA_Controller__GB127 |           1|     21344|
+|129   |DMA_Controller__GB128 |           1|     29329|
+|130   |DMA_Controller__GB129 |           1|     43670|
+|131   |DMA_Controller__GB130 |           1|     14136|
+|132   |DMA_Controller__GB131 |           1|     42074|
+|133   |DMA_Controller__GB132 |           1|     10541|
+|134   |DMA_Controller__GB133 |           1|     31730|
+|135   |DMA_Controller__GB134 |           1|     28202|
+|136   |DMA_Controller__GB135 |           1|     42646|
+|137   |DMA_Controller__GB136 |           1|     22522|
+|138   |DMA_Controller__GB137 |           1|     43694|
+|139   |DMA_Controller__GB138 |           1|     33186|
+|140   |DMA_Controller__GB139 |           1|     42346|
+|141   |DMA_Controller__GB140 |           1|     13984|
+|142   |DMA_Controller__GB141 |           1|      5544|
+|143   |DMA_Controller__GB142 |           1|     18469|
+|144   |DMA_Controller__GB143 |           1|     32722|
+|145   |DMA_Controller__GB144 |           1|     24519|
+|146   |DMA_Controller__GB145 |           1|     26918|
+|147   |DMA_Controller__GB146 |           1|     21165|
+|148   |DMA_Controller__GB147 |           1|     43297|
+|149   |DMA_Controller__GB148 |           1|     14165|
+|150   |DMA_Controller__GB149 |           1|     28178|
+|151   |DMA_Controller__GB150 |           1|     28117|
+|152   |DMA_Controller__GB151 |           1|     40578|
+|153   |DMA_Controller__GB152 |           1|      8329|
+|154   |DMA_Controller__GB153 |           1|     27685|
+|155   |DMA_Controller__GB154 |           1|     20781|
+|156   |DMA_Controller__GB155 |           1|     39327|
+|157   |DMA_Controller__GB156 |           1|     22231|
+|158   |DMA_Controller__GB157 |           1|     30059|
+|159   |DMA_Controller__GB158 |           1|     28036|
+|160   |DMA_Controller__GB159 |           1|     42225|
++------+----------------------+------------+----------+
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     33 Bit       Adders := 16    
+	   2 Input     32 Bit       Adders := 23    
+	   2 Input      8 Bit       Adders := 8     
+	   3 Input      7 Bit       Adders := 6     
+	   2 Input      7 Bit       Adders := 26    
+	   2 Input      4 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               64 Bit    Registers := 1     
+	               32 Bit    Registers := 41    
+	                8 Bit    Registers := 1065  
+	                7 Bit    Registers := 17    
+	                4 Bit    Registers := 19    
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 7     
+	                1 Bit    Registers := 14    
++---RAMs : 
+	              512 Bit         RAMs := 1     
+	              128 Bit         RAMs := 32    
++---Muxes : 
+	   2 Input     64 Bit        Muxes := 3     
+	   2 Input     32 Bit        Muxes := 26    
+	   8 Input     32 Bit        Muxes := 12    
+	   4 Input     32 Bit        Muxes := 4     
+	   3 Input     32 Bit        Muxes := 1     
+	   7 Input     32 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 73783 
+	   4 Input      8 Bit        Muxes := 9     
+	   2 Input      7 Bit        Muxes := 100   
+	   4 Input      7 Bit        Muxes := 9     
+	   2 Input      4 Bit        Muxes := 47    
+	  19 Input      4 Bit        Muxes := 2     
+	   9 Input      4 Bit        Muxes := 2     
+	   8 Input      4 Bit        Muxes := 1     
+	  90 Input      4 Bit        Muxes := 1     
+	   3 Input      4 Bit        Muxes := 4     
+	   4 Input      4 Bit        Muxes := 1     
+	   5 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 11    
+	   4 Input      3 Bit        Muxes := 1     
+	   3 Input      3 Bit        Muxes := 2     
+	   7 Input      3 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 43    
+	   6 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   3 Input      2 Bit        Muxes := 1     
+	   4 Input      2 Bit        Muxes := 1     
+	  23 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 84240 
+	   4 Input      1 Bit        Muxes := 39    
+	  19 Input      1 Bit        Muxes := 7     
+	   3 Input      1 Bit        Muxes := 12    
+	   8 Input      1 Bit        Muxes := 16    
+	   7 Input      1 Bit        Muxes := 1     
+	  20 Input      1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module DMA_Controller 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     33 Bit       Adders := 16    
+	   2 Input     32 Bit       Adders := 23    
+	   2 Input      8 Bit       Adders := 8     
+	   3 Input      7 Bit       Adders := 6     
+	   2 Input      7 Bit       Adders := 26    
+	   2 Input      4 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	               64 Bit    Registers := 1     
+	               32 Bit    Registers := 40    
+	                8 Bit    Registers := 1033  
+	                7 Bit    Registers := 17    
+	                4 Bit    Registers := 19    
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 7     
+	                1 Bit    Registers := 14    
++---Muxes : 
+	   2 Input     64 Bit        Muxes := 3     
+	   2 Input     32 Bit        Muxes := 26    
+	   8 Input     32 Bit        Muxes := 12    
+	   4 Input     32 Bit        Muxes := 4     
+	   3 Input     32 Bit        Muxes := 1     
+	   7 Input     32 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 73783 
+	   4 Input      8 Bit        Muxes := 9     
+	   2 Input      7 Bit        Muxes := 100   
+	   4 Input      7 Bit        Muxes := 9     
+	   2 Input      4 Bit        Muxes := 47    
+	  19 Input      4 Bit        Muxes := 2     
+	   9 Input      4 Bit        Muxes := 2     
+	   8 Input      4 Bit        Muxes := 1     
+	  90 Input      4 Bit        Muxes := 1     
+	   3 Input      4 Bit        Muxes := 4     
+	   4 Input      4 Bit        Muxes := 1     
+	   5 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 11    
+	   4 Input      3 Bit        Muxes := 1     
+	   3 Input      3 Bit        Muxes := 2     
+	   7 Input      3 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 43    
+	   6 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   3 Input      2 Bit        Muxes := 1     
+	   4 Input      2 Bit        Muxes := 1     
+	  23 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 84224 
+	   4 Input      1 Bit        Muxes := 39    
+	  19 Input      1 Bit        Muxes := 7     
+	   3 Input      1 Bit        Muxes := 12    
+	   8 Input      1 Bit        Muxes := 16    
+	   7 Input      1 Bit        Muxes := 1     
+	  20 Input      1 Bit        Muxes := 1     
+Module tag_RAM 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
++---RAMs : 
+	              512 Bit         RAMs := 1     
+Module Data_RAM__1 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__2 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__3 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__4 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__5 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__6 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__7 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__8 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__9 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__10 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__11 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__12 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__13 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__14 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__15 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__16 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__17 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__18 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__19 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__20 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__21 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__22 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__23 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__24 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__25 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__26 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__27 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__28 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__29 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__30 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM__31 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Data_RAM 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---RAMs : 
+	              128 Bit         RAMs := 1     
+Module Instruction_Cache 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 16    
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 240 (col length:80)
+BRAMs: 270 (col length: RAMB18 80 RAMB36 40)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+Start Parallel Synthesis Optimization  : Time (s): cpu = 01:03:12 ; elapsed = 02:12:49 . Memory (MB): peak = 2919.539 ; gain = 2743.313
+---------------------------------------------------------------------------------
+Start Cross Boundary Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port bid[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rresp[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port rresp[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_manager_ns
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_irq_ns[0]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[3]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[2]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[1]
+WARNING: [Synth 8-3331] design DMA_Controller has unconnected port boot_peripheral_ns[0]
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-5546] ROM "Channel_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "Manager_ThreadState" won't be mapped to RAM because it is too sparse
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary Optimization : Time (s): cpu = 01:07:28 ; elapsed = 03:19:14 . Memory (MB): peak = 2919.539 ; gain = 2743.313
+---------------------------------------------------------------------------------
+Finished Parallel Reinference  : Time (s): cpu = 01:07:28 ; elapsed = 03:19:14 . Memory (MB): peak = 2919.539 ; gain = 2743.313
+
+Report RTL Partitions: 
++------+----------------------+------------+----------+
+|      |RTL Partition         |Replication |Instances |
++------+----------------------+------------+----------+
+|1     |DMA_Controller__GB0   |           1|     28374|
+|2     |DMA_Controller__GB1   |           1|     18095|
+|3     |DMA_Controller__GB2   |           1|     25375|
+|4     |DMA_Controller__GB3   |           1|     21702|
+|5     |DMA_Controller__GB4   |           1|     43518|
+|6     |DMA_Controller__GB5   |           1|     10860|
+|7     |DMA_Controller__GB6   |           1|     43726|
+|8     |DMA_Controller__GB7   |           1|     15854|
+|9     |DMA_Controller__GB8   |           1|     15335|
+|10    |DMA_Controller__GB9   |           1|      2908|
+|11    |DMA_Controller__GB10  |           1|     28990|
+|12    |DMA_Controller__GB11  |           1|     21634|
+|13    |DMA_Controller__GB12  |           1|     34373|
+|14    |DMA_Controller__GB13  |           1|     25459|
+|15    |DMA_Controller__GB14  |           1|     21752|
+|16    |DMA_Controller__GB15  |           1|     36123|
+|17    |DMA_Controller__GB16  |           1|     44644|
+|18    |DMA_Controller__GB17  |           1|     39688|
+|19    |DMA_Controller__GB18  |           1|     42358|
+|20    |DMA_Controller__GB19  |           1|     25309|
+|21    |DMA_Controller__GB20  |           1|     26015|
+|22    |DMA_Controller__GB21  |           1|     20918|
+|23    |DMA_Controller__GB22  |           1|     39880|
+|24    |DMA_Controller__GB23  |           1|     10797|
+|25    |DMA_Controller__GB24  |           1|     25278|
+|26    |DMA_Controller__GB25  |           1|     42833|
+|27    |DMA_Controller__GB26  |           1|     25265|
+|28    |DMA_Controller__GB27  |           1|     22842|
+|29    |DMA_Controller__GB28  |           1|     21802|
+|30    |DMA_Controller__GB29  |           1|     18130|
+|31    |DMA_Controller__GB30  |           1|     18068|
+|32    |DMA_Controller__GB31  |           1|     43400|
+|33    |DMA_Controller__GB32  |           1|     28921|
+|34    |DMA_Controller__GB33  |           1|     18678|
+|35    |DMA_Controller__GB34  |           1|     14406|
+|36    |DMA_Controller__GB35  |           1|     33668|
+|37    |DMA_Controller__GB36  |           1|     28804|
+|38    |DMA_Controller__GB37  |           1|     28936|
+|39    |DMA_Controller__GB38  |           1|     21663|
+|40    |DMA_Controller__GB39  |           1|     43491|
+|41    |DMA_Controller__GB40  |           1|     10852|
+|42    |DMA_Controller__GB41  |           1|     41187|
+|43    |DMA_Controller__GB42  |           1|     43450|
+|44    |DMA_Controller__GB43  |           1|     11419|
+|45    |DMA_Controller__GB44  |           1|     22454|
+|46    |DMA_Controller__GB45  |           1|     19828|
+|47    |DMA_Controller__GB46  |           1|     37125|
+|48    |DMA_Controller__GB47  |           1|     17412|
+|49    |DMA_Controller__GB48  |           1|     41773|
+|50    |DMA_Controller__GB49  |           1|     42859|
+|51    |DMA_Controller__GB50  |           1|     27770|
+|52    |DMA_Controller__GB51  |           1|     25292|
+|53    |DMA_Controller__GB52  |           1|     36663|
+|54    |DMA_Controller__GB53  |           1|     26320|
+|55    |DMA_Controller__GB54  |           1|     15229|
+|56    |DMA_Controller__GB55  |           1|     18601|
+|57    |DMA_Controller__GB56  |           1|     43563|
+|58    |DMA_Controller__GB57  |           1|      3602|
+|59    |DMA_Controller__GB58  |           1|     35421|
+|60    |DMA_Controller__GB59  |           1|     43234|
+|61    |DMA_Controller__GB60  |           1|     11108|
+|62    |DMA_Controller__GB61  |           1|     16682|
+|63    |DMA_Controller__GB62  |           1|     24738|
+|64    |DMA_Controller__GB63  |           1|     25309|
+|65    |DMA_Controller__GB64  |           1|     21660|
+|66    |DMA_Controller__GB65  |           1|     22641|
+|67    |DMA_Controller__GB66  |           1|     42437|
+|68    |DMA_Controller__GB67  |           1|     11394|
+|69    |DMA_Controller__GB68  |           1|     15088|
+|70    |DMA_Controller__GB69  |           1|     18900|
+|71    |DMA_Controller__GB70  |           1|     31618|
+|72    |DMA_Controller__GB71  |           1|     43319|
+|73    |DMA_Controller__GB72  |           1|     43443|
+|74    |DMA_Controller__GB73  |           1|     32637|
+|75    |DMA_Controller__GB74  |           1|     25366|
+|76    |DMA_Controller__GB75  |           1|     18108|
+|77    |DMA_Controller__GB76  |           1|     17807|
+|78    |DMA_Controller__GB77  |           1|     40922|
+|79    |DMA_Controller__GB78  |           1|     31857|
+|80    |DMA_Controller__GB79  |           1|     40075|
+|81    |DMA_Controller__GB80  |           1|     14560|
+|82    |DMA_Controller__GB81  |           1|     21661|
+|83    |DMA_Controller__GB82  |           1|     32254|
+|84    |DMA_Controller__GB83  |           1|     27249|
+|85    |DMA_Controller__GB84  |           1|     21623|
+|86    |DMA_Controller__GB85  |           1|     41950|
+|87    |DMA_Controller__GB86  |           1|     10776|
+|88    |DMA_Controller__GB87  |           1|      2382|
+|89    |DMA_Controller__GB88  |           1|     32479|
+|90    |DMA_Controller__GB89  |           1|     44873|
+|91    |DMA_Controller__GB90  |           1|     30069|
+|92    |DMA_Controller__GB91  |           1|     25876|
+|93    |DMA_Controller__GB92  |           1|     18111|
+|94    |DMA_Controller__GB93  |           1|     38023|
+|95    |DMA_Controller__GB94  |           1|     40643|
+|96    |DMA_Controller__GB95  |           1|     18195|
+|97    |DMA_Controller__GB96  |           1|     40757|
+|98    |DMA_Controller__GB97  |           1|     30174|
+|99    |DMA_Controller__GB98  |           1|     30174|
+|100   |DMA_Controller__GB99  |           1|     25319|
+|101   |DMA_Controller__GB100 |           1|     24608|
+|102   |DMA_Controller__GB101 |           1|     43442|
+|103   |DMA_Controller__GB102 |           1|     33236|
+|104   |DMA_Controller__GB103 |           1|     32488|
+|105   |DMA_Controller__GB104 |           1|     19157|
+|106   |DMA_Controller__GB105 |           1|     29992|
+|107   |DMA_Controller__GB106 |           1|     39900|
+|108   |DMA_Controller__GB107 |           1|     11375|
+|109   |DMA_Controller__GB108 |           1|     21774|
+|110   |DMA_Controller__GB109 |           1|     28962|
+|111   |DMA_Controller__GB110 |           1|     25366|
+|112   |DMA_Controller__GB111 |           1|     43203|
+|113   |DMA_Controller__GB112 |           1|     25332|
+|114   |DMA_Controller__GB113 |           1|     21749|
+|115   |DMA_Controller__GB114 |           1|     26520|
+|116   |DMA_Controller__GB115 |           1|      9506|
+|117   |DMA_Controller__GB116 |           1|     26386|
+|118   |DMA_Controller__GB117 |           1|     43432|
+|119   |DMA_Controller__GB118 |           1|     37821|
+|120   |DMA_Controller__GB119 |           1|     25366|
+|121   |DMA_Controller__GB120 |           1|     31376|
+|122   |DMA_Controller__GB121 |           1|     28986|
+|123   |DMA_Controller__GB122 |           1|     40901|
+|124   |DMA_Controller__GB123 |           1|     10818|
+|125   |DMA_Controller__GB124 |           1|      9031|
+|126   |DMA_Controller__GB125 |           1|     15026|
+|127   |DMA_Controller__GB126 |           1|     34329|
+|128   |DMA_Controller__GB127 |           1|     21920|
+|129   |DMA_Controller__GB128 |           1|     29561|
+|130   |DMA_Controller__GB129 |           1|     44822|
+|131   |DMA_Controller__GB130 |           1|     14520|
+|132   |DMA_Controller__GB131 |           1|     43226|
+|133   |DMA_Controller__GB132 |           1|     10829|
+|134   |DMA_Controller__GB133 |           1|     32594|
+|135   |DMA_Controller__GB134 |           1|     28970|
+|136   |DMA_Controller__GB135 |           1|     43798|
+|137   |DMA_Controller__GB136 |           1|     23098|
+|138   |DMA_Controller__GB137 |           1|     44846|
+|139   |DMA_Controller__GB138 |           1|     34050|
+|140   |DMA_Controller__GB139 |           1|     43498|
+|141   |DMA_Controller__GB140 |           1|     14368|
+|142   |DMA_Controller__GB141 |           1|      5544|
+|143   |DMA_Controller__GB142 |           1|     18469|
+|144   |DMA_Controller__GB143 |           1|     32722|
+|145   |DMA_Controller__GB144 |           1|     24519|
+|146   |DMA_Controller__GB145 |           1|     26918|
+|147   |DMA_Controller__GB146 |           1|     21741|
+|148   |DMA_Controller__GB147 |           1|     44449|
+|149   |DMA_Controller__GB148 |           1|     14549|
+|150   |DMA_Controller__GB149 |           1|     28946|
+|151   |DMA_Controller__GB150 |           1|     28885|
+|152   |DMA_Controller__GB151 |           1|     41346|
+|153   |DMA_Controller__GB152 |           1|      8329|
+|154   |DMA_Controller__GB153 |           1|     28453|
+|155   |DMA_Controller__GB154 |           1|     21357|
+|156   |DMA_Controller__GB155 |           1|     40383|
+|157   |DMA_Controller__GB156 |           1|     22807|
+|158   |DMA_Controller__GB157 |           1|     30059|
+|159   |DMA_Controller__GB158 |           1|     28804|
+|160   |DMA_Controller__GB159 |           1|     43377|
++------+----------------------+------------+----------+
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: 
++----------------------+-----------------------------+-----------+----------------------+-----------------+---------------------------+
+|Module Name           | RTL Object                  | Inference | Size (Depth x Width) | Primitives      | Hierarchical Name         | 
++----------------------+-----------------------------+-----------+----------------------+-----------------+---------------------------+
+|DMA_Controller__GB128 | T1/tag_mem_reg              | Implied   | 16 x 32              | RAM16X1S x 32   | Instruction_Cache/ram__33 | 
+|DMA_Controller__GB128 | genblk1[0].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__34 | 
+|DMA_Controller__GB128 | genblk1[1].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__35 | 
+|DMA_Controller__GB128 | genblk1[2].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__36 | 
+|DMA_Controller__GB128 | genblk1[3].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__37 | 
+|DMA_Controller__GB128 | genblk1[4].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__38 | 
+|DMA_Controller__GB128 | genblk1[5].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__39 | 
+|DMA_Controller__GB128 | genblk1[6].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__40 | 
+|DMA_Controller__GB128 | genblk1[7].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__41 | 
+|DMA_Controller__GB128 | genblk1[8].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__42 | 
+|DMA_Controller__GB128 | genblk1[9].d1/data_mem_reg  | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__43 | 
+|DMA_Controller__GB128 | genblk1[10].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__44 | 
+|DMA_Controller__GB128 | genblk1[11].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__45 | 
+|DMA_Controller__GB128 | genblk1[12].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__46 | 
+|DMA_Controller__GB128 | genblk1[13].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__47 | 
+|DMA_Controller__GB128 | genblk1[14].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__48 | 
+|DMA_Controller__GB128 | genblk1[15].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__49 | 
+|DMA_Controller__GB128 | genblk1[16].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__50 | 
+|DMA_Controller__GB128 | genblk1[17].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__51 | 
+|DMA_Controller__GB128 | genblk1[18].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__52 | 
+|DMA_Controller__GB128 | genblk1[19].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__53 | 
+|DMA_Controller__GB128 | genblk1[20].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__54 | 
+|DMA_Controller__GB128 | genblk1[21].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__55 | 
+|DMA_Controller__GB128 | genblk1[22].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__56 | 
+|DMA_Controller__GB128 | genblk1[23].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__57 | 
+|DMA_Controller__GB128 | genblk1[24].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__58 | 
+|DMA_Controller__GB128 | genblk1[25].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__59 | 
+|DMA_Controller__GB128 | genblk1[26].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__60 | 
+|DMA_Controller__GB128 | genblk1[27].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__61 | 
+|DMA_Controller__GB128 | genblk1[28].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__62 | 
+|DMA_Controller__GB128 | genblk1[29].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__63 | 
+|DMA_Controller__GB128 | genblk1[30].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__64 | 
+|DMA_Controller__GB128 | genblk1[31].d1/data_mem_reg | Implied   | 16 x 8               | RAM16X1S x 8    | Instruction_Cache/ram__65 | 
++----------------------+-----------------------------+-----------+----------------------+-----------------+---------------------------+
+
+Note: The table shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once. "Hierarchical Name" reflects the Distributed RAM name as it appears in the hierarchical module and only part of it is displayed.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Area Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (wlast_reg)

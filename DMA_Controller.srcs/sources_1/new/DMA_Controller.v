@@ -58,33 +58,33 @@ module DMA_Controller(
     rvalid,
     rready,
     
-    daready,
+/*    daready,
     drlast,
     drtype,
     datype,
     davalid,
-    drready,
+    drready,*/
     
-    
+/*    
     irq,
-    irq_abort,
+    irq_abort,*/
     
     boot_addr,
     boot_from_pc,
     boot_manager_ns,
     boot_irq_ns,
-    boot_peripheral_ns,
+    boot_peripheral_ns
     
     /*
         APB interface signals
     */
-    paddr,
+ /*   paddr,
     penable,
     psel,
     pwdata,
     pwrite,
     prdata,
-    pready
+    pready*/
 
     );
     //parameters
@@ -147,21 +147,21 @@ module DMA_Controller(
     /*
         peripheral request interface(currently only 1) May be use an array of signals to configure it correctly
     */
-    
+/*    
     input daready;
     input drlast;
     input[1:0] drtype;
     output[1:0] datype;
     output davalid;
-    output drready;
+    output drready;*/
     
     /*
         interrupt interface, n should be configurable
     */
-    
+/*    
     output[n:0] irq;
     output irq_abort;
-    
+    */
     
     
     /*
@@ -177,13 +177,13 @@ module DMA_Controller(
     /*
         APB interface signals
     */
-    input[31:0] paddr;
+/*    input[31:0] paddr;
     input penable;
     input psel;
     input[31:0] pwdata;
     input pwrite;
     output[31:0] prdata;
-    output pready;
+    output pready;*/
     
     wire reset;
     wire clk;
@@ -458,7 +458,7 @@ module DMA_Controller(
    /*
         Read Instruction Buffer instance
    */     
-      reg read_inst_write[1:8];
+/*      reg read_inst_write[1:8];
       reg[31:0] read_inst_data_in[1:8];
       reg read_inst_read[1:8];
       wire[31:0] read_inst_data_out[1:8];
@@ -484,11 +484,11 @@ module DMA_Controller(
            );
         end
        endgenerate
-       
+       */
     /*
         Write Instruction Buffer
     */   
-      reg write_inst_write[1:8];
+/*      reg write_inst_write[1:8];
       reg[31:0] write_inst_data_in[1:8];
       reg write_inst_read[1:8];
       wire[31:0] write_inst_data_out[1:8];
@@ -512,7 +512,7 @@ module DMA_Controller(
            
                ); 
         end 
-      endgenerate
+      endgenerate*/
     
     /*
         RoundRobin Scheme signals
@@ -610,7 +610,7 @@ module DMA_Controller(
                     end
                     else
                     begin
-                        if(cache_miss==HIGH && cache_state==READ)
+                        if(cache_miss==HIGH && axi_read_state==CHECK_FOR_CACHE_MISS)
                         begin
                             if(next_thread_to_execute==0)
                             begin
@@ -790,13 +790,13 @@ module DMA_Controller(
                         begin
                             WDATA[temp_reg]<=0;
                         end
-                        write_address<=DA[dma_store_channel_no];
-                        if(CC[dma_st_channel_no][17:15]>8-(write_address%8)) //tranfer overflow for first transfer in the case of unaligned transfer
+                        //write_address<=DA[dma_store_channel_no];
+                        if(CC[dma_store_channel_no][17:15]>8-(DA[dma_store_channel_no]%8)) //tranfer overflow for first transfer in the case of unaligned transfer
                         begin
                             temp_count=0;
                             for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                             begin
-                                if(temp_reg>=write_address%8 && temp_reg<=(8-(write_address%8)))
+                                if(temp_reg>=DA[dma_store_channel_no]%8 && temp_reg<=(8-(DA[dma_store_channel_no]%8)))
                                 begin
                                     WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
                                     wstrb[temp_reg]<=1;
@@ -809,9 +809,9 @@ module DMA_Controller(
                                     wstrb[temp_reg]<=0;
                                 end
                             end
-                            
+                            channel_read_pointer[dma_store_channel_no]=channel_read_pointer[dma_store_channel_no]+(8-(DA[dma_store_channel_no]%8));
                             wvalid=HIGH;
-                            write_address<=write_address+(8-write_address%8);
+                            write_address<=DA[dma_store_channel_no]+(8-(DA[dma_store_channel_no]%8));
                             completed_transfers<=completed_transfers+1;
                             write_state<=WAIT_FOR_WREADY;
                         end
@@ -826,7 +826,7 @@ module DMA_Controller(
                             
                             for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                             begin
-                                if(temp_reg>=write_address%8 && temp_reg<=((write_address%8)+CC[dma_store_channel_no][17:15]))
+                                if(temp_reg>=DA[dma_store_channel_no]%8 && temp_reg<=(CC[dma_store_channel_no][17:15]))
                                 begin
                                     WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
                                     wstrb[temp_reg]<=1;
@@ -838,8 +838,9 @@ module DMA_Controller(
                                     wstrb[temp_reg]<=0;
                                 end
                             end
+                            channel_read_pointer[dma_store_channel_no]<=channel_read_pointer[dma_store_channel_no]+CC[dma_store_channel_no][21:18];
                             wvalid=HIGH;
-                            write_address<=write_address+CC[dma_store_channel_no][17:15];
+                            write_address<=write_address+CC[dma_store_channel_no][21:18];
                             completed_transfers<=completed_transfers+1;
                             write_state<=WAIT_FOR_WREADY;
                         end
@@ -883,7 +884,9 @@ module DMA_Controller(
                                         wstrb[temp_reg]<=0;
                                     end
                                 end
+                                channel_read_pointer[dma_store_channel_no]=channel_read_pointer[dma_store_channel_no]+(8-(write_address%8));
                                 wvalid<=LOW;
+                                
                                 write_state<=WAIT_FOR_RESPONSE;
                                 bready<=1'b1;
                             end
@@ -914,15 +917,77 @@ module DMA_Controller(
                                         wstrb[temp_reg]<=0;
                                     end
                                 end
-                                
+                                channel_read_pointer[dma_store_channel_no]<=channel_read_pointer[dma_store_channel_no]+CC[dma_store_channel_no][17:15];
                                 wvalid<=LOW;
+                                
                                 write_state<=WAIT_FOR_RESPONSE;
                                 bready<=1'b1;
                             end
                         end
                         else
                         begin
-                            write_state<=WAIT_FOR_WREADY;
+                            wstrb<=0;
+                            for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
+                            begin
+                                WDATA[temp_reg]<=0;
+                            end
+                            if(CC[dma_store_channel_no][17:15]>8-(write_address%8)) //tranfer overflow for first transfer in the case of unaligned transfer
+                            begin
+                                temp_count=0;
+                                
+                                for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
+                                begin
+                                    if(temp_reg>=write_address%8 && temp_reg<=(8-(DA[dma_store_channel_no]%8)))
+                                    begin
+                                        WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
+                                        wstrb[temp_reg]<=1;
+                                        temp_count=temp_count+1;
+                                    end
+                                    else
+                                    begin
+                                        WDATA[temp_reg]<=0;
+                                        wstrb[temp_reg]<=0;
+                                    end
+                                end
+                                channel_read_pointer[dma_store_channel_no]=channel_read_pointer[dma_store_channel_no]+(8-(write_address%8));
+                                wvalid<=HIGH;
+                                
+                                write_state<=WAIT_FOR_WREADY;
+                                bready<=1'b1;
+                            end
+                            else
+                            begin
+                                /*for(temp_reg=write_address%8;temp_reg<=CC[dma_st_channel_no][17:15];temp_reg=temp_reg+1)
+                                begin
+                                    wdata[7+(8*temp_reg):8*temp_reg]<=channel_data_buffer[dma_st_channel_no][channel_read_pointer[dma_st_channel_no]+temp_reg];
+                                    wstrb[temp_reg]<=1;
+                                end*/
+                                temp_count=0;
+                                for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
+                                begin
+                                    WDATA[temp_reg]<=0;
+                                end
+                                
+                                for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
+                                begin
+                                    if(temp_reg>=write_address%8 && temp_reg<=CC[dma_store_channel_no][17:15])
+                                    begin
+                                        WDATA[temp_reg]<=channel_data_buffer[dma_store_channel_no][channel_read_pointer[dma_store_channel_no]+temp_count];
+                                        wstrb[temp_reg]<=1;
+                                        temp_count=temp_count+1;
+                                    end
+                                    else
+                                    begin
+                                        WDATA[temp_reg]<=0;
+                                        wstrb[temp_reg]<=0;
+                                    end
+                                end
+                                channel_read_pointer[dma_store_channel_no]<=channel_read_pointer[dma_store_channel_no]+CC[dma_store_channel_no][17:15];
+                                wvalid<=HIGH;
+                                
+                                write_state<=WAIT_FOR_WREADY;
+                                bready<=1'b1;
+                            end                            
                         end
                         
                     end
@@ -938,7 +1003,7 @@ module DMA_Controller(
                     begin
                         if(bresp<=2'b00)//valid write completed
                         begin
-                            DA[bid]<=write_address;  //update the destination address register
+                      //      DA[bid]<=write_address;  //update the destination address register
                             
                             
                         end
@@ -1324,14 +1389,13 @@ module DMA_Controller(
                 begin
                     if(rid!=0)
                     begin
-                        for(temp_reg=0;temp_reg<=8;temp_reg=temp_reg+1)
+                        for(temp_reg=0;temp_reg<8;temp_reg=temp_reg+1)
                         begin
                             if(temp_reg<=CC[rid][3:1])
                             begin
-                                channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=rdata[temp_reg];
+                                channel_data_buffer[rid][channel_write_pointer[rid]+temp_reg]<=RDATA[temp_reg];
                             end
                         end
-                        SA[rid]<=SA[rid]+CC[rid][3:1];
                         channel_write_pointer[rid]<=channel_write_pointer[rid]+CC[rid][3:1];
                         if(rlast)
                         begin
@@ -2229,6 +2293,25 @@ module DMA_Controller(
             begin
                 SA[next_thread_to_execute]<=SA[next_thread_to_execute]+sr_imm;
             end
+            else if(dma_write_register)
+            begin
+                if(dma_register_type==3'b000)
+                begin
+                    SA[dma_thread_no]<=dma_register_value;
+                end
+            end
+            else if(((axi_channel_buffer_state==CHANNEL_IDLE) && (dma_ld_req==HIGH) && (rid!=0) && (rvalid==HIGH))
+                    || ((axi_channel_buffer_state==CHANNEL_FILL) && (rvalid==HIGH) && (rid!=0) && (rlast!=0)))
+            begin
+                if(CC[dma_load_channel_no][3:1]>(8-write_address))
+                begin
+                    SA[dma_load_channel_no]<=SA[dma_load_channel_no]+(8-write_address);
+                end
+                else
+                begin
+                    SA[dma_load_channel_no]<=DA[dma_load_channel_no]+CC[dma_load_channel_no][3:1];
+                end
+            end
         end
    end
    
@@ -2237,7 +2320,7 @@ module DMA_Controller(
    begin
         if(!reset)
         begin
-            for(count=0;count<7;count=count+1)
+            for(count=1;count<=8;count=count+1)
             begin
                 DA[count]<=32'd0;
             end
@@ -2247,6 +2330,17 @@ module DMA_Controller(
             if(dr_write)
             begin
                 DA[next_thread_to_execute]<=DA[next_thread_to_execute]+dr_imm;
+            end
+            else if(dma_write_register)
+            begin
+                if(dma_register_type==3'b001)
+                begin
+                    DA[dma_thread_no]<=dma_register_value;
+                end
+            end
+            else if(write_state==WAIT_FOR_RESPONSE && bvalid==1'b1 && bresp==2'b00)
+            begin
+                DA[dma_store_channel_no]<=write_address;
             end
         end
    end
@@ -2293,7 +2387,11 @@ module DMA_Controller(
        invalid_instruction=LOW;
                    //no op
        sr_write=0;
+       sr_no=0;
+       sr_imm=0;
        dr_write=0;
+       dr_no=0;
+       dr_imm=0;
        end_current_thread=0;
        dma_start_channel=LOW;
        dma_channel=0;
@@ -2311,7 +2409,11 @@ module DMA_Controller(
        begin
             //no op
             sr_write=0;
+            sr_no=0;
+            sr_imm=0;
             dr_write=0;
+            dr_no=0;
+            dr_imm=0;
             end_current_thread=0;
             dma_start_channel=LOW;
             dma_channel=0;
@@ -2392,7 +2494,7 @@ module DMA_Controller(
                         load_data_S_B=1'b1;
                         dma_ld_channel_no=next_thread_to_execute;
                         load_type=1'b1;
-                        if(read_inst_full[next_thread_to_execute]!=1)
+/*                        if(read_inst_full[next_thread_to_execute]!=1)
                         begin
                             read_inst_read[next_thread_to_execute]=1;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
@@ -2403,7 +2505,7 @@ module DMA_Controller(
                             read_inst_read[next_thread_to_execute]=0;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
                             
-                        end
+                        end*/
                     end
                 end
             end
@@ -2417,7 +2519,7 @@ module DMA_Controller(
                     begin
                         load_data_S_B=1'b1;
                         load_type=1'b0;//single
-                        if(read_inst_full[next_thread_to_execute]!=1)
+/*                        if(read_inst_full[next_thread_to_execute]!=1)
                         begin
                             read_inst_read[next_thread_to_execute]=1;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
@@ -2428,13 +2530,13 @@ module DMA_Controller(
                             read_inst_read[next_thread_to_execute]=0;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
                             
-                        end
+                        end*/
                     end
                     else//request flag set to burst
                     begin
                         load_data_S_B=1'b0;//no operation
                         load_type=1'b0;
-                        if(read_inst_full[next_thread_to_execute]!=1)
+                        /*if(read_inst_full[next_thread_to_execute]!=1)
                         begin
                             read_inst_read[next_thread_to_execute]=1;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
@@ -2445,7 +2547,7 @@ module DMA_Controller(
                             read_inst_read[next_thread_to_execute]=0;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
                             
-                        end
+                        end*/
                     end
                 end
                 else
@@ -2459,7 +2561,7 @@ module DMA_Controller(
                     begin
                         load_data_S_B=1'b1;
                         load_type=1'b1;
-                        if(read_inst_full[next_thread_to_execute]!=1)
+/*                        if(read_inst_full[next_thread_to_execute]!=1)
                         begin
                             read_inst_read[next_thread_to_execute]=1;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
@@ -2470,11 +2572,11 @@ module DMA_Controller(
                             read_inst_read[next_thread_to_execute]=0;
                             read_inst_data_in[next_thread_to_execute]=32'b00000000000000000000000000000100;
                             
-                        end
+                        end*/
                     end
                 end
             end
-            32'bzzzzzzzzzzzzzzzzzzzzzzzz0010000z0://DMALP
+            32'bzzzzzzzzzzzzzzzzzzzzzzz0010000z0://DMALP
             begin
                 loop_value=cache_data_out[15:8];
                 reg_to_use=0;
@@ -2517,7 +2619,7 @@ module DMA_Controller(
                         dma_st_channel_no=next_thread_to_execute;
                         store_type=1'b0;//single
                         //write into the read instruction queue
-                        if(read_inst_full[next_thread_to_execute]!=1)
+/*                        if(read_inst_full[next_thread_to_execute]!=1)
                         begin
                             write_inst_read[next_thread_to_execute]=1;
                             write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
@@ -2528,7 +2630,7 @@ module DMA_Controller(
                             write_inst_read[next_thread_to_execute]=0;
                             write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
                             
-                        end
+                        end*/
                     end
                     else//request flag set to burst
                     begin
@@ -2548,7 +2650,7 @@ module DMA_Controller(
                         store_data_S_B=1'b1;
                         dma_st_channel_no=next_thread_to_execute;
                         store_type=1'b1;
-                        if(read_inst_full[next_thread_to_execute]!=1)
+/*                        if(read_inst_full[next_thread_to_execute]!=1)
                         begin
                             write_inst_read[next_thread_to_execute]=1;
                             write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
@@ -2559,7 +2661,7 @@ module DMA_Controller(
                             write_inst_read[next_thread_to_execute]=0;
                             write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzzzzz000010zz;
                             
-                        end
+                        end*/
                     end
                 end
                 
@@ -2575,7 +2677,7 @@ module DMA_Controller(
                    begin
                        load_data_S_B=1'b1;
                        load_type=1'b0;//single
-                       if(write_inst_full[next_thread_to_execute]!=1)
+/*                       if(write_inst_full[next_thread_to_execute]!=1)
                        begin
                            write_inst_read[next_thread_to_execute]=1;
                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzz000001010z1;
@@ -2586,13 +2688,13 @@ module DMA_Controller(
                            write_inst_read[next_thread_to_execute]=0;
                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzz000001010z1;
                            
-                       end
+                       end*/
                    end
                    else//request flag set to burst
                    begin
                        load_data_S_B=1'b0;//no operation
                        load_type=1'b0;
-                       if(read_inst_full[next_thread_to_execute]!=1)
+/*                       if(read_inst_full[next_thread_to_execute]!=1)
                        begin
                            write_inst_read[next_thread_to_execute]=1;
                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzz000001010z1;
@@ -2603,7 +2705,7 @@ module DMA_Controller(
                            write_inst_read[next_thread_to_execute]=0;
                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzz000001010z1;
                            
-                       end
+                       end*/
                    end
                end
                else
@@ -2617,7 +2719,7 @@ module DMA_Controller(
                    begin
                        load_data_S_B=1'b1;
                        load_type=1'b1;
-                       if(write_inst_full[next_thread_to_execute]!=1)
+                      /* if(write_inst_full[next_thread_to_execute]!=1)
                        begin
                            write_inst_read[next_thread_to_execute]=1;
                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzz000001010z1;
@@ -2629,7 +2731,7 @@ module DMA_Controller(
                            write_inst_read[next_thread_to_execute]=0;
                            write_inst_data_in[next_thread_to_execute]=32'bzzzzzzzzzzzzzzzzzzzzz000001010z1;
                            
-                       end
+                       end*/
                    end
                end
             end
@@ -2684,7 +2786,11 @@ module DMA_Controller(
         else//execute a nop(no operation)
         begin
             sr_write=0;
+            sr_no=0;
+            sr_imm=0;
             dr_write=0;
+            sr_no=0;
+            sr_imm=0;
             end_current_thread=0;
             dma_start_channel=LOW;
             dma_channel=0;
@@ -2735,26 +2841,16 @@ module DMA_Controller(
         begin
             for(i=1;i<=8;i=i+1)
             begin
-                SA[i]<=0;
                 CC[i]<=0;
-                DA[i]<=0;
             end
         end
         else
         begin
             if(dma_write_register)
             begin
-                if(dma_register_type==3'b000)// source address register
-                begin
-                    SA[dma_thread_no]<=dma_register_value;
-                end
-                else if(dma_register_type==3'b010)// channel control register
+                if(dma_register_type==3'b010)// channel control register
                 begin
                     CC[dma_thread_no]<=dma_register_value;
-                end
-                else if(dma_register_type==3'b001)// destination address register
-                begin
-                    DA[dma_thread_no]<=dma_register_value;
                 end
             end
            

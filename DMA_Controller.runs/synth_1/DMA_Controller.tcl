@@ -16,10 +16,12 @@ set_property target_language Verilog [current_project]
 read_verilog -library xil_defaultlib {
   C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/tag_RAM.v
   C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Data_RAM.v
-  C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Buffer.v
   C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/Instruction_Cache.v
   C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/sources_1/new/DMA_Controller.v
 }
-synth_design -top DMA_Controller -part xc7a100tcsg324-1
+read_xdc C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/constrs_1/new/DMA_Constraints.xdc
+set_property used_in_implementation false [get_files C:/Users/vamsi/Desktop/DMA_Controller_Project/DMA_Controller/DMA_Controller.srcs/constrs_1/new/DMA_Constraints.xdc]
+
+synth_design -top DMA_Controller -part xc7a100tcsg324-1 -flatten_hierarchy none
 write_checkpoint -noxdef DMA_Controller.dcp
 catch { report_utilization -file DMA_Controller_utilization_synth.rpt -pb DMA_Controller_utilization_synth.pb }

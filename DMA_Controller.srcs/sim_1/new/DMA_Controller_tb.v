@@ -157,7 +157,7 @@ module DMA_Controller_tb(
         rvalid,
         rready,
         
-        daready,
+/*        daready,
         drlast,
         drtype,
         datype,
@@ -166,24 +166,24 @@ module DMA_Controller_tb(
         
         
         irq,
-        irq_abort,
+        irq_abort,*/
         
         boot_addr,
         boot_from_pc,
         boot_manager_ns,
         boot_irq_ns,
-        boot_peripheral_ns,
+        boot_peripheral_ns
         
         /*
             APB interface signals
         */
-        paddr,
+/*        paddr,
         penable,
         psel,
         pwdata,
         pwrite,
         prdata,
-        pready
+        pready*/
     
         );
         
@@ -221,10 +221,10 @@ module DMA_Controller_tb(
             /*
                 peripheral request interface(currently only 1) May be use an array of signals to configure it correctly
             */
-            
+/*            
             daready=0;
             drlast=0;
-            drtype=0;
+            drtype=0;*/
             /*
                 interrupt interface, n should be configurable
             */
@@ -246,11 +246,11 @@ module DMA_Controller_tb(
             /*
                 APB interface signals
             */
-            paddr=0;
+/*            paddr=0;
             penable=0;
             psel=0;
             pwdata=0;
-            pwrite=0;
+            pwrite=0;*/
             
         end
         
@@ -266,6 +266,7 @@ module DMA_Controller_tb(
         
         initial
         begin
+            #100
             #4 areset=0;
             #8 areset=1;
             
